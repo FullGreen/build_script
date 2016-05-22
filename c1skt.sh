@@ -109,7 +109,12 @@ if [ -d device/samsung/c1skt ]
  else
      echo "디바이스 소스를 찾을 수 없습니다."
 	 git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
-	 repo sync -j64
+     git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
+     git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
+     git clone https://github.com/FullGreen/cyanogenmod_proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
+     git clone https://github.com/CyanogenMod/android_packages_apps_SamsungServiceMode.git -b cm-13.0 packages/apps/SamsungServiceMode
+     git clone https://github.com/CyanogenMod/android_hardware_samsung.git -b cm-13.0 hardware/samsung
+     git clone https://github.com/CyanogenMod/android_external_stlport.git -b cm-13.0 external/stlport
 	 . build/envsetup.sh
 	 brunch c1skt
  fi  
@@ -184,7 +189,12 @@ if [ -d device/samsung/c1skt ]
  else
      echo "디바이스 소스를 찾을 수 없습니다."
 	 git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
-	 repo sync -j64
+     git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
+     git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
+     git clone https://github.com/FullGreen/cyanogenmod_proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
+     git clone https://github.com/CyanogenMod/android_packages_apps_SamsungServiceMode.git -b cm-13.0 packages/apps/SamsungServiceMode
+     git clone https://github.com/CyanogenMod/android_hardware_samsung.git -b cm-13.0 hardware/samsung
+     git clone https://github.com/CyanogenMod/android_external_stlport.git -b cm-13.0 external/stlport
 	 . build/envsetup.sh
 	 brunch c1skt	  
  fi  
@@ -259,7 +269,6 @@ if [ -d device/samsung/c1skt ]
  else
      echo "디바이스 소스를 찾을 수 없습니다."
 	 git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
-	 repo sync -j64
 	 . build/envsetup.sh
 	 brunch c1skt	  
  fi  
@@ -334,7 +343,12 @@ if [ -d device/samsung/c1skt ]
  else
      echo "디바이스 소스를 찾을 수 없습니다."
 	 git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
-	 repo sync -j64
+	 git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
+	 git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
+	 git clone https://github.com/FullGreen/cyanogenmod_proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
+	 git clone https://github.com/CyanogenMod/android_packages_apps_SamsungServiceMode.git -b cm-13.0 packages/apps/SamsungServiceMode
+	 git clone https://github.com/CyanogenMod/android_hardware_samsung.git -b cm-13.0 hardware/samsung
+	 git clone https://github.com/CyanogenMod/android_external_stlport.git -b cm-13.0 external/stlport
 	 . build/envsetup.sh
 	 brunch c1skt	  
  fi  
@@ -409,7 +423,12 @@ if [ -d device/samsung/c1skt ]
  else
      echo "디바이스 소스를 찾을 수 없습니다."
 	 git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
-	 repo sync -j64
+	 git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
+	 git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
+	 git clone https://github.com/FullGreen/cyanogenmod_proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
+	 git clone https://github.com/CyanogenMod/android_packages_apps_SamsungServiceMode.git -b cm-13.0 packages/apps/SamsungServiceMode
+	 git clone https://github.com/CyanogenMod/android_hardware_samsung.git -b cm-13.0 hardware/samsung
+	 git clone https://github.com/CyanogenMod/android_external_stlport.git -b cm-13.0 external/stlport
 	 . build/envsetup.sh
 	 brunch c1skt	  
  fi  
@@ -484,7 +503,12 @@ if [ -d device/samsung/c1skt ]
  else
      echo "디바이스 소스를 찾을 수 없습니다."
 	 git clone https://github.com/FullgreenDEVaicp/aicp_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
-	 repo sync -j64
+	 git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
+	 git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
+	 git clone https://github.com/FullGreen/cyanogenmod_proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
+	 git clone https://github.com/CyanogenMod/android_packages_apps_SamsungServiceMode.git -b cm-13.0 packages/apps/SamsungServiceMode
+	 git clone https://github.com/CyanogenMod/android_hardware_samsung.git -b cm-13.0 hardware/samsung
+	 git clone https://github.com/CyanogenMod/android_external_stlport.git -b cm-13.0 external/stlport
 	 . build/envsetup.sh
 	 brunch c1skt	  
  fi  
@@ -559,7 +583,12 @@ if [ -d device/samsung/c1skt ]
  else
      echo "디바이스 소스를 찾을 수 없습니다."
 	 git clone https://github.com/FullgreenDEVcrdroidandroid/crdroidandroid_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
-	 repo sync -j64
+	 git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
+	 git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
+	 git clone https://github.com/FullGreen/cyanogenmod_proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
+	 git clone https://github.com/CyanogenMod/android_packages_apps_SamsungServiceMode.git -b cm-13.0 packages/apps/SamsungServiceMode
+	 git clone https://github.com/CyanogenMod/android_hardware_samsung.git -b cm-13.0 hardware/samsung
+	 git clone https://github.com/CyanogenMod/android_external_stlport.git -b cm-13.0 external/stlport
 	 . build/envsetup.sh
 	 brunch c1skt	  
  fi  
@@ -634,7 +663,12 @@ if [ -d device/samsung/c1skt ]
  else
      echo "디바이스 소스를 찾을 수 없습니다."
 	 git clone https://github.com/FullgreenDEVnamelessrom/namelessrom_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
-	 repo sync -j64
+	 git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
+	 git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
+	 git clone https://github.com/FullGreen/cyanogenmod_proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
+     git clone https://github.com/CyanogenMod/android_packages_apps_SamsungServiceMode.git -b cm-13.0 packages/apps/SamsungServiceMode
+     git clone https://github.com/CyanogenMod/android_hardware_samsung.git -b cm-13.0 hardware/samsung
+     git clone https://github.com/CyanogenMod/android_external_stlport.git -b cm-13.0 external/stlport
 	 . build/envsetup.sh
 	 brunch c1skt	  
  fi  
@@ -709,8 +743,14 @@ if [ -d device/samsung/c1skt ]
 	 make -j8 otapackage
  else
      echo "디바이스 소스를 찾을 수 없습니다."
+     rm -Rf kernel/samsung/smdk4412
+     rm -Rf vendor/samsung
+     rm -Rf hardware/samsung
 	 git clone https://github.com/FullgreenDEVhaxynox/aosp_device_samsung_c1skt.git -b android-6.0 device/samsung/c1skt
-	 repo sync -j64
+	 git clone https://github.com/FullgreenDEVhaxynox/aosp_device_samsung_c1skt-common.git -b android-6.0 device/samsung/c1skt-common
+	 git clone https://github.com/FullgreenDEVhaxynox/aosp_kernel_samsung_smdk4412.git -b android-6.0 kernel/samsung/smdk4412
+	 git clone https://github.com/FullgreenDEVhaxynox/proprietary_vendor_samsung.git -b android-6.0 vendor/samsung
+	 git clone https://github.com/FullgreenDEVhaxynox/android_hardware_samsung.git -b android-6.0 hardware/samsung
 	 . build/envsetup.sh
 	 lunch c1skt
 	 make -j8 otapackage
