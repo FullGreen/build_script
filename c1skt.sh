@@ -90,6 +90,8 @@ echo "Source Download complete"
 echo "소스 다운로드 완료"
 echo "───────────────────────────────────────────────────"
 echo
+     echo "Vendor의 apns-conf파일 삭제"
+     rm -f vendor/cm/prebuilt/common/etc/apns-conf.xml
 
 tput setaf 3
 if [ -d out/target ]
@@ -170,6 +172,8 @@ echo "Source Download complete"
 echo "소스 다운로드 완료"
 echo "───────────────────────────────────────────────────"
 echo
+echo "Vendor의 apns-conf파일 삭제"
+rm -f vendor/cm/prebuilt/common/etc/apns-conf.xml
 
 tput setaf 3
 if [ -d out/target ]
@@ -250,6 +254,8 @@ echo "Source Download complete"
 echo "소스 다운로드 완료"
 echo "───────────────────────────────────────────────────"
 echo
+echo "Vendor의 apns-conf파일 삭제"
+rm -f vendor/bliss/prebuilt/common/etc/apns-conf.xml
 
 tput setaf 3
 if [ -d out/target ]
@@ -324,6 +330,8 @@ echo "Source Download complete"
 echo "소스 다운로드 완료"
 echo "───────────────────────────────────────────────────"
 echo
+echo "Vendor의 apns-conf파일 삭제"
+rm -f vendor/cm/prebuilt/common/etc/apns-conf.xml
 
 tput setaf 3
 if [ -d out/target ]
@@ -404,6 +412,8 @@ echo "Source Download complete"
 echo "소스 다운로드 완료"
 echo "───────────────────────────────────────────────────"
 echo
+echo "Vendor의 apns-conf파일 삭제"
+rm -f vendor/cm/prebuilt/common/etc/apns-conf.xml
 
 tput setaf 3
 if [ -d out/target ]
@@ -484,6 +494,8 @@ echo "Source Download complete"
 echo "소스 다운로드 완료"
 echo "───────────────────────────────────────────────────"
 echo
+echo "Vendor의 apns-conf파일 삭제"
+rm -f vendor/aicp/prebuilt/common/etc/apns-conf.xml
 
 tput setaf 3
 if [ -d out/target ]
@@ -564,6 +576,8 @@ echo "Source Download complete"
 echo "소스 다운로드 완료"
 echo "───────────────────────────────────────────────────"
 echo
+echo "Vendor의 apns-conf파일 삭제"
+rm -f vendor/crdroid/prebuilt/common/etc/apns-conf.xml
 
 tput setaf 3
 if [ -d out/target ]
@@ -644,6 +658,8 @@ echo "Source Download complete"
 echo "소스 다운로드 완료"
 echo "───────────────────────────────────────────────────"
 echo
+echo "Vendor의 apns-conf파일 삭제"
+rm -f vendor/nameless/prebuilt/common/etc/apns-conf.xml
 
 tput setaf 3
 if [ -d out/target ]
@@ -878,7 +894,7 @@ clear
 
 tput setaf 2
 echo "┌───────────────────────────────────────────────────┐" 
-echo "│Marshmallow BUILD Script                           │"
+echo "│Marshmallow BUILD Script[1.0.2]                    │"
 echo "└───────────────────────────────────────────────────┘"
 echo " └ Made by Fullgreen┘" DEVICE : $device               
 echo
