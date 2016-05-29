@@ -92,6 +92,19 @@ echo "────────────────────────�
 echo
      echo "Vendor의 apns-conf파일 삭제"
      rm -f vendor/cm/prebuilt/common/etc/apns-conf.xml
+echo "# Selective SPN list for operator number who has the problem.
+PRODUCT_COPY_FILES += \
+vendor/cm/prebuilt/common/etc/selective-spn-conf.xml:system/etc/selective-spn-conf.xml
+
+# Telephony packages
+PRODUCT_PACKAGES += \
+messaging \
+Stk \
+CellBroadcastReceiver
+
+# Default ringtone
+PRODUCT_PROPERTY_OVERRIDES += \
+ro.config.ringtone=Orion.ogg" > vendor/cm/config/telephony.mk
 
 tput setaf 3
 if [ -d out/target ]
@@ -174,6 +187,19 @@ echo "────────────────────────�
 echo
 echo "Vendor의 apns-conf파일 삭제"
 rm -f vendor/cm/prebuilt/common/etc/apns-conf.xml
+echo "# Selective SPN list for operator number who has the problem.
+PRODUCT_COPY_FILES += \
+vendor/cm/prebuilt/common/etc/selective-spn-conf.xml:system/etc/selective-spn-conf.xml
+
+# Telephony packages
+PRODUCT_PACKAGES += \
+messaging \
+Stk \
+CellBroadcastReceiver
+
+# Default ringtone
+PRODUCT_PROPERTY_OVERRIDES += \
+ro.config.ringtone=Resurrection2.mp3" > vendor/cm/config/telephony.mk
 
 tput setaf 3
 if [ -d out/target ]
@@ -256,6 +282,19 @@ echo "────────────────────────�
 echo
 echo "Vendor의 apns-conf파일 삭제"
 rm -f vendor/bliss/prebuilt/common/etc/apns-conf.xml
+echo "# Selective SPN list for operator number who has the problem.
+PRODUCT_COPY_FILES += \
+vendor/bliss/prebuilt/common/etc/selective-spn-conf.xml:system/etc/selective-spn-conf.xml
+
+# Telephony packages
+PRODUCT_PACKAGES += \
+messaging \
+Stk \
+CellBroadcastReceiver
+
+# Default ringtone
+PRODUCT_PROPERTY_OVERRIDES += \
+ro.config.ringtone=Orion.ogg" > vendor/bliss/config/telephony.mk
 
 tput setaf 3
 if [ -d out/target ]
@@ -332,6 +371,19 @@ echo "────────────────────────�
 echo
 echo "Vendor의 apns-conf파일 삭제"
 rm -f vendor/cm/prebuilt/common/etc/apns-conf.xml
+echo "# Selective SPN list for operator number who has the problem.
+PRODUCT_COPY_FILES += \
+vendor/cm/prebuilt/common/etc/selective-spn-conf.xml:system/etc/selective-spn-conf.xml
+
+# Telephony packages
+PRODUCT_PACKAGES += \
+messaging \
+Stk \
+CellBroadcastReceiver
+
+# Default ringtone
+PRODUCT_PROPERTY_OVERRIDES += \
+ro.config.ringtone=Orion.ogg" > vendor/cm/config/telephony.mk
 
 tput setaf 3
 if [ -d out/target ]
@@ -414,6 +466,19 @@ echo "────────────────────────�
 echo
 echo "Vendor의 apns-conf파일 삭제"
 rm -f vendor/cm/prebuilt/common/etc/apns-conf.xml
+echo "# Selective SPN list for operator number who has the problem.
+PRODUCT_COPY_FILES += \
+vendor/cm/prebuilt/common/etc/selective-spn-conf.xml:system/etc/selective-spn-conf.xml
+
+# Telephony packages
+PRODUCT_PACKAGES += \
+messaging \
+Stk \
+CellBroadcastReceiver
+
+# Default ringtone
+PRODUCT_PROPERTY_OVERRIDES += \
+ro.config.ringtone=Orion.ogg" > vendor/cm/config/telephony.mk
 
 tput setaf 3
 if [ -d out/target ]
@@ -496,6 +561,19 @@ echo "────────────────────────�
 echo
 echo "Vendor의 apns-conf파일 삭제"
 rm -f vendor/aicp/prebuilt/common/etc/apns-conf.xml
+echo "# Selective SPN list for operator number who has the problem.
+PRODUCT_COPY_FILES += \
+vendor/aicp/prebuilt/common/etc/selective-spn-conf.xml:system/etc/selective-spn-conf.xml
+
+# Telephony packages
+PRODUCT_PACKAGES += \
+messaging \
+Stk \
+CellBroadcastReceiver
+
+# Default ringtone
+PRODUCT_PROPERTY_OVERRIDES += \
+ro.config.ringtone=Orion.ogg" > vendor/aicp/configs/telephony.mk
 
 tput setaf 3
 if [ -d out/target ]
@@ -578,6 +656,19 @@ echo "────────────────────────�
 echo
 echo "Vendor의 apns-conf파일 삭제"
 rm -f vendor/crdroid/prebuilt/common/etc/apns-conf.xml
+echo "# Selective SPN list for operator number who has the problem.
+PRODUCT_COPY_FILES += \
+vendor/crdroid/prebuilt/common/etc/selective-spn-conf.xml:system/etc/selective-spn-conf.xml
+
+# Telephony packages
+PRODUCT_PACKAGES += \
+messaging \
+Stk \
+CellBroadcastReceiver
+
+# Default ringtone
+PRODUCT_PROPERTY_OVERRIDES += \
+ro.config.ringtone=Phobos.ogg" > vendor/cm/config/telephony.mk
 
 tput setaf 3
 if [ -d out/target ]
@@ -660,6 +751,9 @@ echo "────────────────────────�
 echo
 echo "Vendor의 apns-conf파일 삭제"
 rm -f vendor/nameless/prebuilt/common/etc/apns-conf.xml
+echo "# Selective SPN list for operator number who has the problem.
+PRODUCT_COPY_FILES += \
+vendor/nameless/prebuilt/etc/selective-spn-conf.xml:system/etc/selective-spn-conf.xml" > vendor/nameless/config/apns.mk
 
 tput setaf 3
 if [ -d out/target ]
@@ -894,7 +988,7 @@ clear
 
 tput setaf 2
 echo "┌───────────────────────────────────────────────────┐" 
-echo "│Marshmallow BUILD Script[1.0.3]                    │"
+echo "│Marshmallow BUILD Script[1.0.4]                    │"
 echo "└───────────────────────────────────────────────────┘"
 echo " └ Made by Fullgreen┘" DEVICE : $device               
 echo
@@ -911,4 +1005,3 @@ echo
 echo "1 │ BUILD TYPE(UNOFFICAL,NIGHTLY...)"
 
 exit
-
