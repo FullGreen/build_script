@@ -867,7 +867,7 @@ if [ -d device/samsung/c1skt ]
  then
      echo "디바이스 소스를 찾았습니다."
 	 . build/envsetup.sh
-	 lunch c1skt
+	 lunch aosp_c1skt-userdebug
 	 make -j8 otapackage
  else
      echo "디바이스 소스를 찾을 수 없습니다."
@@ -1006,7 +1006,7 @@ clear
 
 tput setaf 2
 echo "┌───────────────────────────────────────────────────┐" 
-echo "│Marshmallow BUILD Script[1.0.5]                    │"
+echo "│Marshmallow BUILD Script[1.0.6]                    │"
 echo "└───────────────────────────────────────────────────┘"
 echo " └ Made by Fullgreen┘" DEVICE : $device               
 echo
