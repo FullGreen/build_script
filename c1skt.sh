@@ -1006,7 +1006,7 @@ clear
 
 tput setaf 2
 echo "┌───────────────────────────────────────────────────┐" 
-echo "│Marshmallow BUILD Script[1.0.4]                    │"
+echo "│Marshmallow BUILD Script[1.0.5]                    │"
 echo "└───────────────────────────────────────────────────┘"
 echo " └ Made by Fullgreen┘" DEVICE : $device               
 echo
