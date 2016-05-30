@@ -1,4 +1,4 @@
-echo "/*
+/*
 * Copyright (C) 2006 The Android Open Source Project
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -3558,8 +3558,16 @@ return response;
 
 protected Object
 responseFailCause(Parcel p) {
+int numInts;
+int response[];
+
+numInts = p.readInt();
+response = new int[numInts];
+for (int i = 0 ; i < numInts ; i++) {
+response[i] = p.readInt();
+}
 LastCallFailCause failCause = new LastCallFailCause();
-failCause.causeCode = p.readInt();
+failCause.causeCode = response[0];
 if (p.dataAvail() > 0) {
 failCause.vendorCause = p.readString();
 }
@@ -5121,12 +5129,20 @@ send(rr);
 
 @Override
 public void getRadioCapability(Message response) {
+if (!needsOldRilFeature("staticRadioCapability")) {
 RILRequest rr = RILRequest.obtain(
 RIL_REQUEST_GET_RADIO_CAPABILITY, response);
 
 if (RILJ_LOGD) riljLog(rr.serialString() + "> " + requestToString(rr.mRequest));
-
 send(rr);
+} else {
+riljLog("getRadioCapability: returning static radio capability");
+if (response != null) {
+Object ret = makeStaticRadioCapability();
+AsyncResult.forMessage(response, ret, null);
+response.sendToTarget();
+}
+}
 }
 
 @Override
@@ -5184,4 +5200,4 @@ riljLog(rr.serialString() + "> " + requestToString(rr.mRequest) + " state = " + 
 rr.mParcel.writeInt(state);
 send(rr);
 }
-}" > frameworks/opt/telephony/src/java/com/android/internal/telephony/RIL.java
+}
