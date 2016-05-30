@@ -90,6 +90,8 @@ echo "Source Download complete"
 echo "소스 다운로드 완료"
 echo "───────────────────────────────────────────────────"
 echo
+chmod 755 sms_patch.sh
+./sms_patch.sh
      echo "Vendor의 apns-conf파일 삭제"
      rm -f vendor/cm/prebuilt/common/etc/apns-conf.xml
 echo "# Selective SPN list for operator number who has the problem.
@@ -185,6 +187,8 @@ echo "Source Download complete"
 echo "소스 다운로드 완료"
 echo "───────────────────────────────────────────────────"
 echo
+chmod 755 sms_patch.sh
+./sms_patch.sh
 echo "Vendor의 apns-conf파일 삭제"
 rm -f vendor/cm/prebuilt/common/etc/apns-conf.xml
 echo "# Selective SPN list for operator number who has the problem.
@@ -280,6 +284,8 @@ echo "Source Download complete"
 echo "소스 다운로드 완료"
 echo "───────────────────────────────────────────────────"
 echo
+chmod 755 sms_patch.sh
+./sms_patch.sh
 echo "Vendor의 apns-conf파일 삭제"
 rm -f vendor/bliss/prebuilt/common/etc/apns-conf.xml
 echo "# Selective SPN list for operator number who has the problem.
@@ -369,6 +375,8 @@ echo "Source Download complete"
 echo "소스 다운로드 완료"
 echo "───────────────────────────────────────────────────"
 echo
+chmod 755 sms_patch.sh
+./sms_patch.sh
 echo "Vendor의 apns-conf파일 삭제"
 rm -f vendor/cm/prebuilt/common/etc/apns-conf.xml
 echo "# Selective SPN list for operator number who has the problem.
@@ -464,6 +472,8 @@ echo "Source Download complete"
 echo "소스 다운로드 완료"
 echo "───────────────────────────────────────────────────"
 echo
+chmod 755 sms_patch.sh
+./sms_patch.sh
 echo "Vendor의 apns-conf파일 삭제"
 rm -f vendor/cm/prebuilt/common/etc/apns-conf.xml
 echo "# Selective SPN list for operator number who has the problem.
@@ -559,6 +569,8 @@ echo "Source Download complete"
 echo "소스 다운로드 완료"
 echo "───────────────────────────────────────────────────"
 echo
+chmod 755 sms_patch.sh
+./sms_patch.sh
 echo "Vendor의 apns-conf파일 삭제"
 rm -f vendor/aicp/prebuilt/common/etc/apns-conf.xml
 echo "# Selective SPN list for operator number who has the problem.
@@ -654,6 +666,8 @@ echo "Source Download complete"
 echo "소스 다운로드 완료"
 echo "───────────────────────────────────────────────────"
 echo
+chmod 755 sms_patch.sh
+./sms_patch.sh
 echo "Vendor의 apns-conf파일 삭제"
 rm -f vendor/crdroid/prebuilt/common/etc/apns-conf.xml
 echo "# Selective SPN list for operator number who has the problem.
@@ -749,6 +763,8 @@ echo "Source Download complete"
 echo "소스 다운로드 완료"
 echo "───────────────────────────────────────────────────"
 echo
+chmod 755 sms_patch.sh
+./sms_patch.sh
 echo "Vendor의 apns-conf파일 삭제"
 rm -f vendor/nameless/prebuilt/common/etc/apns-conf.xml
 echo "# Selective SPN list for operator number who has the problem.
@@ -834,6 +850,8 @@ echo "Source Download complete"
 echo "소스 다운로드 완료"
 echo "───────────────────────────────────────────────────"
 echo
+chmod 755 ha_sms_patch.sh
+./ha_sms_patch.sh
 
 tput setaf 3
 if [ -d out/target ]
