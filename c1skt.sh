@@ -938,6 +938,10 @@ echo
 
 echo "Vendor의 apns-conf파일 삭제"
 rm -f vendor/omni/prebuilt/etc/apns-conf.xml
+echo "" > vendor/omni/config/cdma.mk
+echo "# SIM Toolkit
+PRODUCT_PACKAGES += \
+Stk" > vendor/omni/config/gsm.mk
 
 tput setaf 3
 if [ -d out/target ]
