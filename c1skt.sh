@@ -970,7 +970,7 @@ git clone https://github.com/omnirom/android_packages_apps_SamsungServiceMode.gi
 git clone https://github.com/Fullgreen/omnirom_frameworks_opt_telephony.git -b android-5.1 frameworks/opt/telephony
 git clone https://github.com/Fullgreen/android_hardware_samsung.git -b android-5.1 hardware/samsung
 . build/envsetup.sh
-brunch c1skt
+brunch i9300
 fi
 }
 
@@ -1104,7 +1104,7 @@ clear
 
 tput setaf 2
 echo "┌───────────────────────────────────────────────────┐" 
-echo "│Fullgreen BUILD Script[1.0.7]                      │"
+echo "│Fullgreen BUILD Script[1.0.9.R1]                   │"
 echo "└───────────────────────────────────────────────────┘"
 echo " └ Made by Fullgreen┘" DEVICE : $device               
 echo
