@@ -886,6 +886,91 @@ if [ -d device/samsung/c1skt ]
 }
 
 #######################################################################
+#omnirom
+#######################################################################
+
+omnirom_Download_source()
+{
+tput setaf 1
+echo "─omnirom─"
+echo
+echo
+echo
+echo "───────────────────────────────────────────────────"
+echo "Install git"
+echo "git 설치"
+echo "───────────────────────────────────────────────────"
+echo
+echo
+echo
+repo init -u git://github.com/omnirom/android.git -b android-5.1
+echo
+echo
+echo
+echo "───────────────────────────────────────────────────"
+echo "git installation complete"
+echo "git 설치 완료"
+echo "───────────────────────────────────────────────────"
+echo
+echo
+echo
+
+clear
+
+tput setaf 2
+echo
+echo
+echo
+echo "───────────────────────────────────────────────────"
+echo "Download source"
+echo "소스 다운로드"
+echo "───────────────────────────────────────────────────"
+echo
+echo
+echo
+repo sync --force-sync -j64
+echo
+echo "───────────────────────────────────────────────────"
+echo "Source Download complete"
+echo "소스 다운로드 완료"
+echo "───────────────────────────────────────────────────"
+echo
+
+echo "Vendor의 apns-conf파일 삭제"
+rm -f vendor/omni/prebuilt/etc/apns-conf.xml
+
+tput setaf 3
+if [ -d out/target ]
+then
+echo "소스를 정리합니다."
+make clean
+else
+echo "소스를 정리하지 않습니다."
+fi
+
+tput setaf 4
+if [ -d device/samsung/i9300 ]
+then
+echo "디바이스 소스를 찾았습니다."
+. build/envsetup.sh
+brunch i9300
+else
+echo "디바이스 소스를 찾을 수 없습니다."
+rm -Rf frameworks/opt/telephony
+rm -Rf hardware/samsung
+git clone https://github.com/Fullgreen/omnirom_device_samsung_i9300.git -b android-5.1 device/samsung/i9300
+git clone https://github.com/FullGreen/omnirom_device_samsung_smdk4412-common.git -b android-5.1 device/samsung/smdk4412-common
+git clone https://github.com/FullGreen/omnirom_kernel_samsung_smdk4412.git -b android-5.1 kernel/samsung/smdk4412
+git clone https://github.com/FullGreen/omnirom_proprietary_vendor_samsung.git -b android-5.1 vendor/samsung
+git clone https://github.com/omnirom/android_packages_apps_SamsungServiceMode.git -b android-5.1 packages/apps/SamsungServiceMode
+git clone https://github.com/Fullgreen/omnirom_frameworks_opt_telephony.git -b android-5.1 frameworks/opt/telephony
+git clone https://github.com/Fullgreen/android_hardware_samsung.git -b android-5.1 hardware/samsung
+. build/envsetup.sh
+brunch c1skt
+fi
+}
+
+#######################################################################
 #buildtype
 #######################################################################
 
@@ -992,7 +1077,16 @@ case "$1" in
 	HA)
 		haxynox_Download_source
 		exit
-		;;			
+		;;
+###############################
+	om)
+		omnirom_Download_source
+		exit
+		;;
+	OM)
+		omnirom_Download_source
+		exit
+		;;
 ###############################
 ###############################
 ###############################
@@ -1006,7 +1100,7 @@ clear
 
 tput setaf 2
 echo "┌───────────────────────────────────────────────────┐" 
-echo "│Marshmallow BUILD Script[1.0.6]                    │"
+echo "│Fullgreen BUILD Script[1.0.7]                      │"
 echo "└───────────────────────────────────────────────────┘"
 echo " └ Made by Fullgreen┘" DEVICE : $device               
 echo
@@ -1019,6 +1113,7 @@ echo "ai│ aicp Download source"
 echo "cr│ crdroidandroid Download source"
 echo "na│ namelessrom Download source"
 echo "ha│ haxynox Download source"
+echo "om│ omni[LP] Download source"
 echo
 echo "1 │ BUILD TYPE(UNOFFICAL,NIGHTLY...)"
 
