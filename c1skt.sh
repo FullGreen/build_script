@@ -125,6 +125,8 @@ if [ -d device/samsung/c1skt ]
 	 brunch c1skt
  else
      echo "디바이스 소스를 찾을 수 없습니다."
+     rm -Rf hardware/samsung
+     git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
 	 git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
      git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
      git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
@@ -222,6 +224,8 @@ if [ -d device/samsung/c1skt ]
 	 brunch c1skt
  else
      echo "디바이스 소스를 찾을 수 없습니다."
+     rm -Rf hardware/samsung
+     git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
 	 git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
      git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
      git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
@@ -319,6 +323,8 @@ if [ -d device/samsung/c1skt ]
 	 brunch c1skt
  else
      echo "디바이스 소스를 찾을 수 없습니다."
+     rm -Rf hardware/samsung
+     git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
 	 git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
 	 . build/envsetup.sh
 	 brunch c1skt	  
@@ -410,6 +416,8 @@ if [ -d device/samsung/c1skt ]
 	 brunch c1skt
  else
      echo "디바이스 소스를 찾을 수 없습니다."
+     rm -Rf hardware/samsung
+     git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
 	 git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
 	 git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
 	 git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
@@ -507,6 +515,8 @@ if [ -d device/samsung/c1skt ]
 	 brunch c1skt
  else
      echo "디바이스 소스를 찾을 수 없습니다."
+     rm -Rf hardware/samsung
+     git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
 	 git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
 	 git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
 	 git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
@@ -604,6 +614,8 @@ if [ -d device/samsung/c1skt ]
 	 brunch c1skt
  else
      echo "디바이스 소스를 찾을 수 없습니다."
+     rm -Rf hardware/samsung
+     git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
 	 git clone https://github.com/FullgreenDEVaicp/aicp_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
 	 git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
 	 git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
@@ -701,6 +713,8 @@ if [ -d device/samsung/c1skt ]
 	 brunch c1skt
  else
      echo "디바이스 소스를 찾을 수 없습니다."
+     rm -Rf hardware/samsung
+     git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
 	 git clone https://github.com/FullgreenDEVcrdroidandroid/crdroidandroid_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
 	 git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
 	 git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
@@ -788,6 +802,8 @@ if [ -d device/samsung/c1skt ]
 	 brunch c1skt
  else
      echo "디바이스 소스를 찾을 수 없습니다."
+     rm -Rf hardware/samsung
+     git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
 	 git clone https://github.com/FullgreenDEVnamelessrom/namelessrom_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
 	 git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
 	 git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
@@ -1104,7 +1120,7 @@ clear
 
 tput setaf 2
 echo "┌───────────────────────────────────────────────────┐" 
-echo "│Fullgreen BUILD Script[1.0.9.R1]                   │"
+echo "│Fullgreen BUILD Script[1.1.0]                      │"
 echo "└───────────────────────────────────────────────────┘"
 echo " └ Made by Fullgreen┘" DEVICE : $device               
 echo
