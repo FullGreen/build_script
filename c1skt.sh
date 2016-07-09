@@ -817,6 +817,106 @@ if [ -d device/samsung/c1skt ]
 }
 
 #######################################################################
+#xosp
+#######################################################################
+
+xosp_Download_source()
+{
+tput setaf 1
+echo "─xosp─"
+echo
+echo
+echo
+echo "───────────────────────────────────────────────────"
+echo "Install git"
+echo "git 설치"
+echo "───────────────────────────────────────────────────"
+echo
+echo
+echo
+repo init -u git://github.com/XOSP-Project/platform_manifest.git -b xosp-mm
+echo
+echo
+echo
+echo "───────────────────────────────────────────────────"
+echo "git installation complete"
+echo "git 설치 완료"
+echo "───────────────────────────────────────────────────"
+echo
+echo
+echo
+
+clear
+
+tput setaf 2
+echo
+echo
+echo
+echo "───────────────────────────────────────────────────"
+echo "Download source"
+echo "소스 다운로드"
+echo "───────────────────────────────────────────────────"
+echo
+echo
+echo
+repo sync --force-sync -j64
+echo
+echo "───────────────────────────────────────────────────"
+echo "Source Download complete"
+echo "소스 다운로드 완료"
+echo "───────────────────────────────────────────────────"
+echo
+chmod 755 sms_patch.sh
+mv sms_patch.java frameworks/opt/telephony/src/java/com/android/internal/telephony/RIL.java
+echo "Vendor의 apns-conf파일 삭제"
+rm -f vendor/xosp/prebuilt/common/etc/apns-conf.xml
+echo "# Selective SPN list for operator number who has the problem.
+PRODUCT_COPY_FILES += \
+vendor/xosp/prebuilt/common/etc/selective-spn-conf.xml:system/etc/selective-spn-conf.xml
+
+# Telephony packages
+PRODUCT_PACKAGES += \
+messaging \
+Stk \
+CellBroadcastReceiver
+
+# Default ringtone
+PRODUCT_PROPERTY_OVERRIDES += \
+ro.config.ringtone=xperia.ogg" > vendor/xosp/config/telephony.mk
+
+tput setaf 3
+if [ -d out/target ]
+then
+echo "소스를 정리합니다."
+make clean
+else
+echo "소스를 정리하지 않습니다."
+fi
+
+tput setaf 4
+if [ -d device/samsung/c1skt ]
+then
+echo "디바이스 소스를 찾았습니다."
+. build/envsetup.sh
+brunch c1skt
+else
+echo "디바이스 소스를 찾을 수 없습니다."
+rm -Rf hardware/samsung
+git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
+git clone https://github.com/FullgreenDEVxosp/xosp_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
+git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
+git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
+git clone https://github.com/FullGreen/cyanogenmod_proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
+git clone https://github.com/CyanogenMod/android_packages_apps_SamsungServiceMode.git -b cm-13.0 packages/apps/SamsungServiceMode
+git clone https://github.com/CyanogenMod/android_hardware_samsung.git -b cm-13.0 hardware/samsung
+git clone https://github.com/CyanogenMod/android_external_stlport.git -b cm-13.0 external/stlport
+. build/envsetup.sh
+brunch c1skt
+fi
+}
+
+
+#######################################################################
 #haxynox
 #######################################################################
 
@@ -1088,7 +1188,16 @@ case "$1" in
 	NA)
 		namelessrom_Download_source
 		exit
-		;;		
+		;;
+###############################
+	xo)
+		xosp_Download_source
+		exit
+		;;
+	XO)
+		xosp_Download_source
+	    exit
+		;;
 ###############################
 	ha)
 		haxynox_Download_source
@@ -1120,7 +1229,7 @@ clear
 
 tput setaf 2
 echo "┌───────────────────────────────────────────────────┐" 
-echo "│Fullgreen BUILD Script[1.1.0]                      │"
+echo "│Fullgreen BUILD Script[1.1.1]                      │"
 echo "└───────────────────────────────────────────────────┘"
 echo " └ Made by Fullgreen┘" DEVICE : $device               
 echo
@@ -1132,6 +1241,7 @@ echo "fl│ flarerom Download source"
 echo "ai│ aicp Download source"
 echo "cr│ crdroidandroid Download source"
 echo "na│ namelessrom Download source"
+echo "xo│ xosp Download source"
 echo "ha│ haxynox Download source"
 echo "om│ omni[LP] Download source"
 echo
