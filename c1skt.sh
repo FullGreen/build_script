@@ -129,7 +129,8 @@ if [ -d device/samsung/c1skt ]
      git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
 	 git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
      git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
-     git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
+     rm -Rf kernel/samsung/smdk4412
+     git clone https://github.com/FullGreen/fullgreen_kernel_samsung_smdk4412 -b cm-13.0 kernel/samsung/smdk4412
      git clone https://github.com/FullGreen/cyanogenmod_proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
      git clone https://github.com/CyanogenMod/android_packages_apps_SamsungServiceMode.git -b cm-13.0 packages/apps/SamsungServiceMode
      git clone https://github.com/CyanogenMod/android_hardware_samsung.git -b cm-13.0 hardware/samsung
@@ -228,7 +229,8 @@ if [ -d device/samsung/c1skt ]
      git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
 	 git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
      git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
-     git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
+     rm -Rf kernel/samsung/smdk4412
+     git clone https://github.com/FullGreen/fullgreen_kernel_samsung_smdk4412 -b cm-13.0 kernel/samsung/smdk4412
      git clone https://github.com/FullGreen/cyanogenmod_proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
      git clone https://github.com/CyanogenMod/android_packages_apps_SamsungServiceMode.git -b cm-13.0 packages/apps/SamsungServiceMode
      git clone https://github.com/CyanogenMod/android_hardware_samsung.git -b cm-13.0 hardware/samsung
@@ -420,7 +422,8 @@ if [ -d device/samsung/c1skt ]
      git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
 	 git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
 	 git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
-	 git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
+     rm -Rf kernel/samsung/smdk4412
+     git clone https://github.com/FullGreen/fullgreen_kernel_samsung_smdk4412 -b cm-13.0 kernel/samsung/smdk4412
 	 git clone https://github.com/FullGreen/cyanogenmod_proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
 	 git clone https://github.com/CyanogenMod/android_packages_apps_SamsungServiceMode.git -b cm-13.0 packages/apps/SamsungServiceMode
 	 git clone https://github.com/CyanogenMod/android_hardware_samsung.git -b cm-13.0 hardware/samsung
@@ -448,7 +451,7 @@ echo "────────────────────────�
 echo
 echo
 echo
-repo init -u https://github.com/FlareROM/android.git -b cm-13.0
+repo init -u git://github.com/FlareROM/android.git -b 1.0-MM
 echo
 echo
 echo 
@@ -519,7 +522,8 @@ if [ -d device/samsung/c1skt ]
      git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
 	 git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
 	 git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
-	 git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
+     rm -Rf kernel/samsung/smdk4412
+     git clone https://github.com/FullGreen/fullgreen_kernel_samsung_smdk4412 -b cm-13.0 kernel/samsung/smdk4412
 	 git clone https://github.com/FullGreen/cyanogenmod_proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
 	 git clone https://github.com/CyanogenMod/android_packages_apps_SamsungServiceMode.git -b cm-13.0 packages/apps/SamsungServiceMode
 	 git clone https://github.com/CyanogenMod/android_hardware_samsung.git -b cm-13.0 hardware/samsung
@@ -618,7 +622,8 @@ if [ -d device/samsung/c1skt ]
      git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
 	 git clone https://github.com/FullgreenDEVaicp/aicp_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
 	 git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
-	 git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
+     rm -Rf kernel/samsung/smdk4412
+     git clone https://github.com/FullGreen/fullgreen_kernel_samsung_smdk4412 -b cm-13.0 kernel/samsung/smdk4412
 	 git clone https://github.com/FullGreen/cyanogenmod_proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
 	 git clone https://github.com/CyanogenMod/android_packages_apps_SamsungServiceMode.git -b cm-13.0 packages/apps/SamsungServiceMode
 	 git clone https://github.com/CyanogenMod/android_hardware_samsung.git -b cm-13.0 hardware/samsung
@@ -717,7 +722,8 @@ if [ -d device/samsung/c1skt ]
      git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
 	 git clone https://github.com/FullgreenDEVcrdroidandroid/crdroidandroid_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
 	 git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
-	 git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
+     rm -Rf kernel/samsung/smdk4412
+     git clone https://github.com/FullGreen/fullgreen_kernel_samsung_smdk4412 -b cm-13.0 kernel/samsung/smdk4412
 	 git clone https://github.com/FullGreen/cyanogenmod_proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
 	 git clone https://github.com/CyanogenMod/android_packages_apps_SamsungServiceMode.git -b cm-13.0 packages/apps/SamsungServiceMode
 	 git clone https://github.com/CyanogenMod/android_hardware_samsung.git -b cm-13.0 hardware/samsung
@@ -806,7 +812,8 @@ if [ -d device/samsung/c1skt ]
      git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
 	 git clone https://github.com/FullgreenDEVnamelessrom/namelessrom_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
 	 git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
-	 git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
+     rm -Rf kernel/samsung/smdk4412
+     git clone https://github.com/FullGreen/fullgreen_kernel_samsung_smdk4412 -b cm-13.0 kernel/samsung/smdk4412
 	 git clone https://github.com/FullGreen/cyanogenmod_proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
      git clone https://github.com/CyanogenMod/android_packages_apps_SamsungServiceMode.git -b cm-13.0 packages/apps/SamsungServiceMode
      git clone https://github.com/CyanogenMod/android_hardware_samsung.git -b cm-13.0 hardware/samsung
@@ -905,7 +912,8 @@ rm -Rf hardware/samsung
 git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
 git clone https://github.com/FullgreenDEVxosp/xosp_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
 git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
-git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
+rm -Rf kernel/samsung/smdk4412
+git clone https://github.com/FullGreen/fullgreen_kernel_samsung_smdk4412 -b cm-13.0 kernel/samsung/smdk4412
 git clone https://github.com/FullGreen/cyanogenmod_proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
 git clone https://github.com/CyanogenMod/android_packages_apps_SamsungServiceMode.git -b cm-13.0 packages/apps/SamsungServiceMode
 git clone https://github.com/CyanogenMod/android_hardware_samsung.git -b cm-13.0 hardware/samsung
@@ -1229,7 +1237,7 @@ clear
 
 tput setaf 2
 echo "┌───────────────────────────────────────────────────┐" 
-echo "│Fullgreen BUILD Script[1.1.1]                      │"
+echo "│Fullgreen BUILD Script[1.1.2]                      │"
 echo "└───────────────────────────────────────────────────┘"
 echo " └ Made by Fullgreen┘" DEVICE : $device               
 echo
