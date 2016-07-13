@@ -1,18 +1,18 @@
 /*
-* Copyright (C) 2006 The Android Open Source Project
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-*      http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ * Copyright (C) 2006 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package com.android.internal.telephony;
 
@@ -98,244 +98,244 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.Random;
 
 /**
-* {@hide}
-*/
+ * {@hide}
+ */
 class RILRequest {
-static final String LOG_TAG = "RilRequest";
+    static final String LOG_TAG = "RilRequest";
+    
+    //***** Class Variables
+    static Random sRandom = new Random();
+    static AtomicInteger sNextSerial = new AtomicInteger(0);
+    private static Object sPoolSync = new Object();
+    private static RILRequest sPool = null;
+    private static int sPoolSize = 0;
+    private static final int MAX_POOL_SIZE = 4;
+    private Context mContext;
+    
+    //***** Instance Variables
+    int mSerial;
+    int mRequest;
+    Message mResult;
+    Parcel mParcel;
+    RILRequest mNext;
+    
+    /**
+     * Retrieves a new RILRequest instance from the pool.
+     *
+     * @param request RIL_REQUEST_*
+     * @param result sent when operation completes
+     * @return a RILRequest instance from the pool.
+     */
+    static RILRequest obtain(int request, Message result) {
+        RILRequest rr = null;
+        
+        synchronized(sPoolSync) {
+            if (sPool != null) {
+                rr = sPool;
+                sPool = rr.mNext;
+                rr.mNext = null;
+                sPoolSize--;
+            }
+        }
+        
+        if (rr == null) {
+            rr = new RILRequest();
+        }
+        
+        rr.mSerial = sNextSerial.getAndIncrement();
+        
+        rr.mRequest = request;
+        rr.mResult = result;
+        rr.mParcel = Parcel.obtain();
+        
+        if (result != null && result.getTarget() == null) {
+            throw new NullPointerException("Message target must not be null");
+        }
+        
+        // first elements in any RIL Parcel
+        rr.mParcel.writeInt(request);
+        rr.mParcel.writeInt(rr.mSerial);
+        
+        return rr;
+    }
+    
+    /**
+     * Returns a RILRequest instance to the pool.
+     *
+     * Note: This should only be called once per use.
+     */
+    void release() {
+        synchronized (sPoolSync) {
+            if (sPoolSize < MAX_POOL_SIZE) {
+                mNext = sPool;
+                sPool = this;
+                sPoolSize++;
+                mResult = null;
+            }
+        }
+    }
+    
+    private RILRequest() {
+    }
+    
+    static void
+    resetSerial() {
+        // use a random so that on recovery we probably don't mix old requests
+        // with new.
+        sNextSerial.set(sRandom.nextInt());
+    }
+    
+    String
+    serialString() {
+        //Cheesy way to do %04d
+        StringBuilder sb = new StringBuilder(8);
+        String sn;
+        
+        long adjustedSerial = (((long)mSerial) - Integer.MIN_VALUE)%10000;
+        
+        sn = Long.toString(adjustedSerial);
+        
+        //sb.append("J[");
+        sb.append('[');
+        for (int i = 0, s = sn.length() ; i < 4 - s; i++) {
+            sb.append('0');
+        }
+        
+        sb.append(sn);
+        sb.append(']');
+        return sb.toString();
+    }
+    
+    void
+    onError(int error, Object ret) {
+        CommandException ex;
+        
+        ex = CommandException.fromRilErrno(error);
+        
+        if (RIL.RILJ_LOGD) Rlog.d(LOG_TAG, serialString() + "< "
+                                  + RIL.requestToString(mRequest)
+                                  + " error: " + ex + " ret=" + RIL.retToString(mRequest, ret));
+        
+        if (mResult != null) {
+            AsyncResult.forMessage(mResult, ret, ex);
+            mResult.sendToTarget();
+        }
+        
+        if (mParcel != null) {
+            mParcel.recycle();
+            mParcel = null;
+        }
+    }
+}
 
-//***** Class Variables
-static Random sRandom = new Random();
-static AtomicInteger sNextSerial = new AtomicInteger(0);
-private static Object sPoolSync = new Object();
-private static RILRequest sPool = null;
-private static int sPoolSize = 0;
-private static final int MAX_POOL_SIZE = 4;
-private Context mContext;
-
-//***** Instance Variables
-int mSerial;
-int mRequest;
-Message mResult;
-Parcel mParcel;
-RILRequest mNext;
 
 /**
-* Retrieves a new RILRequest instance from the pool.
-*
-* @param request RIL_REQUEST_*
-* @param result sent when operation completes
-* @return a RILRequest instance from the pool.
-*/
-static RILRequest obtain(int request, Message result) {
-RILRequest rr = null;
-
-synchronized(sPoolSync) {
-if (sPool != null) {
-rr = sPool;
-sPool = rr.mNext;
-rr.mNext = null;
-sPoolSize--;
-}
-}
-
-if (rr == null) {
-rr = new RILRequest();
-}
-
-rr.mSerial = sNextSerial.getAndIncrement();
-
-rr.mRequest = request;
-rr.mResult = result;
-rr.mParcel = Parcel.obtain();
-
-if (result != null && result.getTarget() == null) {
-throw new NullPointerException("Message target must not be null");
-}
-
-// first elements in any RIL Parcel
-rr.mParcel.writeInt(request);
-rr.mParcel.writeInt(rr.mSerial);
-
-return rr;
-}
-
-/**
-* Returns a RILRequest instance to the pool.
-*
-* Note: This should only be called once per use.
-*/
-void release() {
-synchronized (sPoolSync) {
-if (sPoolSize < MAX_POOL_SIZE) {
-mNext = sPool;
-sPool = this;
-sPoolSize++;
-mResult = null;
-}
-}
-}
-
-private RILRequest() {
-}
-
-static void
-resetSerial() {
-// use a random so that on recovery we probably don't mix old requests
-// with new.
-sNextSerial.set(sRandom.nextInt());
-}
-
-String
-serialString() {
-//Cheesy way to do %04d
-StringBuilder sb = new StringBuilder(8);
-String sn;
-
-long adjustedSerial = (((long)mSerial) - Integer.MIN_VALUE)%10000;
-
-sn = Long.toString(adjustedSerial);
-
-//sb.append("J[");
-sb.append('[');
-for (int i = 0, s = sn.length() ; i < 4 - s; i++) {
-sb.append('0');
-}
-
-sb.append(sn);
-sb.append(']');
-return sb.toString();
-}
-
-void
-onError(int error, Object ret) {
-CommandException ex;
-
-ex = CommandException.fromRilErrno(error);
-
-if (RIL.RILJ_LOGD) Rlog.d(LOG_TAG, serialString() + "< "
-+ RIL.requestToString(mRequest)
-+ " error: " + ex + " ret=" + RIL.retToString(mRequest, ret));
-
-if (mResult != null) {
-AsyncResult.forMessage(mResult, ret, ex);
-mResult.sendToTarget();
-}
-
-if (mParcel != null) {
-mParcel.recycle();
-mParcel = null;
-}
-}
-}
-
-
-/**
-* RIL implementation of the CommandsInterface.
-*
-* {@hide}
-*/
+ * RIL implementation of the CommandsInterface.
+ *
+ * {@hide}
+ */
 public class RIL extends BaseCommands implements CommandsInterface {
-static final String RILJ_LOG_TAG = "RILJ";
-static final boolean RILJ_LOGD = true;
-static final boolean RILJ_LOGV = false; // STOPSHIP if true
-static final int RADIO_SCREEN_UNSET = -1;
-static final int RADIO_SCREEN_OFF = 0;
-static final int RADIO_SCREEN_ON = 1;
-
-
-/**
-* Wake lock timeout should be longer than the longest timeout in
-* the vendor ril.
-*/
-private static final int DEFAULT_WAKE_LOCK_TIMEOUT = 60000;
-private static final int BYTE_SIZE = 1;
-
-/** Starting number for OEMHOOK request and response IDs */
-private static final int OEMHOOK_BASE = 0x80000;
-
-/** Set Local Call Hold subscription */
-private static final int OEMHOOK_EVT_HOOK_SET_LOCAL_CALL_HOLD = OEMHOOK_BASE + 13;
-
-private static final int INT_SIZE = 4;
-private static final String OEM_IDENTIFIER = "QOEMHOOK";
-int mHeaderSize = OEM_IDENTIFIER.length() + 2 * INT_SIZE;
-
-//***** Instance Variables
-
-LocalSocket mSocket;
-HandlerThread mSenderThread;
-RILSender mSender;
-Thread mReceiverThread;
-RILReceiver mReceiver;
-Display mDefaultDisplay;
-int mDefaultDisplayState = Display.STATE_UNKNOWN;
-int mRadioScreenState = RADIO_SCREEN_UNSET;
-boolean mIsDevicePlugged = false;
-WakeLock mWakeLock;
-final int mWakeLockTimeout;
-// The number of wakelock requests currently active.  Don't release the lock
-// until dec'd to 0
-int mWakeLockCount;
-
-SparseArray<RILRequest> mRequestList = new SparseArray<RILRequest>();
-
-Object     mLastNITZTimeInfo;
-
-// When we are testing emergency calls
-AtomicBoolean mTestingEmergencyCall = new AtomicBoolean(false);
-
-protected Integer mInstanceId;
-
-// Number of per-network elements expected in QUERY_AVAILABLE_NETWORKS's response.
-// 4 elements is default, but many RILs actually return 5, making it impossible to
-// divide the response array without prior knowledge of the number of elements.
-protected int mQANElements = SystemProperties.getInt("ro.ril.telephony.mqanelements", 4);
-
-//***** Events
-
-static final int EVENT_SEND                 = 1;
-static final int EVENT_WAKE_LOCK_TIMEOUT    = 2;
-
-//***** Constants
-
-// match with constant in ril.cpp
-static final int RIL_MAX_COMMAND_BYTES = (8 * 1024);
-static final int RESPONSE_SOLICITED = 0;
-static final int RESPONSE_UNSOLICITED = 1;
-
-static final String[] SOCKET_NAME_RIL = {"rild", "rild2", "rild3"};
-
-static final int SOCKET_OPEN_RETRY_MILLIS = 4 * 1000;
-
-// The number of the required config values for broadcast SMS stored in the C struct
-// RIL_CDMA_BroadcastServiceInfo
-private static final int CDMA_BSI_NO_OF_INTS_STRUCT = 3;
-
-private static final int CDMA_BROADCAST_SMS_NO_OF_SERVICE_CATEGORIES = 31;
-
-private static final char NULL_TERMINATOR = '\0';
-
-private static final int NULL_TERMINATOR_LENGTH = BYTE_SIZE;
-
-/** Sim DePersonalization code */
-private static final int OEMHOOK_EVT_HOOK_ENTER_DEPERSONALIZATION_CODE = OEMHOOK_BASE + 51;
-
-private final DisplayManager.DisplayListener mDisplayListener =
-new DisplayManager.DisplayListener() {
-@Override
-public void onDisplayAdded(int displayId) { }
-
-@Override
-public void onDisplayRemoved(int displayId) { }
-
-@Override
-public void onDisplayChanged(int displayId) {
-if (displayId == Display.DEFAULT_DISPLAY) {
-final int oldState = mDefaultDisplayState;
-mDefaultDisplayState = mDefaultDisplay.getState();
-if (mDefaultDisplayState != oldState) {
-updateScreenState();
-}
+    static final String RILJ_LOG_TAG = "RILJ";
+    static final boolean RILJ_LOGD = true;
+    static final boolean RILJ_LOGV = false; // STOPSHIP if true
+    static final int RADIO_SCREEN_UNSET = -1;
+    static final int RADIO_SCREEN_OFF = 0;
+    static final int RADIO_SCREEN_ON = 1;
+    
+    
+    /**
+     * Wake lock timeout should be longer than the longest timeout in
+     * the vendor ril.
+     */
+    private static final int DEFAULT_WAKE_LOCK_TIMEOUT = 60000;
+    private static final int BYTE_SIZE = 1;
+    
+    /** Starting number for OEMHOOK request and response IDs */
+    private static final int OEMHOOK_BASE = 0x80000;
+    
+    /** Set Local Call Hold subscription */
+    private static final int OEMHOOK_EVT_HOOK_SET_LOCAL_CALL_HOLD = OEMHOOK_BASE + 13;
+    
+    private static final int INT_SIZE = 4;
+    private static final String OEM_IDENTIFIER = "QOEMHOOK";
+    int mHeaderSize = OEM_IDENTIFIER.length() + 2 * INT_SIZE;
+    
+    //***** Instance Variables
+    
+    LocalSocket mSocket;
+    HandlerThread mSenderThread;
+    RILSender mSender;
+    Thread mReceiverThread;
+    RILReceiver mReceiver;
+    Display mDefaultDisplay;
+    int mDefaultDisplayState = Display.STATE_UNKNOWN;
+    int mRadioScreenState = RADIO_SCREEN_UNSET;
+    boolean mIsDevicePlugged = false;
+    WakeLock mWakeLock;
+    final int mWakeLockTimeout;
+    // The number of wakelock requests currently active.  Don't release the lock
+    // until dec'd to 0
+    int mWakeLockCount;
+    
+    SparseArray<RILRequest> mRequestList = new SparseArray<RILRequest>();
+    
+    Object     mLastNITZTimeInfo;
+    
+    // When we are testing emergency calls
+    AtomicBoolean mTestingEmergencyCall = new AtomicBoolean(false);
+    
+    protected Integer mInstanceId;
+    
+    // Number of per-network elements expected in QUERY_AVAILABLE_NETWORKS's response.
+    // 4 elements is default, but many RILs actually return 5, making it impossible to
+    // divide the response array without prior knowledge of the number of elements.
+    protected int mQANElements = SystemProperties.getInt("ro.ril.telephony.mqanelements", 4);
+    
+    //***** Events
+    
+    static final int EVENT_SEND                 = 1;
+    static final int EVENT_WAKE_LOCK_TIMEOUT    = 2;
+    
+    //***** Constants
+    
+    // match with constant in ril.cpp
+    static final int RIL_MAX_COMMAND_BYTES = (8 * 1024);
+    static final int RESPONSE_SOLICITED = 0;
+    static final int RESPONSE_UNSOLICITED = 1;
+    
+    static final String[] SOCKET_NAME_RIL = {"rild", "rild2", "rild3"};
+    
+    static final int SOCKET_OPEN_RETRY_MILLIS = 4 * 1000;
+    
+    // The number of the required config values for broadcast SMS stored in the C struct
+    // RIL_CDMA_BroadcastServiceInfo
+    private static final int CDMA_BSI_NO_OF_INTS_STRUCT = 3;
+    
+    private static final int CDMA_BROADCAST_SMS_NO_OF_SERVICE_CATEGORIES = 31;
+    
+    private static final char NULL_TERMINATOR = '\0';
+    
+    private static final int NULL_TERMINATOR_LENGTH = BYTE_SIZE;
+    
+    /** Sim DePersonalization code */
+    private static final int OEMHOOK_EVT_HOOK_ENTER_DEPERSONALIZATION_CODE = OEMHOOK_BASE + 51;
+    
+    private final DisplayManager.DisplayListener mDisplayListener =
+    new DisplayManager.DisplayListener() {
+    @Override
+    public void onDisplayAdded(int displayId) { }
+    
+    @Override
+    public void onDisplayRemoved(int displayId) { }
+    
+    @Override
+    public void onDisplayChanged(int displayId) {
+    if (displayId == Display.DEFAULT_DISPLAY) {
+    final int oldState = mDefaultDisplayState;
+    mDefaultDisplayState = mDefaultDisplay.getState();
+    if (mDefaultDisplayState != oldState) {
+        updateScreenState();
+    }
 }
 }
 };
@@ -353,134 +353,134 @@ updateScreenState();
 };
 
 class RILSender extends Handler implements Runnable {
-public RILSender(Looper looper) {
-super(looper);
-}
-
-// Only allocated once
-byte[] dataLength = new byte[4];
-
-//***** Runnable implementation
-@Override
-public void
-run() {
-//setup if needed
-}
-
-
-//***** Handler implementation
-@Override public void
-handleMessage(Message msg) {
-RILRequest rr = (RILRequest)(msg.obj);
-RILRequest req = null;
-
-switch (msg.what) {
-case EVENT_SEND:
-try {
-LocalSocket s;
-
-s = mSocket;
-
-if (s == null) {
-rr.onError(RADIO_NOT_AVAILABLE, null);
-rr.release();
-decrementWakeLock();
-return;
-}
-
-synchronized (mRequestList) {
-mRequestList.append(rr.mSerial, rr);
-}
-
-byte[] data;
-
-data = rr.mParcel.marshall();
-rr.mParcel.recycle();
-rr.mParcel = null;
-
-if (data.length > RIL_MAX_COMMAND_BYTES) {
-throw new RuntimeException(
-"Parcel larger than max bytes allowed! "
-+ data.length);
-}
-
-// parcel length in big endian
-dataLength[0] = dataLength[1] = 0;
-dataLength[2] = (byte)((data.length >> 8) & 0xff);
-dataLength[3] = (byte)((data.length) & 0xff);
-
-//Rlog.v(RILJ_LOG_TAG, "writing packet: " + data.length + " bytes");
-
-s.getOutputStream().write(dataLength);
-s.getOutputStream().write(data);
-} catch (IOException ex) {
-Rlog.e(RILJ_LOG_TAG, "IOException", ex);
-req = findAndRemoveRequestFromList(rr.mSerial);
-// make sure this request has not already been handled,
-// eg, if RILReceiver cleared the list.
-if (req != null) {
-rr.onError(RADIO_NOT_AVAILABLE, null);
-rr.release();
-decrementWakeLock();
-}
-} catch (RuntimeException exc) {
-Rlog.e(RILJ_LOG_TAG, "Uncaught exception ", exc);
-req = findAndRemoveRequestFromList(rr.mSerial);
-// make sure this request has not already been handled,
-// eg, if RILReceiver cleared the list.
-if (req != null) {
-rr.onError(GENERIC_FAILURE, null);
-rr.release();
-decrementWakeLock();
-}
-}
-
-break;
-
-case EVENT_WAKE_LOCK_TIMEOUT:
-// Haven't heard back from the last request.  Assume we're
-// not getting a response and  release the wake lock.
-
-// The timer of WAKE_LOCK_TIMEOUT is reset with each
-// new send request. So when WAKE_LOCK_TIMEOUT occurs
-// all requests in mRequestList already waited at
-// least DEFAULT_WAKE_LOCK_TIMEOUT but no response.
-//
-// Note: Keep mRequestList so that delayed response
-// can still be handled when response finally comes.
-
-synchronized (mRequestList) {
-if (clearWakeLock()) {
-if (RILJ_LOGD) {
-int count = mRequestList.size();
-Rlog.d(RILJ_LOG_TAG, "WAKE_LOCK_TIMEOUT " +
-" mRequestList=" + count);
-for (int i = 0; i < count; i++) {
-rr = mRequestList.valueAt(i);
-Rlog.d(RILJ_LOG_TAG, i + ": [" + rr.mSerial + "] "
-+ requestToString(rr.mRequest));
-}
-}
-}
-}
-break;
-}
-}
+    public RILSender(Looper looper) {
+        super(looper);
+    }
+    
+    // Only allocated once
+    byte[] dataLength = new byte[4];
+    
+    //***** Runnable implementation
+    @Override
+    public void
+    run() {
+        //setup if needed
+    }
+    
+    
+    //***** Handler implementation
+    @Override public void
+    handleMessage(Message msg) {
+        RILRequest rr = (RILRequest)(msg.obj);
+        RILRequest req = null;
+        
+        switch (msg.what) {
+            case EVENT_SEND:
+                try {
+                    LocalSocket s;
+                    
+                    s = mSocket;
+                    
+                    if (s == null) {
+                        rr.onError(RADIO_NOT_AVAILABLE, null);
+                        rr.release();
+                        decrementWakeLock();
+                        return;
+                    }
+                    
+                    synchronized (mRequestList) {
+                        mRequestList.append(rr.mSerial, rr);
+                    }
+                    
+                    byte[] data;
+                    
+                    data = rr.mParcel.marshall();
+                    rr.mParcel.recycle();
+                    rr.mParcel = null;
+                    
+                    if (data.length > RIL_MAX_COMMAND_BYTES) {
+                        throw new RuntimeException(
+                                                   "Parcel larger than max bytes allowed! "
+                                                   + data.length);
+                    }
+                    
+                    // parcel length in big endian
+                    dataLength[0] = dataLength[1] = 0;
+                    dataLength[2] = (byte)((data.length >> 8) & 0xff);
+                    dataLength[3] = (byte)((data.length) & 0xff);
+                    
+                    //Rlog.v(RILJ_LOG_TAG, "writing packet: " + data.length + " bytes");
+                    
+                    s.getOutputStream().write(dataLength);
+                    s.getOutputStream().write(data);
+                } catch (IOException ex) {
+                    Rlog.e(RILJ_LOG_TAG, "IOException", ex);
+                    req = findAndRemoveRequestFromList(rr.mSerial);
+                    // make sure this request has not already been handled,
+                    // eg, if RILReceiver cleared the list.
+                    if (req != null) {
+                        rr.onError(RADIO_NOT_AVAILABLE, null);
+                        rr.release();
+                        decrementWakeLock();
+                    }
+                } catch (RuntimeException exc) {
+                    Rlog.e(RILJ_LOG_TAG, "Uncaught exception ", exc);
+                    req = findAndRemoveRequestFromList(rr.mSerial);
+                    // make sure this request has not already been handled,
+                    // eg, if RILReceiver cleared the list.
+                    if (req != null) {
+                        rr.onError(GENERIC_FAILURE, null);
+                        rr.release();
+                        decrementWakeLock();
+                    }
+                }
+                
+                break;
+                
+            case EVENT_WAKE_LOCK_TIMEOUT:
+                // Haven't heard back from the last request.  Assume we're
+                // not getting a response and  release the wake lock.
+                
+                // The timer of WAKE_LOCK_TIMEOUT is reset with each
+                // new send request. So when WAKE_LOCK_TIMEOUT occurs
+                // all requests in mRequestList already waited at
+                // least DEFAULT_WAKE_LOCK_TIMEOUT but no response.
+                //
+                // Note: Keep mRequestList so that delayed response
+                // can still be handled when response finally comes.
+                
+                synchronized (mRequestList) {
+                    if (clearWakeLock()) {
+                        if (RILJ_LOGD) {
+                            int count = mRequestList.size();
+                            Rlog.d(RILJ_LOG_TAG, "WAKE_LOCK_TIMEOUT " +
+                                   " mRequestList=" + count);
+                            for (int i = 0; i < count; i++) {
+                                rr = mRequestList.valueAt(i);
+                                Rlog.d(RILJ_LOG_TAG, i + ": [" + rr.mSerial + "] "
+                                       + requestToString(rr.mRequest));
+                            }
+                        }
+                    }
+                }
+                break;
+        }
+    }
 }
 
 /**
-* Reads in a single RIL message off the wire. A RIL message consists
-* of a 4-byte little-endian length and a subsequent series of bytes.
-* The final message (length header omitted) is read into
-* <code>buffer</code> and the length of the final message (less header)
-* is returned. A return value of -1 indicates end-of-stream.
-*
-* @param is non-null; Stream to read from
-* @param buffer Buffer to fill in. Must be as large as maximum
-* message size, or an ArrayOutOfBounds exception will be thrown.
-* @return Length of message less header, or -1 on end of stream.
-* @throws IOException
-*/
+ * Reads in a single RIL message off the wire. A RIL message consists
+ * of a 4-byte little-endian length and a subsequent series of bytes.
+ * The final message (length header omitted) is read into
+ * <code>buffer</code> and the length of the final message (less header)
+ * is returned. A return value of -1 indicates end-of-stream.
+ *
+ * @param is non-null; Stream to read from
+ * @param buffer Buffer to fill in. Must be as large as maximum
+ * message size, or an ArrayOutOfBounds exception will be thrown.
+ * @return Length of message less header, or -1 on end of stream.
+ * @throws IOException
+ */
 private static int readRilMessage(InputStream is, byte[] buffer)
 throws IOException {
 int countRead;
@@ -528,138 +528,138 @@ return messageLength;
 }
 
 protected class RILReceiver implements Runnable {
-byte[] buffer;
-
-protected RILReceiver() {
-buffer = new byte[RIL_MAX_COMMAND_BYTES];
-}
-
-@Override
-public void
-run() {
-int retryCount = 0;
-String rilSocket = "rild";
-
-try {for (;;) {
-LocalSocket s = null;
-LocalSocketAddress l;
-
-if (mInstanceId == null || mInstanceId == 0 ) {
-rilSocket = SOCKET_NAME_RIL[0];
-} else {
-rilSocket = SOCKET_NAME_RIL[mInstanceId];
-}
-
-try {
-s = new LocalSocket();
-l = new LocalSocketAddress(rilSocket,
-LocalSocketAddress.Namespace.RESERVED);
-s.connect(l);
-} catch (IOException ex){
-try {
-if (s != null) {
-s.close();
-}
-} catch (IOException ex2) {
-//ignore failure to close after failure to connect
-}
-
-// don't print an error message after the the first time
-// or after the 8th time
-
-if (retryCount == 8) {
-Rlog.e (RILJ_LOG_TAG,
-"Couldn't find '" + rilSocket
-+ "' socket after " + retryCount
-+ " times, continuing to retry silently");
-} else if (retryCount >= 0 && retryCount < 8) {
-Rlog.i (RILJ_LOG_TAG,
-"Couldn't find '" + rilSocket
-+ "' socket; retrying after timeout");
-}
-
-try {
-Thread.sleep(SOCKET_OPEN_RETRY_MILLIS);
-} catch (InterruptedException er) {
-}
-
-retryCount++;
-continue;
-}
-
-retryCount = 0;
-
-mSocket = s;
-Rlog.i(RILJ_LOG_TAG, "(" + mInstanceId + ") Connected to '"
-+ rilSocket + "' socket");
-
-/* Compatibility with qcom's DSDS (Dual SIM) stack */
-if (needsOldRilFeature("qcomdsds")) {
-String str = "SUB1";
-byte[] data = str.getBytes();
-try {
-mSocket.getOutputStream().write(data);
-Rlog.i(RILJ_LOG_TAG, "Data sent!!");
-} catch (IOException ex) {
-Rlog.e(RILJ_LOG_TAG, "IOException", ex);
-} catch (RuntimeException exc) {
-Rlog.e(RILJ_LOG_TAG, "Uncaught exception ", exc);
-}
-}
-
-int length = 0;
-try {
-InputStream is = mSocket.getInputStream();
-
-for (;;) {
-Parcel p;
-
-length = readRilMessage(is, buffer);
-
-if (length < 0) {
-// End-of-stream reached
-break;
-}
-
-p = Parcel.obtain();
-p.unmarshall(buffer, 0, length);
-p.setDataPosition(0);
-
-//Rlog.v(RILJ_LOG_TAG, "Read packet: " + length + " bytes");
-
-processResponse(p);
-p.recycle();
-}
-} catch (java.io.IOException ex) {
-Rlog.i(RILJ_LOG_TAG, "'" + rilSocket + "' socket closed",
-ex);
-} catch (Throwable tr) {
-Rlog.e(RILJ_LOG_TAG, "Uncaught exception read length=" + length +
-"Exception:" + tr.toString());
-}
-
-Rlog.i(RILJ_LOG_TAG, "(" + mInstanceId + ") Disconnected from '" + rilSocket
-+ "' socket");
-
-setRadioState (RadioState.RADIO_UNAVAILABLE);
-
-try {
-mSocket.close();
-} catch (IOException ex) {
-}
-
-mSocket = null;
-RILRequest.resetSerial();
-
-// Clear request list on close
-clearRequestList(RADIO_NOT_AVAILABLE, false);
-}} catch (Throwable tr) {
-Rlog.e(RILJ_LOG_TAG,"Uncaught exception", tr);
-}
-
-/* We're disconnected so we don't know the ril version */
-notifyRegistrantsRilConnectionChanged(-1);
-}
+    byte[] buffer;
+    
+    protected RILReceiver() {
+        buffer = new byte[RIL_MAX_COMMAND_BYTES];
+    }
+    
+    @Override
+    public void
+    run() {
+        int retryCount = 0;
+        String rilSocket = "rild";
+        
+        try {for (;;) {
+            LocalSocket s = null;
+            LocalSocketAddress l;
+            
+            if (mInstanceId == null || mInstanceId == 0 ) {
+                rilSocket = SOCKET_NAME_RIL[0];
+            } else {
+                rilSocket = SOCKET_NAME_RIL[mInstanceId];
+            }
+            
+            try {
+                s = new LocalSocket();
+                l = new LocalSocketAddress(rilSocket,
+                                           LocalSocketAddress.Namespace.RESERVED);
+                s.connect(l);
+            } catch (IOException ex){
+                try {
+                    if (s != null) {
+                        s.close();
+                    }
+                } catch (IOException ex2) {
+                    //ignore failure to close after failure to connect
+                }
+                
+                // don't print an error message after the the first time
+                // or after the 8th time
+                
+                if (retryCount == 8) {
+                    Rlog.e (RILJ_LOG_TAG,
+                            "Couldn't find '" + rilSocket
+                            + "' socket after " + retryCount
+                            + " times, continuing to retry silently");
+                } else if (retryCount >= 0 && retryCount < 8) {
+                    Rlog.i (RILJ_LOG_TAG,
+                            "Couldn't find '" + rilSocket
+                            + "' socket; retrying after timeout");
+                }
+                
+                try {
+                    Thread.sleep(SOCKET_OPEN_RETRY_MILLIS);
+                } catch (InterruptedException er) {
+                }
+                
+                retryCount++;
+                continue;
+            }
+            
+            retryCount = 0;
+            
+            mSocket = s;
+            Rlog.i(RILJ_LOG_TAG, "(" + mInstanceId + ") Connected to '"
+                   + rilSocket + "' socket");
+            
+            /* Compatibility with qcom's DSDS (Dual SIM) stack */
+            if (needsOldRilFeature("qcomdsds")) {
+                String str = "SUB1";
+                byte[] data = str.getBytes();
+                try {
+                    mSocket.getOutputStream().write(data);
+                    Rlog.i(RILJ_LOG_TAG, "Data sent!!");
+                } catch (IOException ex) {
+                    Rlog.e(RILJ_LOG_TAG, "IOException", ex);
+                } catch (RuntimeException exc) {
+                    Rlog.e(RILJ_LOG_TAG, "Uncaught exception ", exc);
+                }
+            }
+            
+            int length = 0;
+            try {
+                InputStream is = mSocket.getInputStream();
+                
+                for (;;) {
+                    Parcel p;
+                    
+                    length = readRilMessage(is, buffer);
+                    
+                    if (length < 0) {
+                        // End-of-stream reached
+                        break;
+                    }
+                    
+                    p = Parcel.obtain();
+                    p.unmarshall(buffer, 0, length);
+                    p.setDataPosition(0);
+                    
+                    //Rlog.v(RILJ_LOG_TAG, "Read packet: " + length + " bytes");
+                    
+                    processResponse(p);
+                    p.recycle();
+                }
+            } catch (java.io.IOException ex) {
+                Rlog.i(RILJ_LOG_TAG, "'" + rilSocket + "' socket closed",
+                       ex);
+            } catch (Throwable tr) {
+                Rlog.e(RILJ_LOG_TAG, "Uncaught exception read length=" + length +
+                       "Exception:" + tr.toString());
+            }
+            
+            Rlog.i(RILJ_LOG_TAG, "(" + mInstanceId + ") Disconnected from '" + rilSocket
+                   + "' socket");
+            
+            setRadioState (RadioState.RADIO_UNAVAILABLE);
+            
+            try {
+                mSocket.close();
+            } catch (IOException ex) {
+            }
+            
+            mSocket = null;
+            RILRequest.resetSerial();
+            
+            // Clear request list on close
+            clearRequestList(RADIO_NOT_AVAILABLE, false);
+        }} catch (Throwable tr) {
+            Rlog.e(RILJ_LOG_TAG,"Uncaught exception", tr);
+        }
+        
+        /* We're disconnected so we don't know the ril version */
+        notifyRegistrantsRilConnectionChanged(-1);
+    }
 }
 
 
@@ -1240,8 +1240,8 @@ send(rr);
 }
 
 /**
-* @deprecated
-*/
+ * @deprecated
+ */
 @Deprecated
 @Override
 public void
@@ -1250,8 +1250,8 @@ getLastDataCallFailCause (result);
 }
 
 /**
-* The preferred new alternative to getLastPdpFailCause
-*/
+ * The preferred new alternative to getLastPdpFailCause
+ */
 @Override
 public void
 getLastDataCallFailCause (Message result) {
@@ -1579,11 +1579,11 @@ send(rr);
 }
 
 /**
-*  Restructures PDU data so that it is consistent with RIL
-*  data structure.
-*
-*  @param pdu The data to be written to the RUIM card.
-*/
+ *  Restructures PDU data so that it is consistent with RIL
+ *  data structure.
+ *
+ *  @param pdu The data to be written to the RUIM card.
+ */
 private void constructCdmaWriteSmsRilRequest(RILRequest rr, byte[] pdu) {
 int address_nbr_of_digits;
 int subaddr_nbr_of_digits;
@@ -1671,9 +1671,9 @@ if (RILJ_LOGD) riljLog("sendSmsCdma: close input stream exception" + e);
 }
 
 /**
-*  Translates EF_SMS status bits to a status value compatible with
-*  SMS AT commands.  See TS 27.005 3.1.
-*/
+ *  Translates EF_SMS status bits to a status value compatible with
+ *  SMS AT commands.  See TS 27.005 3.1.
+ */
 private int translateStatus(int status) {
 switch(status & 0x7) {
 case SmsManager.STATUS_ON_ICC_READ:
@@ -2199,11 +2199,11 @@ send(rr);
 }
 
 /**
-* Assign a specified band for RF configuration.
-*
-* @param bandMode one of BM_*_BAND
-* @param response is callback message
-*/
+ * Assign a specified band for RF configuration.
+ *
+ * @param bandMode one of BM_*_BAND
+ * @param response is callback message
+ */
 @Override
 public void setBandMode (int bandMode, Message response) {
 RILRequest rr
@@ -2219,13 +2219,13 @@ send(rr);
 }
 
 /**
-* Query the list of band mode supported by RF.
-*
-* @param response is callback message
-*        ((AsyncResult)response.obj).result  is an int[] where int[0] is
-*        the size of the array and the rest of each element representing
-*        one available BM_*_BAND
-*/
+ * Query the list of band mode supported by RF.
+ *
+ * @param response is callback message
+ *        ((AsyncResult)response.obj).result  is an int[] where int[0] is
+ *        the size of the array and the rest of each element representing
+ *        one available BM_*_BAND
+ */
 @Override
 public void queryAvailableBandMode (Message response) {
 RILRequest rr
@@ -2238,8 +2238,8 @@ send(rr);
 }
 
 /**
-* {@inheritDoc}
-*/
+ * {@inheritDoc}
+ */
 @Override
 public void sendTerminalResponse(String contents, Message response) {
 RILRequest rr = RILRequest.obtain(
@@ -2252,8 +2252,8 @@ send(rr);
 }
 
 /**
-* {@inheritDoc}
-*/
+ * {@inheritDoc}
+ */
 @Override
 public void sendEnvelope(String contents, Message response) {
 RILRequest rr = RILRequest.obtain(
@@ -2266,8 +2266,8 @@ send(rr);
 }
 
 /**
-* {@inheritDoc}
-*/
+ * {@inheritDoc}
+ */
 @Override
 public void sendEnvelopeWithStatus(String contents, Message response) {
 RILRequest rr = RILRequest.obtain(
@@ -2281,8 +2281,8 @@ send(rr);
 }
 
 /**
-* {@inheritDoc}
-*/
+ * {@inheritDoc}
+ */
 @Override
 public void handleCallSetupRequestFromSim(
 boolean accept, Message response) {
@@ -2300,8 +2300,8 @@ send(rr);
 }
 
 /**
-* {@inheritDoc}
-*/
+ * {@inheritDoc}
+ */
 @Override
 public void setPreferredNetworkType(int networkType , Message response) {
 RILRequest rr = RILRequest.obtain(
@@ -2319,8 +2319,8 @@ send(rr);
 }
 
 /**
-* {@inheritDoc}
-*/
+ * {@inheritDoc}
+ */
 @Override
 public void getPreferredNetworkType(Message response) {
 RILRequest rr = RILRequest.obtain(
@@ -2332,8 +2332,8 @@ send(rr);
 }
 
 /**
-* {@inheritDoc}
-*/
+ * {@inheritDoc}
+ */
 @Override
 public void getNeighboringCids(Message response) {
 RILRequest rr = RILRequest.obtain(
@@ -2345,8 +2345,8 @@ send(rr);
 }
 
 /**
-* {@inheritDoc}
-*/
+ * {@inheritDoc}
+ */
 @Override
 public void setLocationUpdates(boolean enable, Message response) {
 RILRequest rr = RILRequest.obtain(RIL_REQUEST_SET_LOCATION_UPDATES, response);
@@ -2360,8 +2360,8 @@ send(rr);
 }
 
 /**
-* {@inheritDoc}
-*/
+ * {@inheritDoc}
+ */
 @Override
 public void getSmscAddress(Message result) {
 RILRequest rr = RILRequest.obtain(RIL_REQUEST_GET_SMSC_ADDRESS, result);
@@ -2372,8 +2372,8 @@ send(rr);
 }
 
 /**
-* {@inheritDoc}
-*/
+ * {@inheritDoc}
+ */
 @Override
 public void setSmscAddress(String address, Message result) {
 RILRequest rr = RILRequest.obtain(RIL_REQUEST_SET_SMSC_ADDRESS, result);
@@ -2387,8 +2387,8 @@ send(rr);
 }
 
 /**
-* {@inheritDoc}
-*/
+ * {@inheritDoc}
+ */
 @Override
 public void reportSmsMemoryStatus(boolean available, Message result) {
 RILRequest rr = RILRequest.obtain(RIL_REQUEST_REPORT_SMS_MEMORY_STATUS, result);
@@ -2402,8 +2402,8 @@ send(rr);
 }
 
 /**
-* {@inheritDoc}
-*/
+ * {@inheritDoc}
+ */
 @Override
 public void reportStkServiceIsRunning(Message result) {
 RILRequest rr = RILRequest.obtain(RIL_REQUEST_REPORT_STK_SERVICE_IS_RUNNING, result);
@@ -2414,8 +2414,8 @@ send(rr);
 }
 
 /**
-* {@inheritDoc}
-*/
+ * {@inheritDoc}
+ */
 @Override
 public void getGsmBroadcastConfig(Message response) {
 RILRequest rr = RILRequest.obtain(RIL_REQUEST_GSM_GET_BROADCAST_CONFIG, response);
@@ -2426,8 +2426,8 @@ send(rr);
 }
 
 /**
-* {@inheritDoc}
-*/
+ * {@inheritDoc}
+ */
 @Override
 public void setGsmBroadcastConfig(SmsBroadcastConfigInfo[] config, Message response) {
 RILRequest rr = RILRequest.obtain(RIL_REQUEST_GSM_SET_BROADCAST_CONFIG, response);
@@ -2455,8 +2455,8 @@ send(rr);
 }
 
 /**
-* {@inheritDoc}
-*/
+ * {@inheritDoc}
+ */
 @Override
 public void setGsmBroadcastActivation(boolean activate, Message response) {
 RILRequest rr = RILRequest.obtain(RIL_REQUEST_GSM_BROADCAST_ACTIVATION, response);
@@ -2478,9 +2478,9 @@ send(rr);
 // behavior such as signal strength reporting or power managements based on
 // more robust signals.
 /**
-* Update the screen state. Send screen state ON if the default display is ON or the device
-* is plugged.
-*/
+ * Update the screen state. Send screen state ON if the default display is ON or the device
+ * is plugged.
+ */
 private void updateScreenState() {
 final int oldState = mRadioScreenState;
 mRadioScreenState = (mDefaultDisplayState == Display.STATE_ON || mIsDevicePlugged)
@@ -2542,13 +2542,13 @@ setRadioState(newState);
 }
 
 /**
-* Holds a PARTIAL_WAKE_LOCK whenever
-* a) There is outstanding RIL request sent to RIL deamon and no replied
-* b) There is a request pending to be sent out.
-*
-* There is a WAKE_LOCK_TIMEOUT to release the lock, though it shouldn't
-* happen often.
-*/
+ * Holds a PARTIAL_WAKE_LOCK whenever
+ * a) There is outstanding RIL request sent to RIL deamon and no replied
+ * b) There is a request pending to be sent out.
+ *
+ * There is a WAKE_LOCK_TIMEOUT to release the lock, though it shouldn't
+ * happen often.
+ */
 
 private void
 acquireWakeLock() {
@@ -2623,10 +2623,10 @@ decrementWakeLock();
 }
 
 /**
-* Release each request in mRequestList then clear the list
-* @param error is the RIL_Errno sent back
-* @param loggable true means to print all requests in mRequestList
-*/
+ * Release each request in mRequestList then clear the list
+ * @param error is the RIL_Errno sent back
+ * @param loggable true means to print all requests in mRequestList
+ */
 protected void clearRequestList(int error, boolean loggable) {
 RILRequest rr;
 synchronized (mRequestList) {
@@ -2687,10 +2687,10 @@ if (error == 0 || p.dataAvail() > 0) {
 // either command succeeds or command fails but with data payload
 try {switch (rr.mRequest) {
 /*
-cat libs/telephony/ril_commands.h \
-| egrep "^ *{RIL_" \
-| sed -re 's/\{([^,]+),[^,]+,([^}]+).+/case \1: ret = \2(p); break;/'
-*/
+ cat libs/telephony/ril_commands.h \
+ | egrep "^ *{RIL_" \
+ | sed -re 's/\{([^,]+),[^,]+,([^}]+).+/case \1: ret = \2(p); break;/'
+ */
 case RIL_REQUEST_GET_SIM_STATUS: ret =  responseIccCardStatus(p); break;
 case RIL_REQUEST_ENTER_SIM_PIN: ret =  responseInts(p); break;
 case RIL_REQUEST_ENTER_SIM_PUK: ret =  responseInts(p); break;
@@ -3038,10 +3038,10 @@ response = p.readInt();
 
 try {switch(response) {
 /*
-cat libs/telephony/ril_unsol_commands.h \
-| egrep "^ *{RIL_" \
-| sed -re 's/\{([^,]+),[^,]+,([^}]+).+/case \1: \2(rr, p); break;/'
-*/
+ cat libs/telephony/ril_unsol_commands.h \
+ | egrep "^ *{RIL_" \
+ | sed -re 's/\{([^,]+),[^,]+,([^}]+).+/case \1: \2(rr, p); break;/'
+ */
 
 case RIL_UNSOL_RESPONSE_RADIO_STATE_CHANGED: ret =  responseVoid(p); break;
 case RIL_UNSOL_RESPONSE_CALL_STATE_CHANGED: ret =  responseVoid(p); break;
@@ -3528,10 +3528,10 @@ break;
 }
 
 /**
-* Notifiy all registrants that the ril has connected or disconnected.
-*
-* @param rilVer is the version of the ril or -1 if disconnected.
-*/
+ * Notifiy all registrants that the ril has connected or disconnected.
+ *
+ * @param rilVer is the version of the ril or -1 if disconnected.
+ */
 protected void notifyRegistrantsRilConnectionChanged(int rilVer) {
 mRilVersion = rilVer;
 if (mRilConnectedRegistrants != null) {
@@ -3558,16 +3558,8 @@ return response;
 
 protected Object
 responseFailCause(Parcel p) {
-int numInts;
-int response[];
-
-numInts = p.readInt();
-response = new int[numInts];
-for (int i = 0 ; i < numInts ; i++) {
-response[i] = p.readInt();
-}
 LastCallFailCause failCause = new LastCallFailCause();
-failCause.causeCode = response[0];
+failCause.causeCode = p.readInt();
 if (p.dataAvail() > 0) {
 failCause.vendorCause = p.readString();
 }
@@ -4107,9 +4099,9 @@ int numberOfInfoRecs;
 ArrayList<CdmaInformationRecords> response;
 
 /**
-* Loop through all of the information records unmarshalling them
-* and converting them to Java Objects.
-*/
+ * Loop through all of the information records unmarshalling them
+ * and converting them to Java Objects.
+ */
 numberOfInfoRecs = p.readInt();
 response = new ArrayList<CdmaInformationRecords>(numberOfInfoRecs);
 
@@ -4205,9 +4197,9 @@ int numberOfInfoRecs;
 ArrayList<CellInfo> response;
 
 /**
-* Loop through all of the information records unmarshalling them
-* and converting them to Java Objects.
-*/
+ * Loop through all of the information records unmarshalling them
+ * and converting them to Java Objects.
+ */
 numberOfInfoRecs = p.readInt();
 response = new ArrayList<CellInfo>(numberOfInfoRecs);
 
@@ -4329,10 +4321,10 @@ idleModeTimeMs, txModeTimeMs, rxModeTimeMs, 0);
 static String
 requestToString(int request) {
 /*
-cat libs/telephony/ril_commands.h \
-| egrep "^ *{RIL_" \
-| sed -re 's/\{RIL_([^,]+),[^,]+,([^}]+).+/case RIL_\1: return "\1";/'
-*/
+ cat libs/telephony/ril_commands.h \
+ | egrep "^ *{RIL_" \
+ | sed -re 's/\{RIL_([^,]+),[^,]+,([^}]+).+/case RIL_\1: return "\1";/'
+ */
 switch(request) {
 case RIL_REQUEST_GET_SIM_STATUS: return "GET_SIM_STATUS";
 case RIL_REQUEST_ENTER_SIM_PIN: return "ENTER_SIM_PIN";
@@ -4479,10 +4471,10 @@ static String
 responseToString(int request)
 {
 /*
-cat libs/telephony/ril_unsol_commands.h \
-| egrep "^ *{RIL_" \
-| sed -re 's/\{RIL_([^,]+),[^,]+,([^}]+).+/case RIL_\1: return "\1";/'
-*/
+ cat libs/telephony/ril_unsol_commands.h \
+ | egrep "^ *{RIL_" \
+ | sed -re 's/\{RIL_([^,]+),[^,]+,([^}]+).+/case RIL_\1: return "\1";/'
+ */
 switch(request) {
 case RIL_UNSOL_RESPONSE_RADIO_STATE_CHANGED: return "UNSOL_RESPONSE_RADIO_STATE_CHANGED";
 case RIL_UNSOL_RESPONSE_CALL_STATE_CHANGED: return "UNSOL_RESPONSE_CALL_STATE_CHANGED";
@@ -4631,8 +4623,8 @@ mPhoneType = phoneType;
 }
 
 /**
-* {@inheritDoc}
-*/
+ * {@inheritDoc}
+ */
 @Override
 public void queryCdmaRoamingPreference(Message response) {
 RILRequest rr = RILRequest.obtain(
@@ -4644,8 +4636,8 @@ send(rr);
 }
 
 /**
-* {@inheritDoc}
-*/
+ * {@inheritDoc}
+ */
 @Override
 public void setCdmaRoamingPreference(int cdmaRoamingType, Message response) {
 RILRequest rr = RILRequest.obtain(
@@ -4661,8 +4653,8 @@ send(rr);
 }
 
 /**
-* {@inheritDoc}
-*/
+ * {@inheritDoc}
+ */
 @Override
 public void setCdmaSubscriptionSource(int cdmaSubscription , Message response) {
 RILRequest rr = RILRequest.obtain(
@@ -4678,8 +4670,8 @@ send(rr);
 }
 
 /**
-* {@inheritDoc}
-*/
+ * {@inheritDoc}
+ */
 @Override
 public void getCdmaSubscriptionSource(Message response) {
 RILRequest rr = RILRequest.obtain(
@@ -4691,8 +4683,8 @@ send(rr);
 }
 
 /**
-* {@inheritDoc}
-*/
+ * {@inheritDoc}
+ */
 @Override
 public void queryTTYMode(Message response) {
 RILRequest rr = RILRequest.obtain(
@@ -4704,8 +4696,8 @@ send(rr);
 }
 
 /**
-* {@inheritDoc}
-*/
+ * {@inheritDoc}
+ */
 @Override
 public void setTTYMode(int ttyMode, Message response) {
 RILRequest rr = RILRequest.obtain(
@@ -4721,8 +4713,8 @@ send(rr);
 }
 
 /**
-* {@inheritDoc}
-*/
+ * {@inheritDoc}
+ */
 @Override
 public void
 sendCDMAFeatureCode(String FeatureCode, Message response) {
@@ -4791,8 +4783,8 @@ send(rr);
 }
 
 /**
-* {@inheritDoc}
-*/
+ * {@inheritDoc}
+ */
 @Override
 public void exitEmergencyCallbackMode(Message response) {
 RILRequest rr = RILRequest.obtain(RIL_REQUEST_EXIT_EMERGENCY_CALLBACK_MODE, response);
@@ -4828,8 +4820,8 @@ send(rr);
 }
 
 /**
-* {@inheritDoc}
-*/
+ * {@inheritDoc}
+ */
 @Override
 public void getCellInfoList(Message result) {
 RILRequest rr = RILRequest.obtain(RIL_REQUEST_GET_CELL_INFO_LIST, result);
@@ -4840,8 +4832,8 @@ send(rr);
 }
 
 /**
-* {@inheritDoc}
-*/
+ * {@inheritDoc}
+ */
 @Override
 public void setCellInfoListRate(int rateInMillis, Message response) {
 if (RILJ_LOGD) riljLog("setCellInfoListRate: " + rateInMillis);
@@ -4892,8 +4884,8 @@ send(rr);
 }
 
 /* (non-Javadoc)
-* @see com.android.internal.telephony.BaseCommands#testingEmergencyCall()
-*/
+ * @see com.android.internal.telephony.BaseCommands#testingEmergencyCall()
+ */
 @Override
 public void testingEmergencyCall() {
 if (RILJ_LOGD) riljLog("testingEmergencyCall");
@@ -4925,8 +4917,8 @@ pw.println(" mTestingEmergencyCall=" + mTestingEmergencyCall.get());
 }
 
 /**
-* {@inheritDoc}
-*/
+ * {@inheritDoc}
+ */
 @Override
 public void iccOpenLogicalChannel(String AID, Message response) {
 if(mRilVersion < 10) {
@@ -4961,8 +4953,8 @@ send(rr);
 }
 
 /**
-* {@inheritDoc}
-*/
+ * {@inheritDoc}
+ */
 @Override
 public void iccCloseLogicalChannel(int channel, Message response) {
 RILRequest rr = RILRequest.obtain(RIL_REQUEST_SIM_CLOSE_CHANNEL, response);
@@ -4976,8 +4968,8 @@ send(rr);
 }
 
 /**
-* {@inheritDoc}
-*/
+ * {@inheritDoc}
+ */
 @Override
 public void iccTransmitApduLogicalChannel(int channel, int cla, int instruction,
 int p1, int p2, int p3, String data, Message response) {
@@ -5002,8 +4994,8 @@ instruction, p1, p2, p3, data, response);
 }
 
 /**
-* {@inheritDoc}
-*/
+ * {@inheritDoc}
+ */
 @Override
 public void iccTransmitApduBasicChannel(int cla, int instruction, int p1, int p2,
 int p3, String data, Message response) {
@@ -5012,8 +5004,8 @@ p1, p2, p3, data, response);
 }
 
 /**
-* {@inheritDoc}
-*/
+ * {@inheritDoc}
+ */
 @Override
 public void getAtr(Message response) {
 RILRequest rr = RILRequest.obtain(RIL_REQUEST_SIM_GET_ATR, response);
@@ -5027,8 +5019,8 @@ send(rr);
 }
 
 /*
-* Helper function for the iccTransmitApdu* commands above.
-*/
+ * Helper function for the iccTransmitApdu* commands above.
+ */
 private void iccTransmitApduHelper(int rilCommand, int channel, int cla,
 int instruction, int p1, int p2, int p3, String data, Message response) {
 
@@ -5129,20 +5121,12 @@ send(rr);
 
 @Override
 public void getRadioCapability(Message response) {
-if (!needsOldRilFeature("staticRadioCapability")) {
 RILRequest rr = RILRequest.obtain(
 RIL_REQUEST_GET_RADIO_CAPABILITY, response);
 
 if (RILJ_LOGD) riljLog(rr.serialString() + "> " + requestToString(rr.mRequest));
+
 send(rr);
-} else {
-riljLog("getRadioCapability: returning static radio capability");
-if (response != null) {
-Object ret = makeStaticRadioCapability();
-AsyncResult.forMessage(response, ret, null);
-response.sendToTarget();
-}
-}
 }
 
 @Override
@@ -5179,8 +5163,8 @@ send(rr);
 }
 
 /**
-* @hide
-*/
+ * @hide
+ */
 public void getModemActivityInfo(Message response) {
 RILRequest rr = RILRequest.obtain(RIL_REQUEST_GET_ACTIVITY_INFO, response);
 if (RILJ_LOGD) {
