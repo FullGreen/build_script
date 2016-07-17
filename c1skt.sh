@@ -31,7 +31,11 @@ white='tput setaf 7'             # White
 clear
 
 #######################################################################
+#
+#
 #cyanogenmod
+#
+#
 #######################################################################
 
 #device=$2
@@ -108,36 +112,125 @@ PRODUCT_PROPERTY_OVERRIDES += \
 ro.config.ringtone=Orion.ogg" > vendor/cm/config/telephony.mk
 
 tput setaf 3
-if [ -d out/target ]
-     then echo "소스를 정리합니다."
-     make clean
+clear
+echo "ccache를 설정하시겠습니까? │yes│ │no│"
+echo "60초 뒤에 자동으로 │yes│가 입력됩니다."
+read -t 60 ccache
+
+if [ $ccache = 'no' ]; then
+echo "ccache가 설정되지 않았습니다."
 else
-     echo "소스를 정리하지 않습니다."
-fi  
+echo "ccache가 설정되었습니다."
+export USE_CCACHE=1
+prebuilts/misc/linux-x86/ccache/ccache -M 50G
+prebuilts/misc/darwin-x86/ccache/ccache -M 50G
+fi
+
+clear
+echo "소스를 정리하시겠습니까? │yes│ │no│"
+echo "60초 뒤에 자동으로 │yes│가 입력됩니다."
+read -t 60 ccache
+
+if [ $ccache = 'no' ]; then
+echo "소스를 정리하지 않습니다."
+else
+echo "소스를 정리합니다."
+make clean
+fi
+
+if [ -d device/samsung/c1skt ]; then 
+tput setaf 1
+echo "device/samsung/c1skt[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "device/samsung/c1skt[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
+fi
+
+if [ -d device/samsung/c1skt-common ]; then 
+tput setaf 1
+echo "device/samsung/c1skt-common[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "device/samsung/c1skt-common[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
+fi
+
+if [ -d kernel/samsung/smdk4412 ]; then 
+tput setaf 1
+echo "kernel/samsung/smdk4412[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "kernel/samsung/smdk4412[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
+fi
+
+if [ -d vendor/samsung ]; then 
+tput setaf 1
+echo "vendor/samsung[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "vendor/samsung[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/cyanogenmod_proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
+fi
+
+if [ -d packages/apps/SamsungServiceMode ]; then 
+tput setaf 1
+echo "packages/apps/SamsungServiceMode[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "packages/apps/SamsungServiceMode[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/CyanogenMod/android_packages_apps_SamsungServiceMode.git -b cm-13.0 packages/apps/SamsungServiceMode
+fi
+
+if [ -d external/stlport ]; then 
+tput setaf 1
+echo "external/stlport[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "external/stlport[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/CyanogenMod/android_external_stlport.git -b cm-13.0 external/stlport
+fi
+
+if [ -d hardware/samsung ]; then 
+tput setaf 1
+echo "hardware/samsung[DELETE]"
+rm -Rf hardware/samsung
+tput setaf 2
+echo "hardware/samsung[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
+else
+tput setaf 2
+echo "hardware/samsung[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
+fi
 
 tput setaf 4
-if [ -d device/samsung/c1skt ]
- then
-     echo "디바이스 소스를 찾았습니다."
-	. build/envsetup.sh
-	brunch c1skt
- else
-     echo "디바이스 소스를 찾을 수 없습니다."
-     rm -Rf hardware/samsung
-     git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
-	git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
-     git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
-     git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
-     git clone https://github.com/FullGreen/cyanogenmod_proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
-     git clone https://github.com/CyanogenMod/android_packages_apps_SamsungServiceMode.git -b cm-13.0 packages/apps/SamsungServiceMode
-     git clone https://github.com/CyanogenMod/android_external_stlport.git -b cm-13.0 external/stlport
-	. build/envsetup.sh
-	brunch c1skt
- fi  
+. build/envsetup.sh
+brunch c1skt
+
 }
 
 #######################################################################
+#
+#
 #resurrectionremix
+#
+#
 #######################################################################
 
 resurrectionremix_Download_source()
@@ -204,37 +297,125 @@ PRODUCT_PROPERTY_OVERRIDES += \
 ro.config.ringtone=Resurrection2.mp3" > vendor/cm/config/telephony.mk
 
 tput setaf 3
-if [ -d out/target ]
- then
-     echo "소스를 정리합니다."
-	 make clean
- else
-     echo "소스를 정리하지 않습니다."
- fi  
+clear
+echo "ccache를 설정하시겠습니까? │yes│ │no│"
+echo "60초 뒤에 자동으로 │yes│가 입력됩니다."
+read -t 60 ccache
+
+if [ $ccache = 'no' ]; then
+echo "ccache가 설정되지 않았습니다."
+else
+echo "ccache가 설정되었습니다."
+export USE_CCACHE=1
+prebuilts/misc/linux-x86/ccache/ccache -M 50G
+prebuilts/misc/darwin-x86/ccache/ccache -M 50G
+fi
+
+clear
+echo "소스를 정리하시겠습니까? │yes│ │no│"
+echo "60초 뒤에 자동으로 │yes│가 입력됩니다."
+read -t 60 ccache
+
+if [ $ccache = 'no' ]; then
+echo "소스를 정리하지 않습니다."
+else
+echo "소스를 정리합니다."
+make clean
+fi
+
+if [ -d device/samsung/c1skt ]; then 
+tput setaf 1
+echo "device/samsung/c1skt[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "device/samsung/c1skt[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
+fi
+
+if [ -d device/samsung/c1skt-common ]; then 
+tput setaf 1
+echo "device/samsung/c1skt-common[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "device/samsung/c1skt-common[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
+fi
+
+if [ -d kernel/samsung/smdk4412 ]; then 
+tput setaf 1
+echo "kernel/samsung/smdk4412[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "kernel/samsung/smdk4412[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
+fi
+
+if [ -d vendor/samsung ]; then 
+tput setaf 1
+echo "vendor/samsung[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "vendor/samsung[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/cyanogenmod_proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
+fi
+
+if [ -d packages/apps/SamsungServiceMode ]; then 
+tput setaf 1
+echo "packages/apps/SamsungServiceMode[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "packages/apps/SamsungServiceMode[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/CyanogenMod/android_packages_apps_SamsungServiceMode.git -b cm-13.0 packages/apps/SamsungServiceMode
+fi
+
+if [ -d external/stlport ]; then 
+tput setaf 1
+echo "external/stlport[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "external/stlport[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/CyanogenMod/android_external_stlport.git -b cm-13.0 external/stlport
+fi
+
+if [ -d hardware/samsung ]; then 
+tput setaf 1
+echo "hardware/samsung[DELETE]"
+rm -Rf hardware/samsung
+tput setaf 2
+echo "hardware/samsung[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
+else
+tput setaf 2
+echo "hardware/samsung[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
+fi
 
 tput setaf 4
-if [ -d device/samsung/c1skt ]
- then
-     echo "디바이스 소스를 찾았습니다."
-	 . build/envsetup.sh
-	 brunch c1skt
- else
-     echo "디바이스 소스를 찾을 수 없습니다."
-     rm -Rf hardware/samsung
-     git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
-	 git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
-     git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
-     git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
-     git clone https://github.com/FullGreen/cyanogenmod_proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
-     git clone https://github.com/CyanogenMod/android_packages_apps_SamsungServiceMode.git -b cm-13.0 packages/apps/SamsungServiceMode
-     git clone https://github.com/CyanogenMod/android_external_stlport.git -b cm-13.0 external/stlport
-	 . build/envsetup.sh
-	 brunch c1skt	  
- fi  
+. build/envsetup.sh
+brunch c1skt
+
 }
 
 #######################################################################
+#
+#
 #blisspop
+#
+#
 #######################################################################
 
 blisspop_Download_source()
@@ -301,13 +482,31 @@ PRODUCT_PROPERTY_OVERRIDES += \
 ro.config.ringtone=Orion.ogg" > vendor/bliss/config/telephony.mk
 
 tput setaf 3
-if [ -d out/target ]
- then
-     echo "소스를 정리합니다."
-	 make clean
- else
-     echo "소스를 정리하지 않습니다."
- fi  
+clear
+echo "ccache를 설정하시겠습니까? │yes│ │no│"
+echo "60초 뒤에 자동으로 │yes│가 입력됩니다."
+read -t 60 ccache
+
+if [ $ccache = 'no' ]; then
+echo "ccache가 설정되지 않았습니다."
+else
+echo "ccache가 설정되었습니다."
+export USE_CCACHE=1
+prebuilts/misc/linux-x86/ccache/ccache -M 50G
+prebuilts/misc/darwin-x86/ccache/ccache -M 50G
+fi
+
+clear
+echo "소스를 정리하시겠습니까? │yes│ │no│"
+echo "60초 뒤에 자동으로 │yes│가 입력됩니다."
+read -t 60 ccache
+
+if [ $ccache = 'no' ]; then
+echo "소스를 정리하지 않습니다."
+else
+echo "소스를 정리합니다."
+make clean
+fi
 
 tput setaf 4
 if [ -d device/samsung/c1skt ]
@@ -326,7 +525,11 @@ if [ -d device/samsung/c1skt ]
 }
 
 #######################################################################
+#
+#
 #temasek
+#
+#
 #######################################################################
 
 temasek_Download_source()
@@ -393,38 +596,125 @@ PRODUCT_PROPERTY_OVERRIDES += \
 ro.config.ringtone=Orion.ogg" > vendor/cm/config/telephony.mk
 
 tput setaf 3
-if [ -d out/target ]
- then
-     echo "소스를 정리합니다."
-	 make clean
- else
-     echo "소스를 정리하지 않습니다."
- fi  
+clear
+echo "ccache를 설정하시겠습니까? │yes│ │no│"
+echo "60초 뒤에 자동으로 │yes│가 입력됩니다."
+read -t 60 ccache
+
+if [ $ccache = 'no' ]; then
+echo "ccache가 설정되지 않았습니다."
+else
+echo "ccache가 설정되었습니다."
+export USE_CCACHE=1
+prebuilts/misc/linux-x86/ccache/ccache -M 50G
+prebuilts/misc/darwin-x86/ccache/ccache -M 50G
+fi
+
+clear
+echo "소스를 정리하시겠습니까? │yes│ │no│"
+echo "60초 뒤에 자동으로 │yes│가 입력됩니다."
+read -t 60 ccache
+
+if [ $ccache = 'no' ]; then
+echo "소스를 정리하지 않습니다."
+else
+echo "소스를 정리합니다."
+make clean
+fi
+
+if [ -d device/samsung/c1skt ]; then 
+tput setaf 1
+echo "device/samsung/c1skt[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "device/samsung/c1skt[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
+fi
+
+if [ -d device/samsung/c1skt-common ]; then 
+tput setaf 1
+echo "device/samsung/c1skt-common[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "device/samsung/c1skt-common[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
+fi
+
+if [ -d kernel/samsung/smdk4412 ]; then 
+tput setaf 1
+echo "kernel/samsung/smdk4412[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "kernel/samsung/smdk4412[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
+fi
+
+if [ -d vendor/samsung ]; then 
+tput setaf 1
+echo "vendor/samsung[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "vendor/samsung[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/cyanogenmod_proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
+fi
+
+if [ -d packages/apps/SamsungServiceMode ]; then 
+tput setaf 1
+echo "packages/apps/SamsungServiceMode[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "packages/apps/SamsungServiceMode[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/CyanogenMod/android_packages_apps_SamsungServiceMode.git -b cm-13.0 packages/apps/SamsungServiceMode
+fi
+
+if [ -d external/stlport ]; then 
+tput setaf 1
+echo "external/stlport[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "external/stlport[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/CyanogenMod/android_external_stlport.git -b cm-13.0 external/stlport
+fi
+
+if [ -d hardware/samsung ]; then 
+tput setaf 1
+echo "hardware/samsung[DELETE]"
+rm -Rf hardware/samsung
+tput setaf 2
+echo "hardware/samsung[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
+else
+tput setaf 2
+echo "hardware/samsung[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
+fi
 
 tput setaf 4
-if [ -d device/samsung/c1skt ]
- then
-     echo "디바이스 소스를 찾았습니다."
-	 . build/envsetup.sh
-	 brunch c1skt
- else
-     echo "디바이스 소스를 찾을 수 없습니다."
-     rm -Rf hardware/samsung
-     git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
-	 git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
-	 git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
-	 git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
-	 git clone https://github.com/FullGreen/cyanogenmod_proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
-	 git clone https://github.com/CyanogenMod/android_packages_apps_SamsungServiceMode.git -b cm-13.0 packages/apps/SamsungServiceMode
-	 git clone https://github.com/CyanogenMod/android_hardware_samsung.git -b cm-13.0 hardware/samsung
-	 git clone https://github.com/CyanogenMod/android_external_stlport.git -b cm-13.0 external/stlport
-	 . build/envsetup.sh
-	 brunch c1skt	  
- fi  
+. build/envsetup.sh
+brunch c1skt
+
 }
 
 #######################################################################
+#
+#
 #flarerom
+#
+#
 #######################################################################
 
 flarerom_Download_source()
@@ -491,38 +781,125 @@ PRODUCT_PROPERTY_OVERRIDES += \
 ro.config.ringtone=Orion.ogg" > vendor/cm/config/telephony.mk
 
 tput setaf 3
-if [ -d out/target ]
- then
-     echo "소스를 정리합니다."
-	 make clean
- else
-     echo "소스를 정리하지 않습니다."
- fi  
+clear
+echo "ccache를 설정하시겠습니까? │yes│ │no│"
+echo "60초 뒤에 자동으로 │yes│가 입력됩니다."
+read -t 60 ccache
+
+if [ $ccache = 'no' ]; then
+echo "ccache가 설정되지 않았습니다."
+else
+echo "ccache가 설정되었습니다."
+export USE_CCACHE=1
+prebuilts/misc/linux-x86/ccache/ccache -M 50G
+prebuilts/misc/darwin-x86/ccache/ccache -M 50G
+fi
+
+clear
+echo "소스를 정리하시겠습니까? │yes│ │no│"
+echo "60초 뒤에 자동으로 │yes│가 입력됩니다."
+read -t 60 ccache
+
+if [ $ccache = 'no' ]; then
+echo "소스를 정리하지 않습니다."
+else
+echo "소스를 정리합니다."
+make clean
+fi
+
+if [ -d device/samsung/c1skt ]; then 
+tput setaf 1
+echo "device/samsung/c1skt[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "device/samsung/c1skt[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
+fi
+
+if [ -d device/samsung/c1skt-common ]; then 
+tput setaf 1
+echo "device/samsung/c1skt-common[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "device/samsung/c1skt-common[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
+fi
+
+if [ -d kernel/samsung/smdk4412 ]; then 
+tput setaf 1
+echo "kernel/samsung/smdk4412[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "kernel/samsung/smdk4412[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
+fi
+
+if [ -d vendor/samsung ]; then 
+tput setaf 1
+echo "vendor/samsung[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "vendor/samsung[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/cyanogenmod_proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
+fi
+
+if [ -d packages/apps/SamsungServiceMode ]; then 
+tput setaf 1
+echo "packages/apps/SamsungServiceMode[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "packages/apps/SamsungServiceMode[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/CyanogenMod/android_packages_apps_SamsungServiceMode.git -b cm-13.0 packages/apps/SamsungServiceMode
+fi
+
+if [ -d external/stlport ]; then 
+tput setaf 1
+echo "external/stlport[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "external/stlport[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/CyanogenMod/android_external_stlport.git -b cm-13.0 external/stlport
+fi
+
+if [ -d hardware/samsung ]; then 
+tput setaf 1
+echo "hardware/samsung[DELETE]"
+rm -Rf hardware/samsung
+tput setaf 2
+echo "hardware/samsung[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
+else
+tput setaf 2
+echo "hardware/samsung[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
+fi
 
 tput setaf 4
-if [ -d device/samsung/c1skt ]
- then
-     echo "디바이스 소스를 찾았습니다."
-	 . build/envsetup.sh
-	 brunch c1skt
- else
-     echo "디바이스 소스를 찾을 수 없습니다."
-     rm -Rf hardware/samsung
-     git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
-	 git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
-	 git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
-	 git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
-	 git clone https://github.com/FullGreen/cyanogenmod_proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
-	 git clone https://github.com/CyanogenMod/android_packages_apps_SamsungServiceMode.git -b cm-13.0 packages/apps/SamsungServiceMode
-	 git clone https://github.com/CyanogenMod/android_hardware_samsung.git -b cm-13.0 hardware/samsung
-	 git clone https://github.com/CyanogenMod/android_external_stlport.git -b cm-13.0 external/stlport
-	 . build/envsetup.sh
-	 brunch c1skt	  
- fi  
+. build/envsetup.sh
+brunch c1skt
+
 }
 
 #######################################################################
+#
+#
 #aicp
+#
+#
 #######################################################################
 
 aicp_Download_source()
@@ -589,38 +966,125 @@ PRODUCT_PROPERTY_OVERRIDES += \
 ro.config.ringtone=Orion.ogg" > vendor/aicp/configs/telephony.mk
 
 tput setaf 3
-if [ -d out/target ]
- then
-     echo "소스를 정리합니다."
-	 make clean
- else
-     echo "소스를 정리하지 않습니다."
- fi  
+clear
+echo "ccache를 설정하시겠습니까? │yes│ │no│"
+echo "60초 뒤에 자동으로 │yes│가 입력됩니다."
+read -t 60 ccache
+
+if [ $ccache = 'no' ]; then
+echo "ccache가 설정되지 않았습니다."
+else
+echo "ccache가 설정되었습니다."
+export USE_CCACHE=1
+prebuilts/misc/linux-x86/ccache/ccache -M 50G
+prebuilts/misc/darwin-x86/ccache/ccache -M 50G
+fi
+
+clear
+echo "소스를 정리하시겠습니까? │yes│ │no│"
+echo "60초 뒤에 자동으로 │yes│가 입력됩니다."
+read -t 60 ccache
+
+if [ $ccache = 'no' ]; then
+echo "소스를 정리하지 않습니다."
+else
+echo "소스를 정리합니다."
+make clean
+fi
+ 
+if [ -d device/samsung/c1skt ]; then 
+tput setaf 1
+echo "device/samsung/c1skt[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "device/samsung/c1skt[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullgreenDEVaicp/aicp_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
+fi
+
+if [ -d device/samsung/c1skt-common ]; then 
+tput setaf 1
+echo "device/samsung/c1skt-common[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "device/samsung/c1skt-common[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
+fi
+
+if [ -d kernel/samsung/smdk4412 ]; then 
+tput setaf 1
+echo "kernel/samsung/smdk4412[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "kernel/samsung/smdk4412[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
+fi
+
+if [ -d vendor/samsung ]; then 
+tput setaf 1
+echo "vendor/samsung[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "vendor/samsung[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/cyanogenmod_proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
+fi
+
+if [ -d packages/apps/SamsungServiceMode ]; then 
+tput setaf 1
+echo "packages/apps/SamsungServiceMode[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "packages/apps/SamsungServiceMode[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/CyanogenMod/android_packages_apps_SamsungServiceMode.git -b cm-13.0 packages/apps/SamsungServiceMode
+fi
+
+if [ -d external/stlport ]; then 
+tput setaf 1
+echo "external/stlport[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "external/stlport[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/CyanogenMod/android_external_stlport.git -b cm-13.0 external/stlport
+fi
+
+if [ -d hardware/samsung ]; then 
+tput setaf 1
+echo "hardware/samsung[DELETE]"
+rm -Rf hardware/samsung
+tput setaf 2
+echo "hardware/samsung[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
+else
+tput setaf 2
+echo "hardware/samsung[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
+fi
 
 tput setaf 4
-if [ -d device/samsung/c1skt ]
- then
-     echo "디바이스 소스를 찾았습니다."
-	 . build/envsetup.sh
-	 brunch c1skt
- else
-     echo "디바이스 소스를 찾을 수 없습니다."
-     rm -Rf hardware/samsung
-     git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
-	 git clone https://github.com/FullgreenDEVaicp/aicp_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
-	 git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
-	 git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
-	 git clone https://github.com/FullGreen/cyanogenmod_proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
-	 git clone https://github.com/CyanogenMod/android_packages_apps_SamsungServiceMode.git -b cm-13.0 packages/apps/SamsungServiceMode
-	 git clone https://github.com/CyanogenMod/android_hardware_samsung.git -b cm-13.0 hardware/samsung
-	 git clone https://github.com/CyanogenMod/android_external_stlport.git -b cm-13.0 external/stlport
-	 . build/envsetup.sh
-	 brunch c1skt	  
- fi  
+. build/envsetup.sh
+brunch c1skt
+
 }
 
 #######################################################################
+#
+#
 #crdroidandroid
+#
+#
 #######################################################################
 
 crdroidandroid_Download_source()
@@ -687,38 +1151,125 @@ PRODUCT_PROPERTY_OVERRIDES += \
 ro.config.ringtone=Phobos.ogg" > vendor/cm/config/telephony.mk
 
 tput setaf 3
-if [ -d out/target ]
- then
-     echo "소스를 정리합니다."
-	 make clean
- else
-     echo "소스를 정리하지 않습니다."
- fi  
+clear
+echo "ccache를 설정하시겠습니까? │yes│ │no│"
+echo "60초 뒤에 자동으로 │yes│가 입력됩니다."
+read -t 60 ccache
+
+if [ $ccache = 'no' ]; then
+echo "ccache가 설정되지 않았습니다."
+else
+echo "ccache가 설정되었습니다."
+export USE_CCACHE=1
+prebuilts/misc/linux-x86/ccache/ccache -M 50G
+prebuilts/misc/darwin-x86/ccache/ccache -M 50G
+fi
+
+clear
+echo "소스를 정리하시겠습니까? │yes│ │no│"
+echo "60초 뒤에 자동으로 │yes│가 입력됩니다."
+read -t 60 ccache
+
+if [ $ccache = 'no' ]; then
+echo "소스를 정리하지 않습니다."
+else
+echo "소스를 정리합니다."
+make clean
+fi
+ 
+if [ -d device/samsung/c1skt ]; then 
+tput setaf 1
+echo "device/samsung/c1skt[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "device/samsung/c1skt[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullgreenDEVcrdroidandroid/crdroidandroid_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
+fi
+
+if [ -d device/samsung/c1skt-common ]; then 
+tput setaf 1
+echo "device/samsung/c1skt-common[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "device/samsung/c1skt-common[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
+fi
+
+if [ -d kernel/samsung/smdk4412 ]; then 
+tput setaf 1
+echo "kernel/samsung/smdk4412[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "kernel/samsung/smdk4412[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
+fi
+
+if [ -d vendor/samsung ]; then 
+tput setaf 1
+echo "vendor/samsung[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "vendor/samsung[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/cyanogenmod_proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
+fi
+
+if [ -d packages/apps/SamsungServiceMode ]; then 
+tput setaf 1
+echo "packages/apps/SamsungServiceMode[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "packages/apps/SamsungServiceMode[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/CyanogenMod/android_packages_apps_SamsungServiceMode.git -b cm-13.0 packages/apps/SamsungServiceMode
+fi
+
+if [ -d external/stlport ]; then 
+tput setaf 1
+echo "external/stlport[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "external/stlport[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/CyanogenMod/android_external_stlport.git -b cm-13.0 external/stlport
+fi
+
+if [ -d hardware/samsung ]; then 
+tput setaf 1
+echo "hardware/samsung[DELETE]"
+rm -Rf hardware/samsung
+tput setaf 2
+echo "hardware/samsung[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
+else
+tput setaf 2
+echo "hardware/samsung[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
+fi
 
 tput setaf 4
-if [ -d device/samsung/c1skt ]
- then
-     echo "디바이스 소스를 찾았습니다."
-	 . build/envsetup.sh
-	 brunch c1skt
- else
-     echo "디바이스 소스를 찾을 수 없습니다."
-     rm -Rf hardware/samsung
-     git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
-	 git clone https://github.com/FullgreenDEVcrdroidandroid/crdroidandroid_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
-	 git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
-	 git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
-	 git clone https://github.com/FullGreen/cyanogenmod_proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
-	 git clone https://github.com/CyanogenMod/android_packages_apps_SamsungServiceMode.git -b cm-13.0 packages/apps/SamsungServiceMode
-	 git clone https://github.com/CyanogenMod/android_hardware_samsung.git -b cm-13.0 hardware/samsung
-	 git clone https://github.com/CyanogenMod/android_external_stlport.git -b cm-13.0 external/stlport
-	 . build/envsetup.sh
-	 brunch c1skt	  
- fi  
+. build/envsetup.sh
+brunch c1skt
+ 
 }
 
 #######################################################################
+#
+#
 #namelessrom
+#
+#
 #######################################################################
 
 namelessrom_Download_source()
@@ -775,37 +1326,125 @@ PRODUCT_COPY_FILES += \
 vendor/nameless/prebuilt/etc/selective-spn-conf.xml:system/etc/selective-spn-conf.xml" > vendor/nameless/config/apns.mk
 
 tput setaf 3
-if [ -d out/target ]
- then
-     echo "소스를 정리합니다."
-	 make clean
- else
-     echo "소스를 정리하지 않습니다."
- fi  
+clear
+echo "ccache를 설정하시겠습니까? │yes│ │no│"
+echo "60초 뒤에 자동으로 │yes│가 입력됩니다."
+read -t 60 ccache
+
+if [ $ccache = 'no' ]; then
+echo "ccache가 설정되지 않았습니다."
+else
+echo "ccache가 설정되었습니다."
+export USE_CCACHE=1
+prebuilts/misc/linux-x86/ccache/ccache -M 50G
+prebuilts/misc/darwin-x86/ccache/ccache -M 50G
+fi
+
+clear
+echo "소스를 정리하시겠습니까? │yes│ │no│"
+echo "60초 뒤에 자동으로 │yes│가 입력됩니다."
+read -t 60 ccache
+
+if [ $ccache = 'no' ]; then
+echo "소스를 정리하지 않습니다."
+else
+echo "소스를 정리합니다."
+make clean
+fi
+
+if [ -d device/samsung/c1skt ]; then 
+tput setaf 1
+echo "device/samsung/c1skt[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "device/samsung/c1skt[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullgreenDEVnamelessrom/namelessrom_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
+fi
+
+if [ -d device/samsung/c1skt-common ]; then 
+tput setaf 1
+echo "device/samsung/c1skt-common[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "device/samsung/c1skt-common[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
+fi
+
+if [ -d kernel/samsung/smdk4412 ]; then 
+tput setaf 1
+echo "kernel/samsung/smdk4412[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "kernel/samsung/smdk4412[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
+fi
+
+if [ -d vendor/samsung ]; then 
+tput setaf 1
+echo "vendor/samsung[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "vendor/samsung[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/cyanogenmod_proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
+fi
+
+if [ -d packages/apps/SamsungServiceMode ]; then 
+tput setaf 1
+echo "packages/apps/SamsungServiceMode[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "packages/apps/SamsungServiceMode[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/CyanogenMod/android_packages_apps_SamsungServiceMode.git -b cm-13.0 packages/apps/SamsungServiceMode
+fi
+
+if [ -d external/stlport ]; then 
+tput setaf 1
+echo "external/stlport[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "external/stlport[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/CyanogenMod/android_external_stlport.git -b cm-13.0 external/stlport
+fi
+
+if [ -d hardware/samsung ]; then 
+tput setaf 1
+echo "hardware/samsung[DELETE]"
+rm -Rf hardware/samsung
+tput setaf 2
+echo "hardware/samsung[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
+else
+tput setaf 2
+echo "hardware/samsung[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
+fi
 
 tput setaf 4
-if [ -d device/samsung/c1skt ]
- then
-     echo "디바이스 소스를 찾았습니다."
-	 . build/envsetup.sh
-	 brunch c1skt
- else
-     echo "디바이스 소스를 찾을 수 없습니다."
-     rm -Rf hardware/samsung
-     git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
-	git clone https://github.com/FullgreenDEVnamelessrom/namelessrom_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
-	git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
-	git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
-	git clone https://github.com/FullGreen/cyanogenmod_proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
-     git clone https://github.com/CyanogenMod/android_packages_apps_SamsungServiceMode.git -b cm-13.0 packages/apps/SamsungServiceMode
-     git clone https://github.com/CyanogenMod/android_external_stlport.git -b cm-13.0 external/stlport
-	 . build/envsetup.sh
-	 brunch c1skt	  
- fi  
+. build/envsetup.sh
+brunch c1skt 
+ 
 }
 
 #######################################################################
+#
+#
 #xosp
+#
+#
 #######################################################################
 
 xosp_Download_source()
@@ -872,39 +1511,126 @@ PRODUCT_PROPERTY_OVERRIDES += \
 ro.config.ringtone=xperia.ogg" > vendor/xosp/config/telephony.mk
 
 tput setaf 3
-if [ -d out/target ]
-then
+clear
+echo "ccache를 설정하시겠습니까? │yes│ │no│"
+echo "60초 뒤에 자동으로 │yes│가 입력됩니다."
+read -t 60 ccache
+
+if [ $ccache = 'no' ]; then
+echo "ccache가 설정되지 않았습니다."
+else
+echo "ccache가 설정되었습니다."
+export USE_CCACHE=1
+prebuilts/misc/linux-x86/ccache/ccache -M 50G
+prebuilts/misc/darwin-x86/ccache/ccache -M 50G
+fi
+
+clear
+echo "소스를 정리하시겠습니까? │yes│ │no│"
+echo "60초 뒤에 자동으로 │yes│가 입력됩니다."
+read -t 60 ccache
+
+if [ $ccache = 'no' ]; then
+echo "소스를 정리하지 않습니다."
+else
 echo "소스를 정리합니다."
 make clean
+fi
+
+if [ -d device/samsung/c1skt ]; then 
+tput setaf 1
+echo "device/samsung/c1skt[PASS]"
+tput setaf 3
 else
-echo "소스를 정리하지 않습니다."
+tput setaf 2
+echo "device/samsung/c1skt[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullgreenDEVxosp/xosp_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
+fi
+
+if [ -d device/samsung/c1skt-common ]; then 
+tput setaf 1
+echo "device/samsung/c1skt-common[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "device/samsung/c1skt-common[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
+fi
+
+if [ -d kernel/samsung/smdk4412 ]; then 
+tput setaf 1
+echo "kernel/samsung/smdk4412[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "kernel/samsung/smdk4412[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
+fi
+
+if [ -d vendor/samsung ]; then 
+tput setaf 1
+echo "vendor/samsung[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "vendor/samsung[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/cyanogenmod_proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
+fi
+
+if [ -d packages/apps/SamsungServiceMode ]; then 
+tput setaf 1
+echo "packages/apps/SamsungServiceMode[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "packages/apps/SamsungServiceMode[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/CyanogenMod/android_packages_apps_SamsungServiceMode.git -b cm-13.0 packages/apps/SamsungServiceMode
+fi
+
+if [ -d external/stlport ]; then 
+tput setaf 1
+echo "external/stlport[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "external/stlport[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/CyanogenMod/android_external_stlport.git -b cm-13.0 external/stlport
+fi
+
+if [ -d hardware/samsung ]; then 
+tput setaf 1
+echo "hardware/samsung[DELETE]"
+rm -Rf hardware/samsung
+tput setaf 2
+echo "hardware/samsung[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
+else
+tput setaf 2
+echo "hardware/samsung[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
 fi
 
 tput setaf 4
-if [ -d device/samsung/c1skt ]
-then
-echo "디바이스 소스를 찾았습니다."
 . build/envsetup.sh
-brunch c1skt
-else
-echo "디바이스 소스를 찾을 수 없습니다."
-rm -Rf hardware/samsung
-git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
-git clone https://github.com/FullgreenDEVxosp/xosp_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
-git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
-git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
-git clone https://github.com/FullGreen/cyanogenmod_proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
-git clone https://github.com/CyanogenMod/android_packages_apps_SamsungServiceMode.git -b cm-13.0 packages/apps/SamsungServiceMode
-git clone https://github.com/CyanogenMod/android_hardware_samsung.git -b cm-13.0 hardware/samsung
-git clone https://github.com/CyanogenMod/android_external_stlport.git -b cm-13.0 external/stlport
-. build/envsetup.sh
-brunch c1skt
-fi
+brunch c1skt 
+
 }
 
 
 #######################################################################
+#
+#
 #haxynox
+#
+#
 #######################################################################
 
 haxynox_Download_source()
@@ -956,39 +1682,112 @@ echo
 mv ha_sms_patch.java frameworks/opt/telephony/src/java/com/android/internal/telephony/RIL.java
 
 tput setaf 3
-if [ -d out/target ]
- then
-     echo "소스를 정리합니다."
-	 make clean
- else
-     echo "소스를 정리하지 않습니다."
- fi  
+clear
+echo "ccache를 설정하시겠습니까? │yes│ │no│"
+echo "60초 뒤에 자동으로 │yes│가 입력됩니다."
+read -t 60 ccache
+
+if [ $ccache = 'no' ]; then
+echo "ccache가 설정되지 않았습니다."
+else
+echo "ccache가 설정되었습니다."
+export USE_CCACHE=1
+prebuilts/misc/linux-x86/ccache/ccache -M 50G
+prebuilts/misc/darwin-x86/ccache/ccache -M 50G
+fi
+
+clear
+echo "소스를 정리하시겠습니까? │yes│ │no│"
+echo "60초 뒤에 자동으로 │yes│가 입력됩니다."
+read -t 60 ccache
+
+if [ $ccache = 'no' ]; then
+echo "소스를 정리하지 않습니다."
+else
+echo "소스를 정리합니다."
+make clean
+fi
+
+if [ -d device/samsung/c1skt ]; then 
+tput setaf 1
+echo "device/samsung/c1skt[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "device/samsung/c1skt[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullgreenDEVhaxynox/aosp_device_samsung_c1skt.git -b android-6.0 device/samsung/c1skt
+fi
+
+if [ -d device/samsung/c1skt-common ]; then 
+tput setaf 1
+echo "device/samsung/c1skt-common[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "device/samsung/c1skt-common[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullgreenDEVhaxynox/aosp_device_samsung_c1skt-common.git -b android-6.0 device/samsung/c1skt-common
+fi
+
+if [ -d kernel/samsung/smdk4412 ]; then 
+tput setaf 1
+echo "kernel/samsung/smdk4412[DELETE]"
+rm -Rf kernel/samsung/smdk4412
+tput setaf 2
+echo "kernel/samsung/smdk4412[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullgreenDEVhaxynox/aosp_kernel_samsung_smdk4412.git -b android-6.0 kernel/samsung/smdk4412
+else
+tput setaf 2
+echo "kernel/samsung/smdk4412[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullgreenDEVhaxynox/aosp_kernel_samsung_smdk4412.git -b android-6.0 kernel/samsung/smdk4412
+fi
+
+if [ -d vendor/samsung ]; then 
+tput setaf 1
+echo "vendor/samsung[DELETE]"
+rm -Rf vendor/samsung
+tput setaf 2
+echo "vendor/samsung[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullgreenDEVhaxynox/proprietary_vendor_samsung.git -b android-6.0 vendor/samsung
+else
+tput setaf 2
+echo "vendor/samsung[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullgreenDEVhaxynox/proprietary_vendor_samsung.git -b android-6.0 vendor/samsung
+fi
+
+if [ -d hardware/samsung ]; then 
+tput setaf 1
+echo "hardware/samsung[DELETE]"
+rm -Rf hardware/samsung
+tput setaf 2
+echo "hardware/samsung[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullgreenDEVhaxynox/android_hardware_samsung.git -b android-6.0 hardware/samsung
+else
+tput setaf 2
+echo "hardware/samsung[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullgreenDEVhaxynox/android_hardware_samsung.git -b android-6.0 hardware/samsung
+fi
 
 tput setaf 4
-if [ -d device/samsung/c1skt ]
- then
-     echo "디바이스 소스를 찾았습니다."
-	 . build/envsetup.sh
-	 lunch aosp_c1skt-userdebug
-	 make -j8 otapackage
- else
-     echo "디바이스 소스를 찾을 수 없습니다."
-     rm -Rf kernel/samsung/smdk4412
-     rm -Rf vendor/samsung
-     rm -Rf hardware/samsung
-	 git clone https://github.com/FullgreenDEVhaxynox/aosp_device_samsung_c1skt.git -b android-6.0 device/samsung/c1skt
-	 git clone https://github.com/FullgreenDEVhaxynox/aosp_device_samsung_c1skt-common.git -b android-6.0 device/samsung/c1skt-common
-	 git clone https://github.com/FullgreenDEVhaxynox/aosp_kernel_samsung_smdk4412.git -b android-6.0 kernel/samsung/smdk4412
-	 git clone https://github.com/FullgreenDEVhaxynox/proprietary_vendor_samsung.git -b android-6.0 vendor/samsung
-	 git clone https://github.com/FullgreenDEVhaxynox/android_hardware_samsung.git -b android-6.0 hardware/samsung
-	 . build/envsetup.sh
-	 lunch c1skt
-	 make -j8 otapackage
- fi  
+. build/envsetup.sh
+lunch c1skt
+make -j8 otapackage
+ 
 }
 
 #######################################################################
+#
+#
 #omnirom
+#
+#
 #######################################################################
 
 omnirom_Download_source()
@@ -1046,34 +1845,121 @@ PRODUCT_PACKAGES += \
 Stk" > vendor/omni/config/gsm.mk
 
 tput setaf 3
-if [ -d out/target ]
-then
+clear
+echo "ccache를 설정하시겠습니까? │yes│ │no│"
+echo "60초 뒤에 자동으로 │yes│가 입력됩니다."
+read -t 60 ccache
+
+if [ $ccache = 'no' ]; then
+echo "ccache가 설정되지 않았습니다."
+else
+echo "ccache가 설정되었습니다."
+export USE_CCACHE=1
+prebuilts/misc/linux-x86/ccache/ccache -M 50G
+prebuilts/misc/darwin-x86/ccache/ccache -M 50G
+fi
+
+clear
+echo "소스를 정리하시겠습니까? │yes│ │no│"
+echo "60초 뒤에 자동으로 │yes│가 입력됩니다."
+read -t 60 ccache
+
+if [ $ccache = 'no' ]; then
+echo "소스를 정리하지 않습니다."
+else
 echo "소스를 정리합니다."
 make clean
+fi
+
+if [ -d device/samsung/i9300 ]; then 
+tput setaf 1
+echo "device/samsung/i9300[PASS]"
+tput setaf 3
 else
-echo "소스를 정리하지 않습니다."
+tput setaf 2
+echo "device/samsung/i9300[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/Fullgreen/omnirom_device_samsung_i9300.git -b android-5.1 device/samsung/i9300
+fi
+
+if [ -d device/samsung/smdk4412-common ]; then 
+tput setaf 1
+echo "device/samsung/smdk4412-common[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "device/samsung/smdk4412-common[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/omnirom_device_samsung_smdk4412-common.git -b android-5.1 device/samsung/smdk4412-common
+fi
+
+if [ -d kernel/samsung/smdk4412 ]; then 
+tput setaf 1
+echo "kernel/samsung/smdk4412[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "kernel/samsung/smdk4412[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/omnirom_kernel_samsung_smdk4412.git -b android-5.1 kernel/samsung/smdk4412
+fi
+
+if [ -d vendor/samsung ]; then 
+tput setaf 1
+echo "vendor/samsung[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "vendor/samsung[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/FullGreen/omnirom_proprietary_vendor_samsung.git -b android-5.1 vendor/samsung
+fi
+
+if [ -d packages/apps/SamsungServiceMode ]; then 
+tput setaf 1
+echo "packages/apps/SamsungServiceMode[PASS]"
+tput setaf 3
+else
+tput setaf 2
+echo "packages/apps/SamsungServiceMode[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/omnirom/android_packages_apps_SamsungServiceMode.git -b android-5.1 packages/apps/SamsungServiceMode
+fi
+
+if [ -d frameworks/opt/telephony ]; then 
+tput setaf 1
+echo "frameworks/opt/telephony[DELETE]"
+rm -Rf frameworks/opt/telephony
+tput setaf 2
+echo "frameworks/opt/telephony[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/Fullgreen/omnirom_frameworks_opt_telephony.git -b android-5.1 frameworks/opt/telephony
+else
+tput setaf 2
+echo "frameworks/opt/telephony[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/Fullgreen/omnirom_frameworks_opt_telephony.git -b android-5.1 frameworks/opt/telephony
+fi
+
+if [ -d hardware/samsung ]; then 
+tput setaf 1
+echo "hardware/samsung[DELETE]"
+rm -Rf hardware/samsung
+tput setaf 2
+echo "hardware/samsung[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/Fullgreen/android_hardware_samsung.git -b android-5.1 hardware/samsung
+else
+tput setaf 2
+echo "hardware/samsung[DOWNLOAD]"
+tput setaf 3
+git clone https://github.com/Fullgreen/android_hardware_samsung.git -b android-5.1 hardware/samsung
 fi
 
 tput setaf 4
-if [ -d device/samsung/i9300 ]
-then
-echo "디바이스 소스를 찾았습니다."
 . build/envsetup.sh
 brunch i9300
-else
-echo "디바이스 소스를 찾을 수 없습니다."
-rm -Rf frameworks/opt/telephony
-rm -Rf hardware/samsung
-git clone https://github.com/Fullgreen/omnirom_device_samsung_i9300.git -b android-5.1 device/samsung/i9300
-git clone https://github.com/FullGreen/omnirom_device_samsung_smdk4412-common.git -b android-5.1 device/samsung/smdk4412-common
-git clone https://github.com/FullGreen/omnirom_kernel_samsung_smdk4412.git -b android-5.1 kernel/samsung/smdk4412
-git clone https://github.com/FullGreen/omnirom_proprietary_vendor_samsung.git -b android-5.1 vendor/samsung
-git clone https://github.com/omnirom/android_packages_apps_SamsungServiceMode.git -b android-5.1 packages/apps/SamsungServiceMode
-git clone https://github.com/Fullgreen/omnirom_frameworks_opt_telephony.git -b android-5.1 frameworks/opt/telephony
-git clone https://github.com/Fullgreen/android_hardware_samsung.git -b android-5.1 hardware/samsung
-. build/envsetup.sh
-brunch i9300
-fi
+
 }
 
 #######################################################################
@@ -1215,7 +2101,7 @@ clear
 
 tput setaf 2
 echo "┌───────────────────────────────────────────────────┐" 
-echo "│Fullgreen BUILD Script[1.1.3]                      │"
+echo "│Fullgreen BUILD Script[1.1.4]                      │"
 echo "└───────────────────────────────────────────────────┘"
 echo " └ Made by Fullgreen┘" DEVICE : $device               
 echo
