@@ -775,7 +775,7 @@ echo "────────────────────────�
 echo
 echo
 echo
-repo init -u https://github.com/FlareROM/android.git -b cm-13.0
+repo init -u git://github.com/FlareROM/android.git -b 1.0-MM
 echo
 echo
 echo 
@@ -2200,7 +2200,7 @@ clear
 
 tput setaf 2
 echo "┌───────────────────────────────────────────────────┐" 
-echo "│Fullgreen BUILD Script[1.1.5]                      │"
+echo "│Fullgreen BUILD Script[1.1.5.R1]                   │"
 echo "└───────────────────────────────────────────────────┘"
 echo " └ Made by Fullgreen┘" DEVICE : $device               
 echo
