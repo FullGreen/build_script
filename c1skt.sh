@@ -50,6 +50,14 @@ device=c1skt
 
 cyanogenmod_Download_source()
 {
+echo "소스를 다운받으시겠습니까? │yes│ │no│"
+echo "60초 뒤에 자동으로 │yes│가 입력됩니다."
+read -t 60 source
+
+if [ $source = 'no' ]; then
+echo "소스 다운로드[PASS]"
+else
+echo "소스 다운로드[DOWNLOAD]"
 tput setaf 1
 echo "─cyanogenmod─"
 echo
@@ -94,7 +102,7 @@ echo "Source Download complete"
 echo "소스 다운로드 완료"
 echo "───────────────────────────────────────────────────"
 echo
-mv sms_patch.java frameworks/opt/telephony/src/java/com/android/internal/telephony/RIL.java
+cp sms_patch.java frameworks/opt/telephony/src/java/com/android/internal/telephony/RIL.java
 echo "Vendor의 apns-conf파일 삭제"
 rm -f vendor/cm/prebuilt/common/etc/apns-conf.xml
 echo "# Selective SPN list for operator number who has the problem.
@@ -110,6 +118,7 @@ CellBroadcastReceiver
 # Default ringtone
 PRODUCT_PROPERTY_OVERRIDES += \
 ro.config.ringtone=Orion.ogg" > vendor/cm/config/telephony.mk
+fi
 
 tput setaf 3
 clear
@@ -129,9 +138,9 @@ fi
 clear
 echo "소스를 정리하시겠습니까? │yes│ │no│"
 echo "60초 뒤에 자동으로 │yes│가 입력됩니다."
-read -t 60 ccache
+read -t 60 clean
 
-if [ $ccache = 'no' ]; then
+if [ $clean = 'no' ]; then
 echo "소스를 정리하지 않습니다."
 else
 echo "소스를 정리합니다."
@@ -235,6 +244,14 @@ brunch c1skt
 
 resurrectionremix_Download_source()
 {
+echo "소스를 다운받으시겠습니까? │yes│ │no│"
+echo "60초 뒤에 자동으로 │yes│가 입력됩니다."
+read -t 60 source
+
+if [ $source = 'no' ]; then
+echo "소스 다운로드[PASS]"
+else
+echo "소스 다운로드[DOWNLOAD]"
 tput setaf 1
 echo "─resurrectionremix─"
 echo
@@ -279,7 +296,7 @@ echo "Source Download complete"
 echo "소스 다운로드 완료"
 echo "───────────────────────────────────────────────────"
 echo
-mv sms_patch.java frameworks/opt/telephony/src/java/com/android/internal/telephony/RIL.java
+cp sms_patch.java frameworks/opt/telephony/src/java/com/android/internal/telephony/RIL.java
 echo "Vendor의 apns-conf파일 삭제"
 rm -f vendor/cm/prebuilt/common/etc/apns-conf.xml
 echo "# Selective SPN list for operator number who has the problem.
@@ -295,6 +312,7 @@ CellBroadcastReceiver
 # Default ringtone
 PRODUCT_PROPERTY_OVERRIDES += \
 ro.config.ringtone=Resurrection2.mp3" > vendor/cm/config/telephony.mk
+fi
 
 tput setaf 3
 clear
@@ -314,9 +332,9 @@ fi
 clear
 echo "소스를 정리하시겠습니까? │yes│ │no│"
 echo "60초 뒤에 자동으로 │yes│가 입력됩니다."
-read -t 60 ccache
+read -t 60 clean
 
-if [ $ccache = 'no' ]; then
+if [ $clean = 'no' ]; then
 echo "소스를 정리하지 않습니다."
 else
 echo "소스를 정리합니다."
@@ -420,6 +438,14 @@ brunch c1skt
 
 blisspop_Download_source()
 {
+echo "소스를 다운받으시겠습니까? │yes│ │no│"
+echo "60초 뒤에 자동으로 │yes│가 입력됩니다."
+read -t 60 source
+
+if [ $source = 'no' ]; then
+echo "소스 다운로드[PASS]"
+else
+echo "소스 다운로드[DOWNLOAD]"
 tput setaf 1
 echo "─blisspop─"
 echo
@@ -464,7 +490,7 @@ echo "Source Download complete"
 echo "소스 다운로드 완료"
 echo "───────────────────────────────────────────────────"
 echo
-mv sms_patch.java frameworks/opt/telephony/src/java/com/android/internal/telephony/RIL.java
+cp sms_patch.java frameworks/opt/telephony/src/java/com/android/internal/telephony/RIL.java
 echo "Vendor의 apns-conf파일 삭제"
 rm -f vendor/bliss/prebuilt/common/etc/apns-conf.xml
 echo "# Selective SPN list for operator number who has the problem.
@@ -480,6 +506,7 @@ CellBroadcastReceiver
 # Default ringtone
 PRODUCT_PROPERTY_OVERRIDES += \
 ro.config.ringtone=Orion.ogg" > vendor/bliss/config/telephony.mk
+fi
 
 tput setaf 3
 clear
@@ -499,9 +526,9 @@ fi
 clear
 echo "소스를 정리하시겠습니까? │yes│ │no│"
 echo "60초 뒤에 자동으로 │yes│가 입력됩니다."
-read -t 60 ccache
+read -t 60 clean
 
-if [ $ccache = 'no' ]; then
+if [ $clean = 'no' ]; then
 echo "소스를 정리하지 않습니다."
 else
 echo "소스를 정리합니다."
@@ -534,6 +561,14 @@ if [ -d device/samsung/c1skt ]
 
 temasek_Download_source()
 {
+echo "소스를 다운받으시겠습니까? │yes│ │no│"
+echo "60초 뒤에 자동으로 │yes│가 입력됩니다."
+read -t 60 source
+
+if [ $source = 'no' ]; then
+echo "소스 다운로드[PASS]"
+else
+echo "소스 다운로드[DOWNLOAD]"
 tput setaf 1
 echo "─temasek─"
 echo
@@ -578,7 +613,7 @@ echo "Source Download complete"
 echo "소스 다운로드 완료"
 echo "───────────────────────────────────────────────────"
 echo
-mv sms_patch.java frameworks/opt/telephony/src/java/com/android/internal/telephony/RIL.java
+cp sms_patch.java frameworks/opt/telephony/src/java/com/android/internal/telephony/RIL.java
 echo "Vendor의 apns-conf파일 삭제"
 rm -f vendor/cm/prebuilt/common/etc/apns-conf.xml
 echo "# Selective SPN list for operator number who has the problem.
@@ -594,6 +629,7 @@ CellBroadcastReceiver
 # Default ringtone
 PRODUCT_PROPERTY_OVERRIDES += \
 ro.config.ringtone=Orion.ogg" > vendor/cm/config/telephony.mk
+fi
 
 tput setaf 3
 clear
@@ -613,9 +649,9 @@ fi
 clear
 echo "소스를 정리하시겠습니까? │yes│ │no│"
 echo "60초 뒤에 자동으로 │yes│가 입력됩니다."
-read -t 60 ccache
+read -t 60 clean
 
-if [ $ccache = 'no' ]; then
+if [ $clean = 'no' ]; then
 echo "소스를 정리하지 않습니다."
 else
 echo "소스를 정리합니다."
@@ -719,6 +755,14 @@ brunch c1skt
 
 flarerom_Download_source()
 {
+echo "소스를 다운받으시겠습니까? │yes│ │no│"
+echo "60초 뒤에 자동으로 │yes│가 입력됩니다."
+read -t 60 source
+
+if [ $source = 'no' ]; then
+echo "소스 다운로드[PASS]"
+else
+echo "소스 다운로드[DOWNLOAD]"
 tput setaf 1
 echo "─flarerom─"
 echo
@@ -763,7 +807,7 @@ echo "Source Download complete"
 echo "소스 다운로드 완료"
 echo "───────────────────────────────────────────────────"
 echo
-mv sms_patch.java frameworks/opt/telephony/src/java/com/android/internal/telephony/RIL.java
+cp sms_patch.java frameworks/opt/telephony/src/java/com/android/internal/telephony/RIL.java
 echo "Vendor의 apns-conf파일 삭제"
 rm -f vendor/cm/prebuilt/common/etc/apns-conf.xml
 echo "# Selective SPN list for operator number who has the problem.
@@ -779,6 +823,7 @@ CellBroadcastReceiver
 # Default ringtone
 PRODUCT_PROPERTY_OVERRIDES += \
 ro.config.ringtone=Orion.ogg" > vendor/cm/config/telephony.mk
+fi
 
 tput setaf 3
 clear
@@ -798,9 +843,9 @@ fi
 clear
 echo "소스를 정리하시겠습니까? │yes│ │no│"
 echo "60초 뒤에 자동으로 │yes│가 입력됩니다."
-read -t 60 ccache
+read -t 60 clean
 
-if [ $ccache = 'no' ]; then
+if [ $clean = 'no' ]; then
 echo "소스를 정리하지 않습니다."
 else
 echo "소스를 정리합니다."
@@ -904,6 +949,14 @@ brunch c1skt
 
 aicp_Download_source()
 {
+echo "소스를 다운받으시겠습니까? │yes│ │no│"
+echo "60초 뒤에 자동으로 │yes│가 입력됩니다."
+read -t 60 source
+
+if [ $source = 'no' ]; then
+echo "소스 다운로드[PASS]"
+else
+echo "소스 다운로드[DOWNLOAD]"
 tput setaf 1
 echo "─aicp─"
 echo
@@ -948,7 +1001,7 @@ echo "Source Download complete"
 echo "소스 다운로드 완료"
 echo "───────────────────────────────────────────────────"
 echo
-mv sms_patch.java frameworks/opt/telephony/src/java/com/android/internal/telephony/RIL.java
+cp sms_patch.java frameworks/opt/telephony/src/java/com/android/internal/telephony/RIL.java
 echo "Vendor의 apns-conf파일 삭제"
 rm -f vendor/aicp/prebuilt/common/etc/apns-conf.xml
 echo "# Selective SPN list for operator number who has the problem.
@@ -964,6 +1017,7 @@ CellBroadcastReceiver
 # Default ringtone
 PRODUCT_PROPERTY_OVERRIDES += \
 ro.config.ringtone=Orion.ogg" > vendor/aicp/configs/telephony.mk
+fi
 
 tput setaf 3
 clear
@@ -983,9 +1037,9 @@ fi
 clear
 echo "소스를 정리하시겠습니까? │yes│ │no│"
 echo "60초 뒤에 자동으로 │yes│가 입력됩니다."
-read -t 60 ccache
+read -t 60 clean
 
-if [ $ccache = 'no' ]; then
+if [ $clean = 'no' ]; then
 echo "소스를 정리하지 않습니다."
 else
 echo "소스를 정리합니다."
@@ -1089,6 +1143,14 @@ brunch c1skt
 
 crdroidandroid_Download_source()
 {
+echo "소스를 다운받으시겠습니까? │yes│ │no│"
+echo "60초 뒤에 자동으로 │yes│가 입력됩니다."
+read -t 60 source
+
+if [ $source = 'no' ]; then
+echo "소스 다운로드[PASS]"
+else
+echo "소스 다운로드[DOWNLOAD]"
 tput setaf 1
 echo "─crdroidandroid─"
 echo
@@ -1133,7 +1195,7 @@ echo "Source Download complete"
 echo "소스 다운로드 완료"
 echo "───────────────────────────────────────────────────"
 echo
-mv sms_patch.java frameworks/opt/telephony/src/java/com/android/internal/telephony/RIL.java
+cp sms_patch.java frameworks/opt/telephony/src/java/com/android/internal/telephony/RIL.java
 echo "Vendor의 apns-conf파일 삭제"
 rm -f vendor/crdroid/prebuilt/common/etc/apns-conf.xml
 echo "# Selective SPN list for operator number who has the problem.
@@ -1149,6 +1211,7 @@ CellBroadcastReceiver
 # Default ringtone
 PRODUCT_PROPERTY_OVERRIDES += \
 ro.config.ringtone=Phobos.ogg" > vendor/cm/config/telephony.mk
+fi
 
 tput setaf 3
 clear
@@ -1168,9 +1231,9 @@ fi
 clear
 echo "소스를 정리하시겠습니까? │yes│ │no│"
 echo "60초 뒤에 자동으로 │yes│가 입력됩니다."
-read -t 60 ccache
+read -t 60 clean
 
-if [ $ccache = 'no' ]; then
+if [ $clean = 'no' ]; then
 echo "소스를 정리하지 않습니다."
 else
 echo "소스를 정리합니다."
@@ -1274,6 +1337,14 @@ brunch c1skt
 
 namelessrom_Download_source()
 {
+echo "소스를 다운받으시겠습니까? │yes│ │no│"
+echo "60초 뒤에 자동으로 │yes│가 입력됩니다."
+read -t 60 source
+
+if [ $source = 'no' ]; then
+echo "소스 다운로드[PASS]"
+else
+echo "소스 다운로드[DOWNLOAD]"
 tput setaf 1
 echo "─namelessrom─"
 echo
@@ -1318,12 +1389,13 @@ echo "Source Download complete"
 echo "소스 다운로드 완료"
 echo "───────────────────────────────────────────────────"
 echo
-mv sms_patch.java frameworks/opt/telephony/src/java/com/android/internal/telephony/RIL.java
+cp sms_patch.java frameworks/opt/telephony/src/java/com/android/internal/telephony/RIL.java
 echo "Vendor의 apns-conf파일 삭제"
 rm -f vendor/nameless/prebuilt/common/etc/apns-conf.xml
 echo "# Selective SPN list for operator number who has the problem.
 PRODUCT_COPY_FILES += \
 vendor/nameless/prebuilt/etc/selective-spn-conf.xml:system/etc/selective-spn-conf.xml" > vendor/nameless/config/apns.mk
+fi
 
 tput setaf 3
 clear
@@ -1343,9 +1415,9 @@ fi
 clear
 echo "소스를 정리하시겠습니까? │yes│ │no│"
 echo "60초 뒤에 자동으로 │yes│가 입력됩니다."
-read -t 60 ccache
+read -t 60 clean
 
-if [ $ccache = 'no' ]; then
+if [ $clean = 'no' ]; then
 echo "소스를 정리하지 않습니다."
 else
 echo "소스를 정리합니다."
@@ -1449,6 +1521,14 @@ brunch c1skt
 
 xosp_Download_source()
 {
+echo "소스를 다운받으시겠습니까? │yes│ │no│"
+echo "60초 뒤에 자동으로 │yes│가 입력됩니다."
+read -t 60 source
+
+if [ $source = 'no' ]; then
+echo "소스 다운로드[PASS]"
+else
+echo "소스 다운로드[DOWNLOAD]"
 tput setaf 1
 echo "─xosp─"
 echo
@@ -1493,7 +1573,7 @@ echo "Source Download complete"
 echo "소스 다운로드 완료"
 echo "───────────────────────────────────────────────────"
 echo
-mv sms_patch.java frameworks/opt/telephony/src/java/com/android/internal/telephony/RIL.java
+cp sms_patch.java frameworks/opt/telephony/src/java/com/android/internal/telephony/RIL.java
 echo "Vendor의 apns-conf파일 삭제"
 rm -f vendor/xosp/prebuilt/common/etc/apns-conf.xml
 echo "# Selective SPN list for operator number who has the problem.
@@ -1509,6 +1589,7 @@ CellBroadcastReceiver
 # Default ringtone
 PRODUCT_PROPERTY_OVERRIDES += \
 ro.config.ringtone=xperia.ogg" > vendor/xosp/config/telephony.mk
+fi
 
 tput setaf 3
 clear
@@ -1528,9 +1609,9 @@ fi
 clear
 echo "소스를 정리하시겠습니까? │yes│ │no│"
 echo "60초 뒤에 자동으로 │yes│가 입력됩니다."
-read -t 60 ccache
+read -t 60 clean
 
-if [ $ccache = 'no' ]; then
+if [ $clean = 'no' ]; then
 echo "소스를 정리하지 않습니다."
 else
 echo "소스를 정리합니다."
@@ -1635,6 +1716,14 @@ brunch c1skt
 
 haxynox_Download_source()
 {
+echo "소스를 다운받으시겠습니까? │yes│ │no│"
+echo "60초 뒤에 자동으로 │yes│가 입력됩니다."
+read -t 60 source
+
+if [ $source = 'no' ]; then
+echo "소스 다운로드[PASS]"
+else
+echo "소스 다운로드[DOWNLOAD]"
 tput setaf 1
 echo "─haxynox─"
 echo
@@ -1679,7 +1768,8 @@ echo "Source Download complete"
 echo "소스 다운로드 완료"
 echo "───────────────────────────────────────────────────"
 echo
-mv ha_sms_patch.java frameworks/opt/telephony/src/java/com/android/internal/telephony/RIL.java
+cp ha_sms_patch.java frameworks/opt/telephony/src/java/com/android/internal/telephony/RIL.java
+fi
 
 tput setaf 3
 clear
@@ -1699,9 +1789,9 @@ fi
 clear
 echo "소스를 정리하시겠습니까? │yes│ │no│"
 echo "60초 뒤에 자동으로 │yes│가 입력됩니다."
-read -t 60 ccache
+read -t 60 clean
 
-if [ $ccache = 'no' ]; then
+if [ $clean = 'no' ]; then
 echo "소스를 정리하지 않습니다."
 else
 echo "소스를 정리합니다."
@@ -1792,6 +1882,14 @@ make -j8 otapackage
 
 omnirom_Download_source()
 {
+echo "소스를 다운받으시겠습니까? │yes│ │no│"
+echo "60초 뒤에 자동으로 │yes│가 입력됩니다."
+read -t 60 source
+
+if [ $source = 'no' ]; then
+echo "소스 다운로드[PASS]"
+else
+echo "소스 다운로드[DOWNLOAD]"
 tput setaf 1
 echo "─omnirom─"
 echo
@@ -1843,6 +1941,7 @@ echo "" > vendor/omni/config/cdma.mk
 echo "# SIM Toolkit
 PRODUCT_PACKAGES += \
 Stk" > vendor/omni/config/gsm.mk
+fi
 
 tput setaf 3
 clear
@@ -1862,9 +1961,9 @@ fi
 clear
 echo "소스를 정리하시겠습니까? │yes│ │no│"
 echo "60초 뒤에 자동으로 │yes│가 입력됩니다."
-read -t 60 ccache
+read -t 60 clean
 
-if [ $ccache = 'no' ]; then
+if [ $clean = 'no' ]; then
 echo "소스를 정리하지 않습니다."
 else
 echo "소스를 정리합니다."
@@ -2101,7 +2200,7 @@ clear
 
 tput setaf 2
 echo "┌───────────────────────────────────────────────────┐" 
-echo "│Fullgreen BUILD Script[1.1.4]                      │"
+echo "│Fullgreen BUILD Script[1.1.5]                      │"
 echo "└───────────────────────────────────────────────────┘"
 echo " └ Made by Fullgreen┘" DEVICE : $device               
 echo
