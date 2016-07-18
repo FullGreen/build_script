@@ -27,7 +27,6 @@ else
 					;;
 				bl)
 					repo init -u https://github.com/BlissRoms/platform_manifest.git -b mm6.0
-					bl=1
 					;;
 				te)
 					repo init -u https://github.com/temasek/android.git -b cm-13.0
@@ -55,53 +54,53 @@ else
 					;;
 			esac
 			clear
-			echo "파일을 다운로드 받을 것입니다. 자신의 인터넷 회선이 좋다고 생각하십니까?"
+			echo "파일을 다운로드 받을 것입니다. 자신의 인터넷 회선이 좋다고 생각하십니까? [y|n]"
 			read tru
 			if [ $tru = 'y' ] then
 				repo sync --force-sync -j20
-			else
+			else if [ $tru = 'n'] then
 				repo sync --force-sync -j10
 			fi
 			clear
+			cp sms_patch.java frameworks/opt/telephony/src/java/com/android/internal/telephony/RIL.java
+			rm -f vendor/cm/prebuilt/common/etc/apns-conf.xml
+			echo "# Selective SPN list for operator number who has the problem.
+			PRODUCT_COPY_FILES += \
+			vendor/cm/prebuilt/common/etc/selective-spn-conf.xml:system/etc/selective-spn-conf.xml
+	
+			# Telephony packages
+			PRODUCT_PACKAGES += \
+			messaging \
+			Stk \
+			CellBroadcastReceiver
+			# Default ringtone
+			PRODUCT_PROPERTY_OVERRIDES += \
+			ro.config.ringtone=Orion.ogg" > vendor/cm/config/telephony.mk
+			export USE_CCACHE=1
+			prebuilts/misc/linux-x86/ccache/ccache -M 50G
+			prebuilts/misc/darwin-x86/ccache/ccache -M 50G
+			clear
+			echo "Executed" > .used
+			if [ $bl = '1' ] then
+				git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
+				git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
+			else
+				git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
+				git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
+				git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
+				git clone https://github.com/FullGreen/cyanogenmod_proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
+				git clone https://github.com/CyanogenMod/android_packages_apps_SamsungServiceMode.git -b cm-13.0 packages/apps/SamsungServiceMode
+				git clone https://github.com/CyanogenMod/android_external_stlport.git -b cm-13.0 external/stlport
+				rm -rf hardware/samsung
+				git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
+			fi
+			clear
+			. build/envsetup.sh
+			echo "이제 brunch c1skt 명령으로 빌드를 시작 해 주세요."
 		else if [ $dow = 'n' ] then
 			echo "그럼 아무것도 못합니다. 잘가세요."
 			exit
 		fi
-		cp sms_patch.java frameworks/opt/telephony/src/java/com/android/internal/telephony/RIL.java
-		rm -f vendor/cm/prebuilt/common/etc/apns-conf.xml
-		echo "# Selective SPN list for operator number who has the problem.
-		PRODUCT_COPY_FILES += \
-		vendor/cm/prebuilt/common/etc/selective-spn-conf.xml:system/etc/selective-spn-conf.xml
-
-		# Telephony packages
-		PRODUCT_PACKAGES += \
-		messaging \
-		Stk \
-		CellBroadcastReceiver
-		# Default ringtone
-		PRODUCT_PROPERTY_OVERRIDES += \
-		ro.config.ringtone=Orion.ogg" > vendor/cm/config/telephony.mk
-		export USE_CCACHE=1
-		prebuilts/misc/linux-x86/ccache/ccache -M 50G
-		prebuilts/misc/darwin-x86/ccache/ccache -M 50G
-		clear
-		echo "Executed" > .used
-		if [ $bl = '1' ] then
-			git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
-			git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
-		else
-			git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
-			git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
-			git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
-			git clone https://github.com/FullGreen/cyanogenmod_proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
-			git clone https://github.com/CyanogenMod/android_packages_apps_SamsungServiceMode.git -b cm-13.0 packages/apps/SamsungServiceMode
-			git clone https://github.com/CyanogenMod/android_external_stlport.git -b cm-13.0 external/stlport
-			rm -rf hardware/samsung
-			git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
-		fi
-		clear
-		. build/envsetup.sh
-		echo "이제 brunch c1skt 명령으로 빌드를 시작 해 주세요."
 	}
 fi
 echo $device "Build Script"
