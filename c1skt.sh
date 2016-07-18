@@ -3,7 +3,6 @@ if [ -f ".used" ] then
 	echo "이미 한번 이 스크립트를 실행했으므로 다시 하실 수 없습니다."
 	# git clone 때문
 else
-	echo "Executed" > .used
 	clear
 	device=c1skt #기기명
 	cms(sr){
@@ -64,8 +63,9 @@ else
 				repo sync --force-sync -j10
 			fi
 			clear
-		else
-			clear
+		else if [ $dow = 'n' ] then
+			echo "그럼 아무것도 못합니다. 잘가세요."
+			exit
 		fi
 		cp sms_patch.java frameworks/opt/telephony/src/java/com/android/internal/telephony/RIL.java
 		rm -f vendor/cm/prebuilt/common/etc/apns-conf.xml
@@ -85,6 +85,7 @@ else
 		prebuilts/misc/linux-x86/ccache/ccache -M 50G
 		prebuilts/misc/darwin-x86/ccache/ccache -M 50G
 		clear
+		echo "Executed" > .used
 		if [ $bl = '1' ] then
 			git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
 			git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
