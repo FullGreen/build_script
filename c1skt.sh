@@ -35,7 +35,7 @@ device=c1skt #기기명
 #ROM Source Download                                                        
 #######################################################################
 echo "───────────────────────────────────────────────────" 
-echo "         Fullgreen BUILD Script[1.2.2.A]│$device   "
+echo "         Fullgreen BUILD Script[1.2.2.B]│$device   "
 echo "───────────────────────────────────────────────────" 
 echo "cy│ Cyanogenmod"
 echo "rr│ ResurrectionRemix"
@@ -314,16 +314,27 @@ esac
 #Toolchain SETTING                                                    
 #######################################################################
 #UBER kernel
+if [ -d uber48 ]; then 
+else
 rm -Rf prebuilts/gcc/linux-x86/arm/arm-eabi-4.8
+git clone https://bitbucket.org/UBERTC/arm-eabi-4.8.git -b master prebuilts/gcc/linux-x86/arm/arm-eabi-4.8 && touch uber48
+fi
+if [ -d uber49 ]; then 
+else
 rm -Rf prebuilts/gcc/linux-x86/arm/arm-eabi-4.9
-git clone https://bitbucket.org/UBERTC/arm-eabi-4.8.git -b master prebuilts/gcc/linux-x86/arm/arm-eabi-4.8
-git clone https://bitbucket.org/UBERTC/arm-eabi-4.9.git -b master prebuilts/gcc/linux-x86/arm/arm-eabi-4.9
-
+git clone https://bitbucket.org/UBERTC/arm-eabi-4.9.git -b master prebuilts/gcc/linux-x86/arm/arm-eabi-4.9 && touch uber49
+fi
 #UBER rom
+if [ -d ubera48 ]; then 
+else
 rm -Rf prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.8
+git clone https://bitbucket.org/UBERTC/arm-linux-androideabi-4.8.git -b master prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.8 && touch ubera48
+fi
+if [ -d ubera49 ]; then 
+else
 rm -Rf prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9
-git clone https://bitbucket.org/UBERTC/arm-linux-androideabi-4.8.git -b master prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.8
-git clone https://bitbucket.org/UBERTC/arm-linux-androideabi-4.9.git -b master prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9
+git clone https://bitbucket.org/UBERTC/arm-linux-androideabi-4.9.git -b master prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9 && touch ubera49
+fi
 #######################################################################
 #CCACHE SETTING                                                    
 #######################################################################
@@ -334,7 +345,7 @@ prebuilts/misc/darwin-x86/ccache/ccache -M 50G
 #DEVICE Source Download                                                        
 #######################################################################
 git clone https://github.com/FullGreen/android_packages_apps_helper.git -b master packages/apps/helper
-cd packages/apps/helper && git pull
+cd packages/apps/helper && git pull && cd .. && cd .. && cd ..
 
 if [ patch = ha ]; then
 cm=n
@@ -356,7 +367,7 @@ if [ -d device/samsung/c1skt-common ]; then
  tput setaf 1
  echo "device/samsung/c1skt-common[PASS]"
  tput setaf 3
- cd device/samsung/c1skt-common && git pull
+ cd device/samsung/c1skt-common && git pull && cd .. && cd .. && cd ..
  else
  tput setaf 2
  echo "device/samsung/c1skt-common[DOWNLOAD]" 
@@ -368,7 +379,7 @@ if [ -d device/samsung/c1skt-common ]; then
  tput setaf 1
  echo "kernel/samsung/smdk4412[PASS]"
  tput setaf 3
- cd kernel/samsung/smdk4412 && git pull
+ cd kernel/samsung/smdk4412 && git pull && cd .. && cd .. && cd ..
  else
  tput setaf 2
  echo "kernel/samsung/smdk4412[DOWNLOAD]"
@@ -380,7 +391,7 @@ if [ -d device/samsung/c1skt-common ]; then
  tput setaf 1
  echo "vendor/samsung[PASS]"
  tput setaf 3 
- cd vendor/samsung && git pull
+ cd vendor/samsung && git pull && cd .. && cd ..
  else
  tput setaf 2
  echo "vendor/samsung[DOWNLOAD]"
@@ -392,7 +403,7 @@ if [ -d device/samsung/c1skt-common ]; then
  tput setaf 1
  echo "packages/apps/SamsungServiceMode[PASS]"
  tput setaf 3 
- cd packages/apps/SamsungServiceMode && git pull
+ cd packages/apps/SamsungServiceMode && git pull && cd .. && cd .. && cd ..
  else
  tput setaf 2
  echo "packages/apps/SamsungServiceMode[DOWNLOAD]" 
@@ -404,7 +415,7 @@ if [ -d device/samsung/c1skt-common ]; then
  tput setaf 1
  echo "external/stlport[PASS]"
  tput setaf 3
- cd external/stlport && git pull
+ cd external/stlport && git pull && cd .. && cd ..
  else
  tput setaf 2
  echo "external/stlport[DOWNLOAD]"
@@ -416,7 +427,7 @@ if [ -d device/samsung/c1skt-common ]; then
  tput setaf 1
  echo "hardware/samsung[PASS]"
  tput setaf 3
- cd hardware/samsung && git pull
+ cd hardware/samsung && git pull && cd .. && cd ..
  else
  tput setaf 2
  echo "hardware/samsung[DOWNLOAD]"
@@ -433,7 +444,7 @@ cy)
  tput setaf 1
  echo "device/samsung/c1skt[UPDATE]"
  tput setaf 3
- cd device/samsung/c1skt && git pull
+ cd device/samsung/c1skt && git pull && cd .. && cd .. && cd ..
  else
  tput setaf 2
  echo "device/samsung/c1skt[DOWNLOAD]"
@@ -451,7 +462,7 @@ if [ -d device/samsung/c1skt ]; then
 tput setaf 1
 echo "device/samsung/c1skt[PASS]"
 tput setaf 3
-cd device/samsung/c1skt && git pull
+cd device/samsung/c1skt && git pull && cd .. && cd .. && cd ..
 else
 tput setaf 2
 echo "device/samsung/c1skt[DOWNLOAD]"
@@ -465,7 +476,7 @@ if [ -d device/samsung/c1skt ]; then
 tput setaf 1
 echo "device/samsung/c1skt[PASS]"
 tput setaf 3
-cd device/samsung/c1skt && git pull
+cd device/samsung/c1skt && git pull && cd .. && cd .. && cd ..
 else
 tput setaf 2
 echo "device/samsung/c1skt[DOWNLOAD]"
@@ -479,7 +490,7 @@ if [ -d device/samsung/c1skt ]; then
 tput setaf 1
 echo "device/samsung/c1skt[PASS]"
 tput setaf 3
-cd device/samsung/c1skt && git pull
+cd device/samsung/c1skt && git pull && cd .. && cd .. && cd ..
 else
 tput setaf 2
 echo "device/samsung/c1skt[DOWNLOAD]"
@@ -493,7 +504,7 @@ if [ -d device/samsung/c1skt ]; then
 tput setaf 1
 echo "device/samsung/c1skt[PASS]"
 tput setaf 3
-cd device/samsung/c1skt && git pull
+cd device/samsung/c1skt && git pull && cd .. && cd .. && cd ..
 else
 tput setaf 2
 echo "device/samsung/c1skt[DOWNLOAD]"
@@ -507,7 +518,7 @@ if [ -d device/samsung/c1skt ]; then
 tput setaf 1
 echo "device/samsung/c1skt[PASS]"
 tput setaf 3
-cd device/samsung/c1skt && git pull
+cd device/samsung/c1skt && git pull && cd .. && cd .. && cd ..
 else
 tput setaf 2
 echo "device/samsung/c1skt[DOWNLOAD]"
@@ -519,7 +530,7 @@ if [ -d device/samsung/c1skt-common ]; then
 tput setaf 1
 echo "device/samsung/c1skt-common[PASS]"
 tput setaf 3
-cd device/samsung/c1skt-common && git pull
+cd device/samsung/c1skt-common && git pull && cd .. && cd .. && cd ..
 else
 tput setaf 2
 echo "device/samsung/c1skt-common[DOWNLOAD]"
@@ -578,7 +589,7 @@ if [ -d device/samsung/i9300 ]; then
 tput setaf 1
 echo "device/samsung/i9300[PASS]"
 tput setaf 3
-cd device/samsung/i9300 && git pull
+cd device/samsung/i9300 && git pull && cd .. && cd .. && cd ..
 else
 tput setaf 2
 echo "device/samsung/i9300[DOWNLOAD]"
@@ -590,7 +601,7 @@ if [ -d device/samsung/smdk4412-common ]; then
 tput setaf 1
 echo "device/samsung/smdk4412-common[PASS]"
 tput setaf 3
-cd device/samsung/smdk4412-common && git pull
+cd device/samsung/smdk4412-common && git pull && cd .. && cd .. && cd ..
 else
 tput setaf 2
 echo "device/samsung/smdk4412-common[DOWNLOAD]"
@@ -602,7 +613,7 @@ if [ -d kernel/samsung/smdk4412 ]; then
 tput setaf 1
 echo "kernel/samsung/smdk4412[PASS]"
 tput setaf 3
-cd kernel/samsung/smdk4412 && git pull
+cd kernel/samsung/smdk4412 && git pull && cd .. && cd .. && cd ..
 else
 tput setaf 2
 echo "kernel/samsung/smdk4412[DOWNLOAD]"
@@ -614,7 +625,7 @@ if [ -d vendor/samsung ]; then
 tput setaf 1
 echo "vendor/samsung[PASS]"
 tput setaf 3
-cd vendor/samsung && git pull
+cd vendor/samsung && git pull && cd .. && cd ..
 else
 tput setaf 2
 echo "vendor/samsung[DOWNLOAD]"
@@ -626,7 +637,7 @@ if [ -d packages/apps/SamsungServiceMode ]; then
 tput setaf 1
 echo "packages/apps/SamsungServiceMode[PASS]"
 tput setaf 3
-cd packages/apps/SamsungServiceMode && git pull
+cd packages/apps/SamsungServiceMode && git pull && cd .. && cd .. && cd ..
 else
 tput setaf 2
 echo "packages/apps/SamsungServiceMode[DOWNLOAD]"
