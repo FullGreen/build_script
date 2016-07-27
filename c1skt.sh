@@ -35,7 +35,7 @@ device=c1skt #기기명
 #ROM Source Download                                                        
 #######################################################################
 echo "───────────────────────────────────────────────────" 
-echo "         Fullgreen BUILD Script[1.2.1]│$device      "
+echo "         Fullgreen BUILD Script[1.2.2]│$device     "
 echo "───────────────────────────────────────────────────" 
 echo "cy│ Cyanogenmod"
 echo "rr│ ResurrectionRemix"
@@ -85,7 +85,7 @@ cy)
 ;;
 rr)
 					repo init -u https://github.com/ResurrectionRemix/platform_manifest.git -b marshmallow && touch rr
-                  patch=rr
+                  patch=rr && buildprop=rr
 ;;
 bl)
 					repo init -u https://github.com/BlissRoms/platform_manifest.git -b mm6.0 && touch bl
@@ -93,11 +93,11 @@ bl)
 ;;
 te)
 					repo init -u https://github.com/temasek/android.git -b cm-13.0 && touch te
-                  patch=te
+                  patch=te && buildprop=te
 ;;
 fl)
 					repo init -u git://github.com/FlareROM/android.git -b 1.0-MM && touch fl
-                  patch=fl
+                  patch=fl && buildprop=fl
 ;;
 ai)
 					repo init -u https://github.com/AICP/platform_manifest.git -b mm6.0 && touch ai
@@ -669,44 +669,64 @@ esac
 #######################################################################
 #BUILD                                                       
 #######################################################################
+case $buildprop in 
+te)
+echo "ro.fullgreen.rom=temasek" >> device/samsung/c1skt/system.prop
+;;
+fl)
+echo "ro.fullgreen.rom=flarerom" >> device/samsung/c1skt/system.prop
+;;
+rr)
+echo "ro.fullgreen.rom=resurrectionremix" >> device/samsung/c1skt/system.prop
+;;
+esac
+
 case $patch in
 cy)
 		clear
+		echo "ro.fullgreen.rom=cyanogenmod" >> device/samsung/c1skt/system.prop
 		. build/envsetup.sh
        brunch c1skt
 ;;
 bl)
 		clear
+		echo "ro.fullgreen.rom=blissroms" >> device/samsung/c1skt/system.prop
 		. build/envsetup.sh
        brunch c1skt
 ;;
 ai)
 		clear
+		echo "ro.fullgreen.rom=aicp" >> device/samsung/c1skt/system.prop
 		. build/envsetup.sh
        brunch c1skt
 ;;
 cr)
 		clear
+		echo "ro.fullgreen.rom=crdroid" >> device/samsung/c1skt/system.prop
 		. build/envsetup.sh
        brunch c1skt
 ;;
 na)
 		clear
+		echo "ro.fullgreen.rom=namelessrom" >> device/samsung/c1skt/system.prop
 		. build/envsetup.sh
        brunch c1skt
 ;;
 xo)
 		clear
+		echo "ro.fullgreen.rom=xosp" >> device/samsung/c1skt/system.prop
 		. build/envsetup.sh
        brunch c1skt
 ;;
 ha)
 		clear
+		echo "ro.fullgreen.rom=haxynox" >> device/samsung/c1skt/system.prop
 		. build/envsetup.sh
        lunch aosp_c1skt-userdebug
 ;;
 om)
 		clear
+		echo "ro.fullgreen.rom=omnirom" >> device/samsung/i9300/system.prop
 		. build/envsetup.sh
        brunch i9300
 ;;
