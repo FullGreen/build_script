@@ -35,7 +35,7 @@ device=c1skt #기기명
 #ROM Source Download                                                        
 #######################################################################
 echo "───────────────────────────────────────────────────" 
-echo "         Fullgreen BUILD Script[1.2]│$device       "
+echo "         Fullgreen BUILD Script[1.2.1]│$device      "
 echo "───────────────────────────────────────────────────" 
 echo "cy│ Cyanogenmod"
 echo "rr│ ResurrectionRemix"
@@ -311,34 +311,52 @@ Stk" > vendor/omni/config/gsm.mk
 ;;
 esac
 #######################################################################
+#Toolchain SETTING                                                    
+#######################################################################
+#UBER kernel
+rm -Rf prebuilts/gcc/linux-x86/arm/arm-eabi-4.8
+rm -Rf prebuilts/gcc/linux-x86/arm/arm-eabi-4.9
+git clone https://bitbucket.org/UBERTC/arm-eabi-4.8.git -b master prebuilts/gcc/linux-x86/arm/arm-eabi-4.8
+git clone https://bitbucket.org/UBERTC/arm-eabi-4.9.git -b master prebuilts/gcc/linux-x86/arm/arm-eabi-4.9
+
+#UBER rom
+rm -Rf prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.8
+rm -Rf prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9
+git clone https://bitbucket.org/UBERTC/arm-linux-androideabi-4.8.git -b master prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.8
+git clone https://bitbucket.org/UBERTC/arm-linux-androideabi-4.9.git -b master prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9
+#######################################################################
 #CCACHE SETTING                                                    
 #######################################################################
-
 export USE_CCACHE=1
 prebuilts/misc/linux-x86/ccache/ccache -M 50G
 prebuilts/misc/darwin-x86/ccache/ccache -M 50G
-
 #######################################################################
 #DEVICE Source Download                                                        
 #######################################################################
-case $patch in
+git clone https://github.com/FullGreen/android_packages_apps_helper.git -b master packages/apps/helper
+cd packages/apps/helper && git pull
 
-cy)
- if [ -d device/samsung/c1skt ]; then 
- tput setaf 1
- echo "device/samsung/c1skt[PASS]"
- tput setaf 3
- else
- tput setaf 2
- echo "device/samsung/c1skt[DOWNLOAD]"
- tput setaf 3
- git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
- fi
+if [ patch = ha ]; then
+cm=n
+elif [ patch = om ]; then
+cm=n
+else
+cm=y
+fi
 
- if [ -d device/samsung/c1skt-common ]; then 
+case $cm in
+
+y)
+ echo "CyanogenMod가 아닙니다.[PASS]"
+ ;;
+
+n)
+
+if [ -d device/samsung/c1skt-common ]; then 
  tput setaf 1
  echo "device/samsung/c1skt-common[PASS]"
  tput setaf 3
+ cd device/samsung/c1skt-common && git pull
  else
  tput setaf 2
  echo "device/samsung/c1skt-common[DOWNLOAD]" 
@@ -350,6 +368,7 @@ cy)
  tput setaf 1
  echo "kernel/samsung/smdk4412[PASS]"
  tput setaf 3
+ cd kernel/samsung/smdk4412 && git pull
  else
  tput setaf 2
  echo "kernel/samsung/smdk4412[DOWNLOAD]"
@@ -361,6 +380,7 @@ cy)
  tput setaf 1
  echo "vendor/samsung[PASS]"
  tput setaf 3 
+ cd vendor/samsung && git pull
  else
  tput setaf 2
  echo "vendor/samsung[DOWNLOAD]"
@@ -372,6 +392,7 @@ cy)
  tput setaf 1
  echo "packages/apps/SamsungServiceMode[PASS]"
  tput setaf 3 
+ cd packages/apps/SamsungServiceMode && git pull
  else
  tput setaf 2
  echo "packages/apps/SamsungServiceMode[DOWNLOAD]" 
@@ -383,6 +404,7 @@ cy)
  tput setaf 1
  echo "external/stlport[PASS]"
  tput setaf 3
+ cd external/stlport && git pull
  else
  tput setaf 2
  echo "external/stlport[DOWNLOAD]"
@@ -392,19 +414,33 @@ cy)
 
  if [ -d hardware/samsung ]; then 
  tput setaf 1
- echo "hardware/samsung[DELETE]"
- rm -Rf hardware/samsung
- tput setaf 2
- echo "hardware/samsung[DOWNLOAD]"
+ echo "hardware/samsung[PASS]"
  tput setaf 3
- git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
+ cd hardware/samsung && git pull
  else
  tput setaf 2
  echo "hardware/samsung[DOWNLOAD]"
  tput setaf 3
  git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
  fi
-;;
+ ;;
+esac
+
+case $patch in
+
+cy)
+ if [ -d device/samsung/c1skt ]; then 
+ tput setaf 1
+ echo "device/samsung/c1skt[UPDATE]"
+ tput setaf 3
+ cd device/samsung/c1skt && git pull
+ else
+ tput setaf 2
+ echo "device/samsung/c1skt[DOWNLOAD]"
+ tput setaf 3
+ git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
+ fi
+ ;;
 
 bl)
  echo 'Error'
@@ -415,81 +451,12 @@ if [ -d device/samsung/c1skt ]; then
 tput setaf 1
 echo "device/samsung/c1skt[PASS]"
 tput setaf 3
+cd device/samsung/c1skt && git pull
 else
 tput setaf 2
 echo "device/samsung/c1skt[DOWNLOAD]"
 tput setaf 3
 git clone https://github.com/FullgreenDEVaicp/aicp_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
-fi
-
-if [ -d device/samsung/c1skt-common ]; then 
-tput setaf 1
-echo "device/samsung/c1skt-common[PASS]"
-tput setaf 3
-else
-tput setaf 2
-echo "device/samsung/c1skt-common[DOWNLOAD]"
-tput setaf 3
-git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
-fi
-
-if [ -d kernel/samsung/smdk4412 ]; then 
-tput setaf 1
-echo "kernel/samsung/smdk4412[PASS]"
-tput setaf 3
-else
-tput setaf 2
-echo "kernel/samsung/smdk4412[DOWNLOAD]"
-tput setaf 3
-git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
-fi
-
-if [ -d vendor/samsung ]; then 
-tput setaf 1
-echo "vendor/samsung[PASS]"
-tput setaf 3
-else
-tput setaf 2
-echo "vendor/samsung[DOWNLOAD]"
-tput setaf 3
-git clone https://github.com/FullGreen/cyanogenmod_proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
-fi
-
-if [ -d packages/apps/SamsungServiceMode ]; then 
-tput setaf 1
-echo "packages/apps/SamsungServiceMode[PASS]"
-tput setaf 3
-else
-tput setaf 2
-echo "packages/apps/SamsungServiceMode[DOWNLOAD]"
-tput setaf 3
-git clone https://github.com/CyanogenMod/android_packages_apps_SamsungServiceMode.git -b cm-13.0 packages/apps/SamsungServiceMode
-fi
-
-if [ -d external/stlport ]; then 
-tput setaf 1
-echo "external/stlport[PASS]"
-tput setaf 3
-else
-tput setaf 2
-echo "external/stlport[DOWNLOAD]"
-tput setaf 3
-git clone https://github.com/CyanogenMod/android_external_stlport.git -b cm-13.0 external/stlport
-fi
-
-if [ -d hardware/samsung ]; then 
-tput setaf 1
-echo "hardware/samsung[DELETE]"
-rm -Rf hardware/samsung
-tput setaf 2
-echo "hardware/samsung[DOWNLOAD]"
-tput setaf 3
-git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
-else
-tput setaf 2
-echo "hardware/samsung[DOWNLOAD]"
-tput setaf 3
-git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
 fi
 ;;
 
@@ -498,81 +465,12 @@ if [ -d device/samsung/c1skt ]; then
 tput setaf 1
 echo "device/samsung/c1skt[PASS]"
 tput setaf 3
+cd device/samsung/c1skt && git pull
 else
 tput setaf 2
 echo "device/samsung/c1skt[DOWNLOAD]"
 tput setaf 3
 git clone https://github.com/FullgreenDEVcrdroidandroid/crdroidandroid_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
-fi
-
-if [ -d device/samsung/c1skt-common ]; then 
-tput setaf 1
-echo "device/samsung/c1skt-common[PASS]"
-tput setaf 3
-else
-tput setaf 2
-echo "device/samsung/c1skt-common[DOWNLOAD]"
-tput setaf 3
-git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
-fi
-
-if [ -d kernel/samsung/smdk4412 ]; then 
-tput setaf 1
-echo "kernel/samsung/smdk4412[PASS]"
-tput setaf 3
-else
-tput setaf 2
-echo "kernel/samsung/smdk4412[DOWNLOAD]"
-tput setaf 3
-git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
-fi
-
-if [ -d vendor/samsung ]; then 
-tput setaf 1
-echo "vendor/samsung[PASS]"
-tput setaf 3
-else
-tput setaf 2
-echo "vendor/samsung[DOWNLOAD]"
-tput setaf 3
-git clone https://github.com/FullGreen/cyanogenmod_proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
-fi
-
-if [ -d packages/apps/SamsungServiceMode ]; then 
-tput setaf 1
-echo "packages/apps/SamsungServiceMode[PASS]"
-tput setaf 3
-else
-tput setaf 2
-echo "packages/apps/SamsungServiceMode[DOWNLOAD]"
-tput setaf 3
-git clone https://github.com/CyanogenMod/android_packages_apps_SamsungServiceMode.git -b cm-13.0 packages/apps/SamsungServiceMode
-fi
-
-if [ -d external/stlport ]; then 
-tput setaf 1
-echo "external/stlport[PASS]"
-tput setaf 3
-else
-tput setaf 2
-echo "external/stlport[DOWNLOAD]"
-tput setaf 3
-git clone https://github.com/CyanogenMod/android_external_stlport.git -b cm-13.0 external/stlport
-fi
-
-if [ -d hardware/samsung ]; then 
-tput setaf 1
-echo "hardware/samsung[DELETE]"
-rm -Rf hardware/samsung
-tput setaf 2
-echo "hardware/samsung[DOWNLOAD]"
-tput setaf 3
-git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
-else
-tput setaf 2
-echo "hardware/samsung[DOWNLOAD]"
-tput setaf 3
-git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
 fi
 ;;
 
@@ -581,81 +479,12 @@ if [ -d device/samsung/c1skt ]; then
 tput setaf 1
 echo "device/samsung/c1skt[PASS]"
 tput setaf 3
+cd device/samsung/c1skt && git pull
 else
 tput setaf 2
 echo "device/samsung/c1skt[DOWNLOAD]"
 tput setaf 3
 git clone https://github.com/FullgreenDEVnamelessrom/namelessrom_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
-fi
-
-if [ -d device/samsung/c1skt-common ]; then 
-tput setaf 1
-echo "device/samsung/c1skt-common[PASS]"
-tput setaf 3
-else
-tput setaf 2
-echo "device/samsung/c1skt-common[DOWNLOAD]"
-tput setaf 3
-git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
-fi
-
-if [ -d kernel/samsung/smdk4412 ]; then 
-tput setaf 1
-echo "kernel/samsung/smdk4412[PASS]"
-tput setaf 3
-else
-tput setaf 2
-echo "kernel/samsung/smdk4412[DOWNLOAD]"
-tput setaf 3
-git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
-fi
-
-if [ -d vendor/samsung ]; then 
-tput setaf 1
-echo "vendor/samsung[PASS]"
-tput setaf 3
-else
-tput setaf 2
-echo "vendor/samsung[DOWNLOAD]"
-tput setaf 3
-git clone https://github.com/FullGreen/cyanogenmod_proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
-fi
-
-if [ -d packages/apps/SamsungServiceMode ]; then 
-tput setaf 1
-echo "packages/apps/SamsungServiceMode[PASS]"
-tput setaf 3
-else
-tput setaf 2
-echo "packages/apps/SamsungServiceMode[DOWNLOAD]"
-tput setaf 3
-git clone https://github.com/CyanogenMod/android_packages_apps_SamsungServiceMode.git -b cm-13.0 packages/apps/SamsungServiceMode
-fi
-
-if [ -d external/stlport ]; then 
-tput setaf 1
-echo "external/stlport[PASS]"
-tput setaf 3
-else
-tput setaf 2
-echo "external/stlport[DOWNLOAD]"
-tput setaf 3
-git clone https://github.com/CyanogenMod/android_external_stlport.git -b cm-13.0 external/stlport
-fi
-
-if [ -d hardware/samsung ]; then 
-tput setaf 1
-echo "hardware/samsung[DELETE]"
-rm -Rf hardware/samsung
-tput setaf 2
-echo "hardware/samsung[DOWNLOAD]"
-tput setaf 3
-git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
-else
-tput setaf 2
-echo "hardware/samsung[DOWNLOAD]"
-tput setaf 3
-git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
 fi
 ;;
 
@@ -664,81 +493,12 @@ if [ -d device/samsung/c1skt ]; then
 tput setaf 1
 echo "device/samsung/c1skt[PASS]"
 tput setaf 3
+cd device/samsung/c1skt && git pull
 else
 tput setaf 2
 echo "device/samsung/c1skt[DOWNLOAD]"
 tput setaf 3
 git clone https://github.com/FullgreenDEVxosp/xosp_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
-fi
-
-if [ -d device/samsung/c1skt-common ]; then 
-tput setaf 1
-echo "device/samsung/c1skt-common[PASS]"
-tput setaf 3
-else
-tput setaf 2
-echo "device/samsung/c1skt-common[DOWNLOAD]"
-tput setaf 3
-git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
-fi
-
-if [ -d kernel/samsung/smdk4412 ]; then 
-tput setaf 1
-echo "kernel/samsung/smdk4412[PASS]"
-tput setaf 3
-else
-tput setaf 2
-echo "kernel/samsung/smdk4412[DOWNLOAD]"
-tput setaf 3
-git clone https://github.com/FullGreen/cyanogenmod_kernel_samsung_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
-fi
-
-if [ -d vendor/samsung ]; then 
-tput setaf 1
-echo "vendor/samsung[PASS]"
-tput setaf 3
-else
-tput setaf 2
-echo "vendor/samsung[DOWNLOAD]"
-tput setaf 3
-git clone https://github.com/FullGreen/cyanogenmod_proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
-fi
-
-if [ -d packages/apps/SamsungServiceMode ]; then 
-tput setaf 1
-echo "packages/apps/SamsungServiceMode[PASS]"
-tput setaf 3
-else
-tput setaf 2
-echo "packages/apps/SamsungServiceMode[DOWNLOAD]"
-tput setaf 3
-git clone https://github.com/CyanogenMod/android_packages_apps_SamsungServiceMode.git -b cm-13.0 packages/apps/SamsungServiceMode
-fi
-
-if [ -d external/stlport ]; then 
-tput setaf 1
-echo "external/stlport[PASS]"
-tput setaf 3
-else
-tput setaf 2
-echo "external/stlport[DOWNLOAD]"
-tput setaf 3
-git clone https://github.com/CyanogenMod/android_external_stlport.git -b cm-13.0 external/stlport
-fi
-
-if [ -d hardware/samsung ]; then 
-tput setaf 1
-echo "hardware/samsung[DELETE]"
-rm -Rf hardware/samsung
-tput setaf 2
-echo "hardware/samsung[DOWNLOAD]"
-tput setaf 3
-git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
-else
-tput setaf 2
-echo "hardware/samsung[DOWNLOAD]"
-tput setaf 3
-git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
 fi
 ;;
 
@@ -747,6 +507,7 @@ if [ -d device/samsung/c1skt ]; then
 tput setaf 1
 echo "device/samsung/c1skt[PASS]"
 tput setaf 3
+cd device/samsung/c1skt && git pull
 else
 tput setaf 2
 echo "device/samsung/c1skt[DOWNLOAD]"
@@ -758,6 +519,7 @@ if [ -d device/samsung/c1skt-common ]; then
 tput setaf 1
 echo "device/samsung/c1skt-common[PASS]"
 tput setaf 3
+cd device/samsung/c1skt-common && git pull
 else
 tput setaf 2
 echo "device/samsung/c1skt-common[DOWNLOAD]"
@@ -816,6 +578,7 @@ if [ -d device/samsung/i9300 ]; then
 tput setaf 1
 echo "device/samsung/i9300[PASS]"
 tput setaf 3
+cd device/samsung/i9300 && git pull
 else
 tput setaf 2
 echo "device/samsung/i9300[DOWNLOAD]"
@@ -827,6 +590,7 @@ if [ -d device/samsung/smdk4412-common ]; then
 tput setaf 1
 echo "device/samsung/smdk4412-common[PASS]"
 tput setaf 3
+cd device/samsung/smdk4412-common && git pull
 else
 tput setaf 2
 echo "device/samsung/smdk4412-common[DOWNLOAD]"
@@ -838,6 +602,7 @@ if [ -d kernel/samsung/smdk4412 ]; then
 tput setaf 1
 echo "kernel/samsung/smdk4412[PASS]"
 tput setaf 3
+cd kernel/samsung/smdk4412 && git pull
 else
 tput setaf 2
 echo "kernel/samsung/smdk4412[DOWNLOAD]"
@@ -849,6 +614,7 @@ if [ -d vendor/samsung ]; then
 tput setaf 1
 echo "vendor/samsung[PASS]"
 tput setaf 3
+cd vendor/samsung && git pull
 else
 tput setaf 2
 echo "vendor/samsung[DOWNLOAD]"
@@ -860,6 +626,7 @@ if [ -d packages/apps/SamsungServiceMode ]; then
 tput setaf 1
 echo "packages/apps/SamsungServiceMode[PASS]"
 tput setaf 3
+cd packages/apps/SamsungServiceMode && git pull
 else
 tput setaf 2
 echo "packages/apps/SamsungServiceMode[DOWNLOAD]"
