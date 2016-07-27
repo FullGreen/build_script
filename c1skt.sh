@@ -35,7 +35,7 @@ device=c1skt #기기명
 #ROM Source Download                                                        
 #######################################################################
 echo "───────────────────────────────────────────────────" 
-echo "         Fullgreen BUILD Script[1.2.2]│$device     "
+echo "         Fullgreen BUILD Script[1.2.2.A]│$device   "
 echo "───────────────────────────────────────────────────" 
 echo "cy│ Cyanogenmod"
 echo "rr│ ResurrectionRemix"
@@ -50,27 +50,27 @@ echo "ha│ Haxynox"
 echo "om│ Omni[LP]"
 
 if [ -a cy ]; then
-patch=cy
+patch=cy && buildprop=cy
 elif [ -a rr ]; then
-patch=rr
+patch=rr && buildprop=rr
 elif [ -a bl ]; then
-patch=bl
+patch=bl && buildprop=bl
 elif [ -a te ]; then
-patch=te
+patch=te && buildprop=te
 elif [ -a fl ]; then
-patch=fl
+patch=fl && buildprop=fl
 elif [ -a ai ]; then
-patch=ai
+patch=ai && buildprop=ai
 elif [ -a cr ]; then
-patch=cr
+patch=cr && buildprop=cr
 elif [ -a na ]; then
-patch=na
+patch=na && buildprop=na
 elif [ -a xo ]; then
-patch=xo
+patch=xo && buildprop=xo
 elif [ -a ha ]; then
-patch=ha
+patch=ha && buildprop=ha
 elif [ -a om ]; then
-patch=om
+patch=om && buildprop=om
 else
 
 echo "어떤롬을 빌드하시겠습니까? [cy/rr/bl/te/fl/ai/cr/na/xo/ha/om]"
@@ -346,11 +346,11 @@ fi
 
 case $cm in
 
-y)
+n)
  echo "CyanogenMod가 아닙니다.[PASS]"
  ;;
 
-n)
+y)
 
 if [ -d device/samsung/c1skt-common ]; then 
  tput setaf 1
