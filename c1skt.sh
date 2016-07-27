@@ -35,22 +35,25 @@ device=c1skt #기기명
 #ROM Source Download                                                        
 #######################################################################
 echo "───────────────────────────────────────────────────" 
-echo "         Fullgreen BUILD Script[1.2.2.D]│$device   "
+echo "         Fullgreen BUILD Script[1.2.3]│$device     "
 echo "───────────────────────────────────────────────────" 
-echo "cy│ Cyanogenmod"
-echo "rr│ ResurrectionRemix"
-echo "bl│ Blisspop/아직안됨"
-echo "te│ Temasek"
-echo "fl│ FlareROM"
-echo "ai│ AICP"
-echo "cr│ CrdroidAndroid"
-echo "na│ Namelessrom"
-echo "xo│ XOSP"
-echo "ha│ Haxynox"
-echo "om│ Omni[LP]"
+echo "cy  │ Cyanogenmod"
+echo "cyos│ CyanogenOS"
+echo "rr  │ ResurrectionRemix"
+echo "bl  │ Blisspop/아직안됨"
+echo "te  │ Temasek"
+echo "fl  │ FlareROM"
+echo "ai  │ AICP"
+echo "cr  │ CrdroidAndroid"
+echo "na  │ Namelessrom"
+echo "xo  │ XOSP"
+echo "ha  │ Haxynox"
+echo "om  │ Omni[LP]"
 
 if [ -a cy ]; then
 patch=cy && buildprop=cy
+elif [ -a cyos ]; then
+patch=cyos && buildprop=cyos
 elif [ -a rr ]; then
 patch=rr && buildprop=rr
 elif [ -a bl ]; then
@@ -73,7 +76,7 @@ elif [ -a om ]; then
 patch=om && buildprop=om
 else
 
-echo "어떤롬을 빌드하시겠습니까? [cy/rr/bl/te/fl/ai/cr/na/xo/ha/om]"
+echo "어떤롬을 빌드하시겠습니까? [cy/rr/bl/te/fl/ai/cr/na/xo/ha/om/cyos]"
 read main
 
 fi
@@ -81,7 +84,11 @@ fi
 case $main in
 cy)
 					repo init -u git://github.com/CyanogenMod/android.git -b cm-13.0 && touch cy
-                  patch=cy
+                  patch=cy && buildprop=cy
+;;
+cyos)
+					repo init -u git://github.com/CyanogenMod/android.git -b cm-13.0-ZNH2K && touch cyos
+                  patch=cyos && buildprop=cyos
 ;;
 rr)
 					repo init -u https://github.com/ResurrectionRemix/platform_manifest.git -b marshmallow && touch rr
@@ -89,7 +96,7 @@ rr)
 ;;
 bl)
 					repo init -u https://github.com/BlissRoms/platform_manifest.git -b mm6.0 && touch bl
-					patch=bl
+					patch=bl && buildprop=bl
 ;;
 te)
 					repo init -u https://github.com/temasek/android.git -b cm-13.0 && touch te
@@ -101,27 +108,27 @@ fl)
 ;;
 ai)
 					repo init -u https://github.com/AICP/platform_manifest.git -b mm6.0 && touch ai
-                  patch=ai
+                  patch=ai && buildprop=ai
 ;;
 cr)
 					repo init -u https://github.com/crdroidandroid/android -b 6.0.0 && touch cr
-                  patch=cr
+                  patch=cr && buildprop=cr
 ;;
 na)
 					repo init -u https://github.com/NamelessRom/android.git -b n-3.0 && touch na
-                  patch=na
+                  patch=na && buildprop=na
 ;;
 xo)
 					repo init -u git://github.com/XOSP-Project/platform_manifest.git -b xosp-mm && touch xo
-                  patch=xo
+                  patch=xo && buildprop=xo
 ;;
 ha)
 					repo init -u git://github.com/Haxynox/platform_manifest.git -b Mmm && touch ha
-                  patch=ha
+                  patch=ha && buildprop=ha
 ;;
 om)
 					repo init -u git://github.com/omnirom/android.git -b android-5.1 && touch om
-                  patch=om
+                  patch=om && buildprop=om
 ;;
 esac
 
@@ -174,6 +181,26 @@ CellBroadcastReceiver
 # Default ringtone
 PRODUCT_PROPERTY_OVERRIDES += \
 ro.config.ringtone=Orion.ogg" > vendor/cm/config/telephony.mk
+patch=cy
+;;
+
+cyos)
+cp cyos_sms_patch.java frameworks/opt/telephony/src/java/com/android/internal/telephony/RIL.java
+echo "Vendor의 apns-conf파일 삭제"
+rm -f vendor/cm/prebuilt/common/etc/apns-conf.xml
+echo "# Selective SPN list for operator number who has the problem.
+PRODUCT_COPY_FILES += \
+    vendor/cm/prebuilt/common/etc/selective-spn-conf.xml:system/etc/selective-spn-conf.xml
+
+# Telephony packages
+PRODUCT_PACKAGES += \
+    messaging \
+    Stk \
+    CellBroadcastReceiver
+
+# Default ringtone
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.config.ringtone=Orion.ogg" > vendor/cm/config/telephony.mk
 patch=cy
 ;;
 
@@ -685,6 +712,33 @@ esac
 #BUILD                                                       
 #######################################################################
 case $buildprop in 
+cy)
+echo "ro.fullgreen.rom=cyanogenmod" >> device/samsung/c1skt/system.prop
+;;
+cyos)
+echo "ro.fullgreen.rom=CyanogenOS" >> device/samsung/c1skt/system.prop
+;;
+bl)
+echo "ro.fullgreen.rom=blissroms" >> device/samsung/c1skt/system.prop
+;;
+ai)
+echo "ro.fullgreen.rom=aicp" >> device/samsung/c1skt/system.prop
+;;
+cr)
+echo "ro.fullgreen.rom=crdroid" >> device/samsung/c1skt/system.prop
+;;
+na)
+echo "ro.fullgreen.rom=namelessrom" >> device/samsung/c1skt/system.prop
+;;
+xo)
+echo "ro.fullgreen.rom=xosp" >> device/samsung/c1skt/system.prop
+;;
+ha)
+echo "ro.fullgreen.rom=haxynox" >> device/samsung/c1skt/system.prop
+;;
+om)
+echo "ro.fullgreen.rom=omnirom" >> device/samsung/i9300/system.prop
+;;
 te)
 echo "ro.fullgreen.rom=temasek" >> device/samsung/c1skt/system.prop
 ;;
@@ -699,49 +753,41 @@ esac
 case $patch in
 cy)
 		clear
-		echo "ro.fullgreen.rom=cyanogenmod" >> device/samsung/c1skt/system.prop
 		. build/envsetup.sh
        brunch c1skt
 ;;
 bl)
 		clear
-		echo "ro.fullgreen.rom=blissroms" >> device/samsung/c1skt/system.prop
 		. build/envsetup.sh
        brunch c1skt
 ;;
 ai)
 		clear
-		echo "ro.fullgreen.rom=aicp" >> device/samsung/c1skt/system.prop
 		. build/envsetup.sh
        brunch c1skt
 ;;
 cr)
 		clear
-		echo "ro.fullgreen.rom=crdroid" >> device/samsung/c1skt/system.prop
 		. build/envsetup.sh
        brunch c1skt
 ;;
 na)
 		clear
-		echo "ro.fullgreen.rom=namelessrom" >> device/samsung/c1skt/system.prop
 		. build/envsetup.sh
        brunch c1skt
 ;;
 xo)
 		clear
-		echo "ro.fullgreen.rom=xosp" >> device/samsung/c1skt/system.prop
 		. build/envsetup.sh
        brunch c1skt
 ;;
 ha)
 		clear
-		echo "ro.fullgreen.rom=haxynox" >> device/samsung/c1skt/system.prop
 		. build/envsetup.sh
        lunch aosp_c1skt-userdebug
 ;;
 om)
 		clear
-		echo "ro.fullgreen.rom=omnirom" >> device/samsung/i9300/system.prop
 		. build/envsetup.sh
        brunch i9300
 ;;
