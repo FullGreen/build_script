@@ -35,7 +35,7 @@ device=c1skt #기기명
 #ROM Source Download                                                        
 #######################################################################
 echo "───────────────────────────────────────────────────" 
-echo "         Fullgreen BUILD Script[1.2.2.C]│$device   "
+echo "         Fullgreen BUILD Script[1.2.2.D]│$device   "
 echo "───────────────────────────────────────────────────" 
 echo "cy│ Cyanogenmod"
 echo "rr│ ResurrectionRemix"
@@ -314,26 +314,26 @@ esac
 #Toolchain SETTING                                                    
 #######################################################################
 #UBER kernel
-if [ -d uber48 ]; then 
+if [ -a uber48 ]; then 
 echo "UBER 4.8[PASS]"
 else
 rm -Rf prebuilts/gcc/linux-x86/arm/arm-eabi-4.8
 git clone https://bitbucket.org/UBERTC/arm-eabi-4.8.git -b master prebuilts/gcc/linux-x86/arm/arm-eabi-4.8 && touch uber48
 fi
-if [ -d uber49 ]; then 
+if [ -a uber49 ]; then 
 echo "UBER 4.9[PASS]"
 else
 rm -Rf prebuilts/gcc/linux-x86/arm/arm-eabi-4.9
 git clone https://bitbucket.org/UBERTC/arm-eabi-4.9.git -b master prebuilts/gcc/linux-x86/arm/arm-eabi-4.9 && touch uber49
 fi
 #UBER rom
-if [ -d ubera48 ]; then 
+if [ -a ubera48 ]; then 
 echo "UBER ANDROID 4.8[PASS]"
 else
 rm -Rf prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.8
 git clone https://bitbucket.org/UBERTC/arm-linux-androideabi-4.8.git -b master prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.8 && touch ubera48
 fi
-if [ -d ubera49 ]; then 
+if [ -a ubera49 ]; then 
 echo "UBER ANDROID 4.9[PASS]"
 else
 rm -Rf prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9
