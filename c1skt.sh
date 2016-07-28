@@ -35,7 +35,7 @@ device=c1skt #기기명
 #ROM Source Download                                                        
 #######################################################################
 echo "───────────────────────────────────────────────────" 
-echo "         Fullgreen BUILD Script[1.2.3.E]│$device   "
+echo "         Fullgreen BUILD Script[1.2.3.F]│$device   "
 echo "───────────────────────────────────────────────────" 
 echo "cy  │ Cyanogenmod"
 echo "cyos│ CyanogenOS"
@@ -87,7 +87,7 @@ cy)
                   patch=cy && buildprop=cy
 ;;
 cyos)
-					repo init -u git://github.com/CyanogenMod/android.git -b cm-13.0-ZNH2K && touch cyos
+					repo init -u git://github.com/CyanogenMod/android.git -b stable/cm-13.0-ZNH2K && touch cyos
                   patch=cyos && buildprop=cyos
 ;;
 rr)
