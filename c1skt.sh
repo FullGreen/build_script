@@ -35,7 +35,7 @@ device=c1skt #기기명
 #ROM Source Download                                                        
 #######################################################################
 echo "───────────────────────────────────────────────────" 
-echo "         Fullgreen BUILD Script[1.2.3.C]│$device   "
+echo "         Fullgreen BUILD Script[1.2.3.D]│$device   "
 echo "───────────────────────────────────────────────────" 
 echo "cy  │ Cyanogenmod"
 echo "cyos│ CyanogenOS"
@@ -366,18 +366,18 @@ rm -Rf prebuilts/gcc/linux-x86/arm/arm-eabi-4.9
 git clone https://bitbucket.org/UBERTC/arm-eabi-4.9.git -b master prebuilts/gcc/linux-x86/arm/arm-eabi-4.9 && touch uber49
 fi
 #UBER rom
-if [ -a ubera48 ]; then 
-echo "UBER ANDROID 4.8[PASS]"
-else
-rm -Rf prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.8
-git clone https://bitbucket.org/UBERTC/arm-linux-androideabi-4.8.git -b master prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.8 && touch ubera48
-fi
-if [ -a ubera49 ]; then 
-echo "UBER ANDROID 4.9[PASS]"
-else
-rm -Rf prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9
-git clone https://bitbucket.org/UBERTC/arm-linux-androideabi-4.9.git -b master prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9 && touch ubera49
-fi
+#if [ -a ubera48 ]; then 
+#echo "UBER ANDROID 4.8[PASS]"
+#else
+#rm -Rf prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.8
+#git clone https://bitbucket.org/UBERTC/arm-linux-androideabi-4.8.git -b master prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.8 && touch ubera48
+#fi
+#if [ -a ubera49 ]; then 
+#echo "UBER ANDROID 4.9[PASS]"
+#else
+#rm -Rf prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9
+#git clone https://bitbucket.org/UBERTC/arm-linux-androideabi-4.9.git -b master prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9 && touch ubera49
+#fi
 ;;
 esac
 #######################################################################
