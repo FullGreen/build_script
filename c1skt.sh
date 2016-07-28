@@ -35,7 +35,7 @@ device=c1skt #기기명
 #ROM Source Download                                                        
 #######################################################################
 echo "───────────────────────────────────────────────────" 
-echo "         Fullgreen BUILD Script[1.2.3]│$device     "
+echo "         Fullgreen BUILD Script[1.2.3.A]│$device   "
 echo "───────────────────────────────────────────────────" 
 echo "cy  │ Cyanogenmod"
 echo "cyos│ CyanogenOS"
@@ -378,9 +378,9 @@ prebuilts/misc/darwin-x86/ccache/ccache -M 50G
 git clone https://github.com/FullGreen/android_packages_apps_helper.git -b master packages/apps/helper
 cd packages/apps/helper && git pull && cd .. && cd .. && cd ..
 
-if [ patch = ha ]; then
+if [ patch=ha ]; then
 cm=n
-elif [ patch = om ]; then
+elif [ patch=om ]; then
 cm=n
 else
 cm=y
@@ -569,50 +569,47 @@ tput setaf 3
 git clone https://github.com/FullgreenDEVhaxynox/aosp_device_samsung_c1skt-common.git -b android-6.0 device/samsung/c1skt-common
 fi
 
-if [ -d kernel/samsung/smdk4412 ]; then 
+if [ -a kernel ]; then 
 tput setaf 1
-echo "kernel/samsung/smdk4412[DELETE]"
+echo "kernel/samsung/smdk4412[PASS]"
+tput setaf 3
+cd kernel/samsung/smdk4412 && git pull && cd .. && cd .. && cd ..
+else
+tput setaf 2
+echo "kernel/samsung/smdk4412[DOWNLOAD]"
+tput setaf 3
 rm -Rf kernel/samsung/smdk4412
-tput setaf 2
-echo "kernel/samsung/smdk4412[DOWNLOAD]"
-tput setaf 3
-git clone https://github.com/FullgreenDEVhaxynox/aosp_kernel_samsung_smdk4412.git -b android-6.0 kernel/samsung/smdk4412
-else
-tput setaf 2
-echo "kernel/samsung/smdk4412[DOWNLOAD]"
-tput setaf 3
-git clone https://github.com/FullgreenDEVhaxynox/aosp_kernel_samsung_smdk4412.git -b android-6.0 kernel/samsung/smdk4412
+git clone https://github.com/FullgreenDEVhaxynox/aosp_kernel_samsung_smdk4412.git -b android-6.0 kernel/samsung/smdk4412 && touch kernel
 fi
 
-if [ -d vendor/samsung ]; then 
+if [ -a vendor ]; then 
 tput setaf 1
-echo "vendor/samsung[DELETE]"
+echo "vendor/samsung[PASS]"
+tput setaf 3
+cd vendor/samsung && git pull && cd .. && cd ..
+else
+tput setaf 2
+echo "vendor/samsung[DOWNLOAD]"
+tput setaf 3
 rm -Rf vendor/samsung
-tput setaf 2
-echo "vendor/samsung[DOWNLOAD]"
-tput setaf 3
-git clone https://github.com/FullgreenDEVhaxynox/proprietary_vendor_samsung.git -b android-6.0 vendor/samsung
-else
-tput setaf 2
-echo "vendor/samsung[DOWNLOAD]"
-tput setaf 3
-git clone https://github.com/FullgreenDEVhaxynox/proprietary_vendor_samsung.git -b android-6.0 vendor/samsung
+git clone https://github.com/FullgreenDEVhaxynox/proprietary_vendor_samsung.git -b android-6.0 vendor/samsung && touch vendor
 fi
 
-if [ -d hardware/samsung ]; then 
+if [ -a hardware ]; then 
 tput setaf 1
-echo "hardware/samsung[DELETE]"
-rm -Rf hardware/samsung
-tput setaf 2
-echo "hardware/samsung[DOWNLOAD]"
+echo "hardware/samsung[PASS]"
 tput setaf 3
-git clone https://github.com/FullgreenDEVhaxynox/android_hardware_samsung.git -b android-6.0 hardware/samsung
+cd hardware/samsung && git pull && cd .. && cd ..
 else
 tput setaf 2
 echo "hardware/samsung[DOWNLOAD]"
 tput setaf 3
-git clone https://github.com/FullgreenDEVhaxynox/android_hardware_samsung.git -b android-6.0 hardware/samsung
+rm -Rf hardware/samsung
+git clone https://github.com/FullgreenDEVhaxynox/android_hardware_samsung.git -b android-6.0 hardware/samsung && touch hardware
 fi
+
+rm -Rf external/guava
+git clone https://github.com/CyanogenMod/android_external_guava.git -b cm-13.0 external/guava
 ;;
 
 om)
@@ -785,6 +782,7 @@ ha)
 		clear
 		. build/envsetup.sh
        lunch aosp_c1skt-userdebug
+       make -j8 otapackage
 ;;
 om)
 		clear
