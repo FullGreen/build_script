@@ -35,7 +35,7 @@ device=c1skt #기기명
 #ROM Source Download                                                        
 #######################################################################
 echo "───────────────────────────────────────────────────" 
-echo "         Fullgreen BUILD Script[1.2.3.B]│$device   "
+echo "         Fullgreen BUILD Script[1.2.3.C]│$device   "
 echo "───────────────────────────────────────────────────" 
 echo "cy  │ Cyanogenmod"
 echo "cyos│ CyanogenOS"
@@ -340,6 +340,18 @@ esac
 #######################################################################
 #Toolchain SETTING                                                    
 #######################################################################
+if [ patch=ha ]; then
+toolchain=n
+elif [ patch=om ]; then
+toolchain=n
+else
+toolchain=y
+fi
+case $toolchain in
+n)
+echo "toolchain[PASS]"
+;;
+y)
 #UBER kernel
 if [ -a uber48 ]; then 
 echo "UBER 4.8[PASS]"
@@ -366,6 +378,8 @@ else
 rm -Rf prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9
 git clone https://bitbucket.org/UBERTC/arm-linux-androideabi-4.9.git -b master prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9 && touch ubera49
 fi
+;;
+esac
 #######################################################################
 #CCACHE SETTING                                                    
 #######################################################################
