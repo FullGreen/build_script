@@ -35,7 +35,7 @@ device=c1skt #기기명
 #ROM Source Download                                                        
 #######################################################################
 echo "───────────────────────────────────────────────────" 
-echo "         Fullgreen BUILD Script[1.2.3.D]│$device   "
+echo "         Fullgreen BUILD Script[1.2.3.E]│$device   "
 echo "───────────────────────────────────────────────────" 
 echo "cy  │ Cyanogenmod"
 echo "cyos│ CyanogenOS"
@@ -202,6 +202,8 @@ PRODUCT_PACKAGES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.config.ringtone=Orion.ogg" > vendor/cm/config/telephony.mk
 patch=cy
+rm -Rf external/guava
+git clone https://github.com/CyanogenMod/android_external_guava.git -b cm-13.0 external/guava
 ;;
 
 rr)
