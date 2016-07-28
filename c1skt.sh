@@ -35,7 +35,7 @@ device=c1skt #기기명
 #ROM Source Download                                                        
 #######################################################################
 echo "───────────────────────────────────────────────────" 
-echo "         Fullgreen BUILD Script[1.2.3.A]│$device   "
+echo "         Fullgreen BUILD Script[1.2.3.B]│$device   "
 echo "───────────────────────────────────────────────────" 
 echo "cy  │ Cyanogenmod"
 echo "cyos│ CyanogenOS"
@@ -569,7 +569,7 @@ tput setaf 3
 git clone https://github.com/FullgreenDEVhaxynox/aosp_device_samsung_c1skt-common.git -b android-6.0 device/samsung/c1skt-common
 fi
 
-if [ -a kernel ]; then 
+if [ -a kernela ]; then 
 tput setaf 1
 echo "kernel/samsung/smdk4412[PASS]"
 tput setaf 3
@@ -579,10 +579,10 @@ tput setaf 2
 echo "kernel/samsung/smdk4412[DOWNLOAD]"
 tput setaf 3
 rm -Rf kernel/samsung/smdk4412
-git clone https://github.com/FullgreenDEVhaxynox/aosp_kernel_samsung_smdk4412.git -b android-6.0 kernel/samsung/smdk4412 && touch kernel
+git clone https://github.com/FullgreenDEVhaxynox/aosp_kernel_samsung_smdk4412.git -b android-6.0 kernel/samsung/smdk4412 && touch kernela
 fi
 
-if [ -a vendor ]; then 
+if [ -a vendora ]; then 
 tput setaf 1
 echo "vendor/samsung[PASS]"
 tput setaf 3
@@ -592,10 +592,10 @@ tput setaf 2
 echo "vendor/samsung[DOWNLOAD]"
 tput setaf 3
 rm -Rf vendor/samsung
-git clone https://github.com/FullgreenDEVhaxynox/proprietary_vendor_samsung.git -b android-6.0 vendor/samsung && touch vendor
+git clone https://github.com/FullgreenDEVhaxynox/proprietary_vendor_samsung.git -b android-6.0 vendor/samsung && touch vendora
 fi
 
-if [ -a hardware ]; then 
+if [ -a hardwarea ]; then 
 tput setaf 1
 echo "hardware/samsung[PASS]"
 tput setaf 3
@@ -605,7 +605,7 @@ tput setaf 2
 echo "hardware/samsung[DOWNLOAD]"
 tput setaf 3
 rm -Rf hardware/samsung
-git clone https://github.com/FullgreenDEVhaxynox/android_hardware_samsung.git -b android-6.0 hardware/samsung && touch hardware
+git clone https://github.com/FullgreenDEVhaxynox/android_hardware_samsung.git -b android-6.0 hardware/samsung && touch hardwarea
 fi
 
 rm -Rf external/guava
