@@ -35,7 +35,7 @@ device=c1skt #기기명
 #ROM Source Download                                                        
 #######################################################################
 echo "───────────────────────────────────────────────────" 
-echo "         Fullgreen BUILD Script[1.2.3.F]│$device   "
+echo "         Fullgreen BUILD Script[1.2.3.G]│$device   "
 echo "───────────────────────────────────────────────────" 
 echo "cy  │ Cyanogenmod"
 echo "cyos│ CyanogenOS"
@@ -182,6 +182,7 @@ CellBroadcastReceiver
 PRODUCT_PROPERTY_OVERRIDES += \
 ro.config.ringtone=Orion.ogg" > vendor/cm/config/telephony.mk
 patch=cy
+cm=y
 ;;
 
 cyos)
@@ -202,6 +203,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.config.ringtone=Orion.ogg" > vendor/cm/config/telephony.mk
 patch=cy
+cm=y
 rm -Rf external/guava
 git clone https://github.com/CyanogenMod/android_external_guava.git -b cm-13.0 external/guava
 ;;
@@ -220,6 +222,7 @@ CellBroadcastReceiver
 PRODUCT_PROPERTY_OVERRIDES += \
 ro.config.ringtone=Resurrection2.mp3" > vendor/cm/config/telephony.mk
 patch=cy
+cm=y
 ;;
 
 bl)
@@ -235,6 +238,7 @@ CellBroadcastReceiver
 # Default ringtone
 PRODUCT_PROPERTY_OVERRIDES += \
 ro.config.ringtone=Orion.ogg" > vendor/bliss/config/telephony.mk
+cm=y
 ;;
 
 te)
@@ -251,6 +255,7 @@ CellBroadcastReceiver
 PRODUCT_PROPERTY_OVERRIDES += \
 ro.config.ringtone=Orion.ogg" > vendor/cm/config/telephony.mk
 patch=cy
+cm=y
 ;;
 
 fl)
@@ -272,6 +277,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.config.ringtone=Littlecat.mp3
 " > vendor/cm/config/telephony.mk
 patch=cy
+cm=y
 ;;
 
 ai)
@@ -287,6 +293,7 @@ CellBroadcastReceiver
 # Default ringtone
 PRODUCT_PROPERTY_OVERRIDES += \
 ro.config.ringtone=Orion.ogg" > vendor/aicp/configs/telephony.mk
+cm=y
 ;;
 
 cr)
@@ -302,6 +309,7 @@ CellBroadcastReceiver
 # Default ringtone
 PRODUCT_PROPERTY_OVERRIDES += \
 ro.config.ringtone=Phobos.ogg" > vendor/cm/config/telephony.mk
+cm=y
 ;;
 
 na)
@@ -309,6 +317,7 @@ cp sms_patch.java frameworks/opt/telephony/src/java/com/android/internal/telepho
 echo "Vendor의 apns-conf파일 삭제"
 rm -f vendor/nameless/prebuilt/common/etc/apns-conf.xml
 echo "" > vendor/nameless/config/apns.mk
+cm=y
 ;;
 
 xo)
@@ -324,10 +333,12 @@ CellBroadcastReceiver
 # Default ringtone
 PRODUCT_PROPERTY_OVERRIDES += \
 ro.config.ringtone=xperia.ogg" > vendor/xosp/config/telephony.mk
+cm=y
 ;;
 
 ha)
 cp ha_sms_patch.java frameworks/opt/telephony/src/java/com/android/internal/telephony/RIL.java
+cm=n
 ;;
 
 om)
@@ -337,6 +348,7 @@ echo "" > vendor/omni/config/cdma.mk
 echo "# SIM Toolkit
 PRODUCT_PACKAGES += \
 Stk" > vendor/omni/config/gsm.mk
+cm=n
 ;;
 esac
 #######################################################################
@@ -393,14 +405,6 @@ prebuilts/misc/darwin-x86/ccache/ccache -M 50G
 #######################################################################
 git clone https://github.com/FullGreen/android_packages_apps_helper.git -b master packages/apps/helper
 cd packages/apps/helper && git pull && cd .. && cd .. && cd ..
-
-if [ patch=ha ]; then
-cm=n
-elif [ patch=om ]; then
-cm=n
-else
-cm=y
-fi
 
 case $cm in
 
