@@ -83,86 +83,59 @@ fi
 
 case $main in
 cy)
-					repo init -u git://github.com/CyanogenMod/android.git -b cm-13.0 && touch cy
+          repo init -u git://github.com/CyanogenMod/android.git -b cm-13.0 && touch cy
                   patch=cy && buildprop=cy
 ;;
 cyos)
-					repo init -u git://github.com/CyanogenMod/android.git -b stable/cm-13.0-ZNH2K && touch cyos
+          repo init -u git://github.com/CyanogenMod/android.git -b stable/cm-13.0-ZNH2K && touch cyos
                   patch=cyos && buildprop=cyos
 ;;
 rr)
-					repo init -u https://github.com/ResurrectionRemix/platform_manifest.git -b marshmallow && touch rr
+          repo init -u https://github.com/ResurrectionRemix/platform_manifest.git -b marshmallow && touch rr
                   patch=rr && buildprop=rr
 ;;
 bl)
-					repo init -u https://github.com/BlissRoms/platform_manifest.git -b mm6.0 && touch bl
-					patch=bl && buildprop=bl
+          repo init -u https://github.com/BlissRoms/platform_manifest.git -b mm6.0 && touch bl
+          patch=bl && buildprop=bl
 ;;
 te)
-					repo init -u https://github.com/temasek/android.git -b cm-13.0 && touch te
+          repo init -u https://github.com/temasek/android.git -b cm-13.0 && touch te
                   patch=te && buildprop=te
 ;;
 fl)
-					repo init -u git://github.com/FlareROM/android.git -b 1.0-MM && touch fl
+          repo init -u git://github.com/FlareROM/android.git -b 1.0-MM && touch fl
                   patch=fl && buildprop=fl
 ;;
 ai)
-					repo init -u https://github.com/AICP/platform_manifest.git -b mm6.0 && touch ai
+          repo init -u https://github.com/AICP/platform_manifest.git -b mm6.0 && touch ai
                   patch=ai && buildprop=ai
 ;;
 cr)
-					repo init -u https://github.com/crdroidandroid/android -b 6.0.0 && touch cr
+          repo init -u https://github.com/crdroidandroid/android -b 6.0.0 && touch cr
                   patch=cr && buildprop=cr
 ;;
 na)
-					repo init -u https://github.com/NamelessRom/android.git -b n-3.0 && touch na
+          repo init -u https://github.com/NamelessRom/android.git -b n-3.0 && touch na
                   patch=na && buildprop=na
 ;;
 xo)
-					repo init -u git://github.com/XOSP-Project/platform_manifest.git -b xosp-mm && touch xo
+          repo init -u git://github.com/XOSP-Project/platform_manifest.git -b xosp-mm && touch xo
                   patch=xo && buildprop=xo
 ;;
 ha)
-					repo init -u git://github.com/Haxynox/platform_manifest.git -b Mmm && touch ha
+          repo init -u git://github.com/Haxynox/platform_manifest.git -b Mmm && touch ha
                   patch=ha && buildprop=ha
 ;;
 om)
-					repo init -u git://github.com/omnirom/android.git -b android-6.0 && touch om
+          repo init -u git://github.com/omnirom/android.git -b android-6.0 && touch om
                   patch=om && buildprop=om
 ;;
 esac
 
-echo "동시에 몇개의 소스를 다운받으시겠습니까? [1/2/4/8/16/32/64/128]"
+echo "소스를 동시에 다운로드 받을 숫자를 입력하세요. [숫자 입력]"
 echo "소스 다운로드를 건너뛰고 싶으시면 [n]을 입력해주세요."
 read tru
-
-case $tru in
-1)
-				repo sync --force-sync -j1
-;;
-2)
-				repo sync --force-sync -j2
-;;
-4)
-				repo sync --force-sync -j4
-;;
-8)
-				repo sync --force-sync -j8
-;;
-16)
-				repo sync --force-sync -j16
-;;
-32)
-				repo sync --force-sync -j32
-;;
-64)
-				repo sync --force-sync -j64
-;;
-128)
-				repo sync --force-sync -j128
-;;
-
-esac
+repo sync --force-sync -j$tru
 
 #######################################################################
 #SMS,DADA PATCH                                                     
@@ -407,7 +380,7 @@ prebuilts/misc/darwin-x86/ccache/ccache -M 50G
 #DEVICE Source Download                                                        
 #######################################################################
 git clone https://github.com/FullGreen/android_packages_apps_helper.git -b master packages/apps/helper
-cd packages/apps/helper && git pull && cd .. && cd .. && cd ..
+cd packages/apps/helper && git pull && cd ../../..
 
 case $cm in
 
@@ -421,7 +394,7 @@ if [ -d device/samsung/c1skt-common ]; then
  tput setaf 1
  echo "device/samsung/c1skt-common[PASS]"
  tput setaf 3
- cd device/samsung/c1skt-common && git pull && cd .. && cd .. && cd ..
+ cd device/samsung/c1skt-common && git pull && cd ../../..
  else
  tput setaf 2
  echo "device/samsung/c1skt-common[DOWNLOAD]" 
@@ -433,7 +406,7 @@ if [ -d device/samsung/c1skt-common ]; then
  tput setaf 1
  echo "kernel/samsung/smdk4412[PASS]"
  tput setaf 3
- cd kernel/samsung/smdk4412 && git pull && cd .. && cd .. && cd ..
+ cd kernel/samsung/smdk4412 && git pull && cd ../../..
  else
  tput setaf 2
  echo "kernel/samsung/smdk4412[DOWNLOAD]"
@@ -445,7 +418,7 @@ if [ -d device/samsung/c1skt-common ]; then
  tput setaf 1
  echo "vendor/samsung[PASS]"
  tput setaf 3 
- cd vendor/samsung && git pull && cd .. && cd ..
+ cd vendor/samsung && git pull && cd ../..
  else
  tput setaf 2
  echo "vendor/samsung[DOWNLOAD]"
@@ -457,7 +430,7 @@ if [ -d device/samsung/c1skt-common ]; then
  tput setaf 1
  echo "packages/apps/SamsungServiceMode[PASS]"
  tput setaf 3 
- cd packages/apps/SamsungServiceMode && git pull && cd .. && cd .. && cd ..
+ cd packages/apps/SamsungServiceMode && git pull && cd ../../..
  else
  tput setaf 2
  echo "packages/apps/SamsungServiceMode[DOWNLOAD]" 
@@ -469,7 +442,7 @@ if [ -d device/samsung/c1skt-common ]; then
  tput setaf 1
  echo "external/stlport[PASS]"
  tput setaf 3
- cd external/stlport && git pull && cd .. && cd ..
+ cd external/stlport && git pull && cd ../..
  else
  tput setaf 2
  echo "external/stlport[DOWNLOAD]"
@@ -481,7 +454,7 @@ if [ -d device/samsung/c1skt-common ]; then
  tput setaf 1
  echo "hardware/samsung[PASS]"
  tput setaf 3
- cd hardware/samsung && git pull && cd .. && cd ..
+ cd hardware/samsung && git pull && cd ../..
  else
  tput setaf 2
  echo "hardware/samsung[DOWNLOAD]"
@@ -498,7 +471,7 @@ cy)
  tput setaf 1
  echo "device/samsung/c1skt[UPDATE]"
  tput setaf 3
- cd device/samsung/c1skt && git pull && cd .. && cd .. && cd ..
+ cd device/samsung/c1skt && git pull && cd ../../..
  else
  tput setaf 2
  echo "device/samsung/c1skt[DOWNLOAD]"
@@ -516,7 +489,7 @@ if [ -d device/samsung/c1skt ]; then
 tput setaf 1
 echo "device/samsung/c1skt[PASS]"
 tput setaf 3
-cd device/samsung/c1skt && git pull && cd .. && cd .. && cd ..
+cd device/samsung/c1skt && git pull && cd ../../..
 else
 tput setaf 2
 echo "device/samsung/c1skt[DOWNLOAD]"
@@ -530,7 +503,7 @@ if [ -d device/samsung/c1skt ]; then
 tput setaf 1
 echo "device/samsung/c1skt[PASS]"
 tput setaf 3
-cd device/samsung/c1skt && git pull && cd .. && cd .. && cd ..
+cd device/samsung/c1skt && git pull && cd ../../..
 else
 tput setaf 2
 echo "device/samsung/c1skt[DOWNLOAD]"
@@ -544,7 +517,7 @@ if [ -d device/samsung/c1skt ]; then
 tput setaf 1
 echo "device/samsung/c1skt[PASS]"
 tput setaf 3
-cd device/samsung/c1skt && git pull && cd .. && cd .. && cd ..
+cd device/samsung/c1skt && git pull && cd ../../..
 else
 tput setaf 2
 echo "device/samsung/c1skt[DOWNLOAD]"
@@ -558,7 +531,7 @@ if [ -d device/samsung/c1skt ]; then
 tput setaf 1
 echo "device/samsung/c1skt[PASS]"
 tput setaf 3
-cd device/samsung/c1skt && git pull && cd .. && cd .. && cd ..
+cd device/samsung/c1skt && git pull && cd ../../..
 else
 tput setaf 2
 echo "device/samsung/c1skt[DOWNLOAD]"
@@ -572,7 +545,7 @@ if [ -d device/samsung/c1skt ]; then
 tput setaf 1
 echo "device/samsung/c1skt[PASS]"
 tput setaf 3
-cd device/samsung/c1skt && git pull && cd .. && cd .. && cd ..
+cd device/samsung/c1skt && git pull && cd ../../..
 else
 tput setaf 2
 echo "device/samsung/c1skt[DOWNLOAD]"
@@ -584,7 +557,7 @@ if [ -d device/samsung/c1skt-common ]; then
 tput setaf 1
 echo "device/samsung/c1skt-common[PASS]"
 tput setaf 3
-cd device/samsung/c1skt-common && git pull && cd .. && cd .. && cd ..
+cd device/samsung/c1skt-common && git pull && cd ../../..
 else
 tput setaf 2
 echo "device/samsung/c1skt-common[DOWNLOAD]"
@@ -596,7 +569,7 @@ if [ -a kernela ]; then
 tput setaf 1
 echo "kernel/samsung/smdk4412[PASS]"
 tput setaf 3
-cd kernel/samsung/smdk4412 && git pull && cd .. && cd .. && cd ..
+cd kernel/samsung/smdk4412 && git pull && cd ../../..
 else
 tput setaf 2
 echo "kernel/samsung/smdk4412[DOWNLOAD]"
@@ -609,7 +582,7 @@ if [ -a vendora ]; then
 tput setaf 1
 echo "vendor/samsung[PASS]"
 tput setaf 3
-cd vendor/samsung && git pull && cd .. && cd ..
+cd vendor/samsung && git pull && cd ../..
 else
 tput setaf 2
 echo "vendor/samsung[DOWNLOAD]"
@@ -622,7 +595,7 @@ if [ -a hardwarea ]; then
 tput setaf 1
 echo "hardware/samsung[PASS]"
 tput setaf 3
-cd hardware/samsung && git pull && cd .. && cd ..
+cd hardware/samsung && git pull && cd ../..
 else
 tput setaf 2
 echo "hardware/samsung[DOWNLOAD]"
@@ -640,7 +613,7 @@ if [ -d device/samsung/c1skt ]; then
 tput setaf 1
 echo "device/samsung/c1skt[PASS]"
 tput setaf 3
-cd device/samsung/c1skt && git pull && cd .. && cd .. && cd ..
+cd device/samsung/c1skt && git pull && cd ../../..
 else
 tput setaf 2
 echo "device/samsung/c1skt[DOWNLOAD]"
@@ -652,7 +625,7 @@ if [ -d device/samsung/c1skt-common ]; then
 tput setaf 1
 echo "device/samsung/c1skt-common[PASS]"
 tput setaf 3
-cd device/samsung/c1skt-common && git pull && cd .. && cd .. && cd ..
+cd device/samsung/c1skt-common && git pull && cd ../../..
 else
 tput setaf 2
 echo "device/samsung/c1skt-common[DOWNLOAD]"
@@ -664,7 +637,7 @@ if [ -d kernel/samsung/smdk4412 ]; then
 tput setaf 1
 echo "kernel/samsung/smdk4412[PASS]"
 tput setaf 3
-cd kernel/samsung/smdk4412 && git pull && cd .. && cd .. && cd ..
+cd kernel/samsung/smdk4412 && git pull && cd ../../..
 else
 tput setaf 2
 echo "kernel/samsung/smdk4412[DOWNLOAD]"
@@ -676,7 +649,7 @@ if [ -d vendor/samsung ]; then
 tput setaf 1
 echo "vendor/samsung[PASS]"
 tput setaf 3
-cd vendor/samsung && git pull && cd .. && cd ..
+cd vendor/samsung && git pull && cd ../..
 else
 tput setaf 2
 echo "vendor/samsung[DOWNLOAD]"
@@ -688,7 +661,7 @@ if [ -d packages/apps/SamsungServiceMode ]; then
 tput setaf 1
 echo "packages/apps/SamsungServiceMode[PASS]"
 tput setaf 3
-cd packages/apps/SamsungServiceMode && git pull && cd .. && cd .. && cd ..
+cd packages/apps/SamsungServiceMode && git pull && cd ../../..
 else
 tput setaf 2
 echo "packages/apps/SamsungServiceMode[DOWNLOAD]"
@@ -772,44 +745,44 @@ esac
 
 case $patch in
 cy)
-		clear
-		. build/envsetup.sh
+    clear
+    . build/envsetup.sh
        brunch c1skt
 ;;
 bl)
-		clear
-		. build/envsetup.sh
+    clear
+    . build/envsetup.sh
        brunch c1skt
 ;;
 ai)
-		clear
-		. build/envsetup.sh
+    clear
+    . build/envsetup.sh
        brunch c1skt
 ;;
 cr)
-		clear
-		. build/envsetup.sh
+    clear
+    . build/envsetup.sh
        brunch c1skt
 ;;
 na)
-		clear
-		. build/envsetup.sh
+    clear
+    . build/envsetup.sh
        brunch c1skt
 ;;
 xo)
-		clear
-		. build/envsetup.sh
+    clear
+    . build/envsetup.sh
        brunch c1skt
 ;;
 ha)
-		clear
-		. build/envsetup.sh
+    clear
+    . build/envsetup.sh
        lunch aosp_c1skt-userdebug
        make -j8 otapackage
 ;;
 om)
-		clear
-		. build/envsetup.sh
+    clear
+    . build/envsetup.sh
        brunch c1skt
 ;;
 esac
