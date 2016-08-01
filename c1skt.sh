@@ -35,7 +35,7 @@ device=c1skt #기기명
 #ROM Source Download                                                        
 #######################################################################
 echo "───────────────────────────────────────────────────" 
-echo "         Fullgreen BUILD Script[1.2.4]│$device   "
+echo "         Fullgreen BUILD Script[1.2.4.A]│$device   "
 echo "───────────────────────────────────────────────────" 
 echo "cy  │ Cyanogenmod"
 echo "cyos│ CyanogenOS"
@@ -83,52 +83,40 @@ fi
 
 case $main in
 cy)
-          repo init -u git://github.com/CyanogenMod/android.git -b cm-13.0 && touch cy
-                  patch=cy && buildprop=cy
+          repo init -u git://github.com/CyanogenMod/android.git -b cm-13.0 && touch cy && patch=cy && touch buildprop
 ;;
 cyos)
-          repo init -u git://github.com/CyanogenMod/android.git -b stable/cm-13.0-ZNH2K && touch cyos
-                  patch=cyos && buildprop=cyos
+          repo init -u git://github.com/CyanogenMod/android.git -b stable/cm-13.0-ZNH2K && touch cyos && patch=cyos && touch buildprop
 ;;
 rr)
-          repo init -u https://github.com/ResurrectionRemix/platform_manifest.git -b marshmallow && touch rr
-                  patch=rr && buildprop=rr
+          repo init -u https://github.com/ResurrectionRemix/platform_manifest.git -b marshmallow && touch rr && patch=rr && touch buildprop
 ;;
 bl)
-          repo init -u https://github.com/BlissRoms/platform_manifest.git -b mm6.0 && touch bl
-          patch=bl && buildprop=bl
+          repo init -u https://github.com/BlissRoms/platform_manifest.git -b mm6.0 && touch bl && patch=bl && touch buildprop
 ;;
 te)
-          repo init -u https://github.com/temasek/android.git -b cm-13.0 && touch te
-                  patch=te && buildprop=te
+          repo init -u https://github.com/temasek/android.git -b cm-13.0 && touch te && patch=te && touch buildprop
 ;;
 fl)
-          repo init -u git://github.com/FlareROM/android.git -b 1.0-MM && touch fl
-                  patch=fl && buildprop=fl
+          repo init -u git://github.com/FlareROM/android.git -b 1.0-MM && touch fl && patch=fl && touch buildprop
 ;;
 ai)
-          repo init -u https://github.com/AICP/platform_manifest.git -b mm6.0 && touch ai
-                  patch=ai && buildprop=ai
+          repo init -u https://github.com/AICP/platform_manifest.git -b mm6.0 && touch ai && patch=ai && touch buildprop
 ;;
 cr)
-          repo init -u https://github.com/crdroidandroid/android -b 6.0.0 && touch cr
-                  patch=cr && buildprop=cr
+          repo init -u https://github.com/crdroidandroid/android -b 6.0.0 && touch cr && patch=cr && touch buildprop
 ;;
 na)
-          repo init -u https://github.com/NamelessRom/android.git -b n-3.0 && touch na
-                  patch=na && buildprop=na
+          repo init -u https://github.com/NamelessRom/android.git -b n-3.0 && touch na && patch=na && touch buildprop
 ;;
 xo)
-          repo init -u git://github.com/XOSP-Project/platform_manifest.git -b xosp-mm && touch xo
-                  patch=xo && buildprop=xo
+          repo init -u git://github.com/XOSP-Project/platform_manifest.git -b xosp-mm && touch xo && patch=xo && touch buildprop
 ;;
 ha)
-          repo init -u git://github.com/Haxynox/platform_manifest.git -b Mmm && touch ha
-                  patch=ha && buildprop=ha
+          repo init -u git://github.com/Haxynox/platform_manifest.git -b Mmm && touch ha && patch=ha && touch buildprop
 ;;
 om)
-          repo init -u git://github.com/omnirom/android.git -b android-6.0 && touch om
-                  patch=om && buildprop=om
+          repo init -u git://github.com/omnirom/android.git -b android-6.0 && touch om && patch=om && touch buildprop
 ;;
 esac
 
@@ -156,6 +144,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 ro.config.ringtone=Orion.ogg" > vendor/cm/config/telephony.mk
 patch=cy
 cm=y
+buildprop=cy
 ;;
 
 cyos)
@@ -177,6 +166,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.config.ringtone=Orion.ogg" > vendor/cm/config/telephony.mk
 patch=cy
 cm=y
+buildprop=cyos
 rm -Rf external/guava
 git clone https://github.com/CyanogenMod/android_external_guava.git -b cm-13.0 external/guava
 ;;
@@ -196,6 +186,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 ro.config.ringtone=Resurrection2.mp3" > vendor/cm/config/telephony.mk
 patch=cy
 cm=y
+buildprop=rr
 ;;
 
 bl)
@@ -212,6 +203,7 @@ CellBroadcastReceiver
 PRODUCT_PROPERTY_OVERRIDES += \
 ro.config.ringtone=Orion.ogg" > vendor/bliss/config/telephony.mk
 cm=y
+buildprop=bl
 ;;
 
 te)
@@ -229,6 +221,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 ro.config.ringtone=Orion.ogg" > vendor/cm/config/telephony.mk
 patch=cy
 cm=y
+buildprop=te
 ;;
 
 fl)
@@ -251,6 +244,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 " > vendor/cm/config/telephony.mk
 patch=cy
 cm=y
+buildprop=fl
 ;;
 
 ai)
@@ -267,6 +261,7 @@ CellBroadcastReceiver
 PRODUCT_PROPERTY_OVERRIDES += \
 ro.config.ringtone=Orion.ogg" > vendor/aicp/configs/telephony.mk
 cm=y
+buildprop=ai
 ;;
 
 cr)
@@ -283,6 +278,7 @@ CellBroadcastReceiver
 PRODUCT_PROPERTY_OVERRIDES += \
 ro.config.ringtone=Phobos.ogg" > vendor/cm/config/telephony.mk
 cm=y
+buildprop=cr
 ;;
 
 na)
@@ -291,6 +287,7 @@ echo "Vendor의 apns-conf파일 삭제"
 rm -f vendor/nameless/prebuilt/common/etc/apns-conf.xml
 echo "" > vendor/nameless/config/apns.mk
 cm=y
+buildprop=na
 ;;
 
 xo)
@@ -307,11 +304,13 @@ CellBroadcastReceiver
 PRODUCT_PROPERTY_OVERRIDES += \
 ro.config.ringtone=xperia.ogg" > vendor/xosp/config/telephony.mk
 cm=y
+buildprop=xo
 ;;
 
 ha)
 cp ha_sms_patch.java frameworks/opt/telephony/src/java/com/android/internal/telephony/RIL.java
 cm=n
+buildprop=ha
 ;;
 
 om)
@@ -325,6 +324,7 @@ PRODUCT_PACKAGES += \
     Stk
 " > vendor/omni/config/gsm.mk
 cm=n
+buildprop=om
 ;;
 esac
 #######################################################################
@@ -704,6 +704,9 @@ esac
 #######################################################################
 #BUILD                                                       
 #######################################################################
+if [ -a buildprop ]; then
+buildprop=pass
+fi
 case $buildprop in 
 cy)
 echo "ro.fullgreen.rom=cyanogenmod" >> device/samsung/c1skt/system.prop
@@ -745,44 +748,27 @@ esac
 
 case $patch in
 cy)
-    clear
-    . build/envsetup.sh
-       brunch c1skt
+    clear && . build/envsetup.sh && brunch c1skt
 ;;
 bl)
-    clear
-    . build/envsetup.sh
-       brunch c1skt
+    clear && . build/envsetup.sh && brunch c1skt
 ;;
 ai)
-    clear
-    . build/envsetup.sh
-       brunch c1skt
+    clear && . build/envsetup.sh && brunch c1skt
 ;;
 cr)
-    clear
-    . build/envsetup.sh
-       brunch c1skt
+    clear && . build/envsetup.sh && brunch c1skt
 ;;
 na)
-    clear
-    . build/envsetup.sh
-       brunch c1skt
+    clear && . build/envsetup.sh && brunch c1skt
 ;;
 xo)
-    clear
-    . build/envsetup.sh
-       brunch c1skt
+    clear && . build/envsetup.sh && brunch c1skt
 ;;
 ha)
-    clear
-    . build/envsetup.sh
-       lunch aosp_c1skt-userdebug
-       make -j8 otapackage
+    clear && . build/envsetup.sh && lunch aosp_c1skt-userdebug && make -j8 otapackage
 ;;
 om)
-    clear
-    . build/envsetup.sh
-       brunch c1skt
+    clear && . build/envsetup.sh && brunch c1skt
 ;;
 esac
