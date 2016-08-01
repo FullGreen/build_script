@@ -51,29 +51,29 @@ echo "ha  │ Haxynox"
 echo "om  │ Omnirom"
 
 if [ -a cy ]; then
-patch=cy && buildprop=cy
+patch=cy
 elif [ -a cyos ]; then
-patch=cyos && buildprop=cyos
+patch=cyos
 elif [ -a rr ]; then
-patch=rr && buildprop=rr
+patch=rr
 elif [ -a bl ]; then
-patch=bl && buildprop=bl
+patch=bl
 elif [ -a te ]; then
-patch=te && buildprop=te
+patch=te
 elif [ -a fl ]; then
-patch=fl && buildprop=fl
+patch=fl
 elif [ -a ai ]; then
-patch=ai && buildprop=ai
+patch=ai
 elif [ -a cr ]; then
-patch=cr && buildprop=cr
+patch=cr
 elif [ -a na ]; then
-patch=na && buildprop=na
+patch=na
 elif [ -a xo ]; then
-patch=xo && buildprop=xo
+patch=xo
 elif [ -a ha ]; then
-patch=ha && buildprop=ha
+patch=ha
 elif [ -a om ]; then
-patch=om && buildprop=om
+patch=om
 else
 
 echo "어떤롬을 빌드하시겠습니까? [cy/rr/bl/te/fl/ai/cr/na/xo/ha/om/cyos]"
