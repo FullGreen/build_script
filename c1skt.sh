@@ -35,7 +35,7 @@ device=c1skt #기기명
 #ROM Source Download                                                        
 #######################################################################
 echo "───────────────────────────────────────────────────" 
-echo "         Fullgreen BUILD Script[1.2.4.A]│$device   "
+echo "         Fullgreen BUILD Script[1.2.5]│$device     "
 echo "───────────────────────────────────────────────────" 
 echo "cy  │ Cyanogenmod"
 echo "cyos│ CyanogenOS"
@@ -126,8 +126,9 @@ read tru
 repo sync --force-sync -j$tru
 
 #######################################################################
-#SMS,DADA PATCH                                                     
+#SMS,DADA,T wifi,Olleh wifi PATCH                                                     
 #######################################################################
+rm -Rf external/wpa_supplicant_8 && git clone https://github.com/FullGreen/android_external_wpa_supplicant_8.git -b cm-13.0 external/wpa_supplicant_8
 case $patch in
 cy)
 cp sms_patch.java frameworks/opt/telephony/src/java/com/android/internal/telephony/RIL.java
