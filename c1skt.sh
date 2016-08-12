@@ -748,28 +748,10 @@ echo "ro.fullgreen.rom=resurrectionremix" >> device/samsung/c1skt/system.prop
 esac
 
 case $patch in
-cy)
-    clear && . build/envsetup.sh && brunch c1skt
-;;
-bl)
-    clear && . build/envsetup.sh && brunch c1skt
-;;
-ai)
-    clear && . build/envsetup.sh && brunch c1skt
-;;
-cr)
-    clear && . build/envsetup.sh && brunch c1skt
-;;
-na)
-    clear && . build/envsetup.sh && brunch c1skt
-;;
-xo)
+cy|bl|ai|cr|na|xo|om)
     clear && . build/envsetup.sh && brunch c1skt
 ;;
 ha)
     clear && . build/envsetup.sh && lunch aosp_c1skt-userdebug && make -j8 otapackage
-;;
-om)
-    clear && . build/envsetup.sh && brunch c1skt
 ;;
 esac
