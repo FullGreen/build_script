@@ -35,7 +35,7 @@ device=c1skt #기기명
 #ROM Source Download                                                        
 #######################################################################
 echo "───────────────────────────────────────────────────" 
-echo "         Fullgreen BUILD Script[1.2.6]│$device     "
+echo "         Fullgreen BUILD Script[1.2.7]│$device     "
 echo "───────────────────────────────────────────────────" 
 echo "cy  │ Cyanogenmod"
 echo "cyos│ CyanogenOS"
@@ -126,206 +126,68 @@ read tru
 repo sync --force-sync -j$tru
 
 #######################################################################
-#SMS,DADA,T wifi,Olleh wifi PATCH                                                     
+#SMS PATCH                                                 
 #######################################################################
-rm -Rf external/wpa_supplicant_8 && git clone https://github.com/FullGreen/android_external_wpa_supplicant_8.git -b cm-13.0 external/wpa_supplicant_8
 case $patch in
 cy)
 cp sms_patch.java frameworks/opt/telephony/src/java/com/android/internal/telephony/RIL.java
-echo "Vendor의 apns-conf파일 삭제"
-rm -f vendor/cm/prebuilt/common/etc/apns-conf.xml
-echo "# Telephony packages
-PRODUCT_PACKAGES += \
-messaging \
-Stk \
-CellBroadcastReceiver
-
-# Default ringtone
-PRODUCT_PROPERTY_OVERRIDES += \
-ro.config.ringtone=Orion.ogg" > vendor/cm/config/telephony.mk
-patch=cy
-cm=y
-buildprop=cy
+cm=y && buildprop=cy && patch=cy
 ;;
 
 cyos)
 cp cyos_sms_patch.java frameworks/opt/telephony/src/java/com/android/internal/telephony/RIL.java
-echo "Vendor의 apns-conf파일 삭제"
-rm -f vendor/cm/prebuilt/common/etc/apns-conf.xml
-echo "# Selective SPN list for operator number who has the problem.
-PRODUCT_COPY_FILES += \
-    vendor/cm/prebuilt/common/etc/selective-spn-conf.xml:system/etc/selective-spn-conf.xml
-
-# Telephony packages
-PRODUCT_PACKAGES += \
-    messaging \
-    Stk \
-    CellBroadcastReceiver
-
-# Default ringtone
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.config.ringtone=Orion.ogg" > vendor/cm/config/telephony.mk
-patch=cy
-cm=y
-buildprop=cyos
+cm=y && buildprop=cyos && patch=cy
 rm -Rf external/guava
 git clone https://github.com/CyanogenMod/android_external_guava.git -b cm-13.0 external/guava
 ;;
 
 rr)
 cp sms_patch.java frameworks/opt/telephony/src/java/com/android/internal/telephony/RIL.java
-echo "Vendor의 apns-conf파일 삭제"
-rm -f vendor/cm/prebuilt/common/etc/apns-conf.xml
-echo "# Telephony packages
-PRODUCT_PACKAGES += \
-messaging \
-Stk \
-CellBroadcastReceiver
-
-# Default ringtone
-PRODUCT_PROPERTY_OVERRIDES += \
-ro.config.ringtone=Resurrection2.mp3" > vendor/cm/config/telephony.mk
-patch=cy
-cm=y
-buildprop=rr
+cm=y && buildprop=rr && patch=cy
 ;;
 
 bl)
 cp sms_patch.java frameworks/opt/telephony/src/java/com/android/internal/telephony/RIL.java
-echo "Vendor의 apns-conf파일 삭제"
-rm -f vendor/bliss/prebuilt/common/etc/apns-conf.xml
-echo "# Telephony packages
-PRODUCT_PACKAGES += \
-messaging \
-Stk \
-CellBroadcastReceiver
-
-# Default ringtone
-PRODUCT_PROPERTY_OVERRIDES += \
-ro.config.ringtone=Orion.ogg" > vendor/bliss/config/telephony.mk
-cm=y
-buildprop=bl
+cm=y && buildprop=bl
 ;;
 
 te)
 cp sms_patch.java frameworks/opt/telephony/src/java/com/android/internal/telephony/RIL.java
-echo "Vendor의 apns-conf파일 삭제"
-rm -f vendor/cm/prebuilt/common/etc/apns-conf.xml
-echo "# Telephony packages
-PRODUCT_PACKAGES += \
-messaging \
-Stk \
-CellBroadcastReceiver
-
-# Default ringtone
-PRODUCT_PROPERTY_OVERRIDES += \
-ro.config.ringtone=Orion.ogg" > vendor/cm/config/telephony.mk
-patch=cy
-cm=y
-buildprop=te
+cm=y && buildprop=te && patch=cy
 ;;
 
 fl)
 cp sms_patch.java frameworks/opt/telephony/src/java/com/android/internal/telephony/RIL.java
-echo "Vendor의 apns-conf파일 삭제"
-rm -f vendor/cm/prebuilt/common/etc/apns-conf.xml
-echo "# Selective SPN list for operator number who has the problem.
-PRODUCT_COPY_FILES += \
-    vendor/cm/prebuilt/common/etc/selective-spn-conf.xml:system/etc/selective-spn-conf.xml
-
-# Telephony packages
-PRODUCT_PACKAGES += \
-    messaging \
-    Stk \
-    CellBroadcastReceiver
-
-# Default ringtone
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.config.ringtone=Littlecat.mp3
-" > vendor/cm/config/telephony.mk
-patch=cy
-cm=y
-buildprop=fl
+cm=y && buildprop=fl && patch=cy
 ;;
 
 ai)
 cp sms_patch.java frameworks/opt/telephony/src/java/com/android/internal/telephony/RIL.java
-echo "Vendor의 apns-conf파일 삭제"
-rm -f vendor/aicp/prebuilt/common/etc/apns-conf.xml
-echo "# Telephony packages
-PRODUCT_PACKAGES += \
-messaging \
-Stk \
-CellBroadcastReceiver
-
-# Default ringtone
-PRODUCT_PROPERTY_OVERRIDES += \
-ro.config.ringtone=Orion.ogg" > vendor/aicp/configs/telephony.mk
-cm=y
-buildprop=ai
+cm=y && buildprop=ai
 ;;
 
 cr)
 cp sms_patch.java frameworks/opt/telephony/src/java/com/android/internal/telephony/RIL.java
-echo "Vendor의 apns-conf파일 삭제"
-rm -f vendor/crdroid/prebuilt/common/etc/apns-conf.xml
-echo "# Telephony packages
-PRODUCT_PACKAGES += \
-messaging \
-Stk \
-CellBroadcastReceiver
-
-# Default ringtone
-PRODUCT_PROPERTY_OVERRIDES += \
-ro.config.ringtone=Phobos.ogg" > vendor/cm/config/telephony.mk
-cm=y
-buildprop=cr
+cm=y && buildprop=cr
 ;;
 
 na)
 cp sms_patch.java frameworks/opt/telephony/src/java/com/android/internal/telephony/RIL.java
-echo "Vendor의 apns-conf파일 삭제"
-rm -f vendor/nameless/prebuilt/common/etc/apns-conf.xml
-echo "" > vendor/nameless/config/apns.mk
-cm=y
-buildprop=na
+cm=y && buildprop=na
 ;;
 
 xo)
 cp sms_patch.java frameworks/opt/telephony/src/java/com/android/internal/telephony/RIL.java
-echo "Vendor의 apns-conf파일 삭제"
-rm -f vendor/xosp/prebuilt/common/etc/apns-conf.xml
-echo "# Telephony packages
-PRODUCT_PACKAGES += \
-messaging \
-Stk \
-CellBroadcastReceiver
-
-# Default ringtone
-PRODUCT_PROPERTY_OVERRIDES += \
-ro.config.ringtone=xperia.ogg" > vendor/xosp/config/telephony.mk
-cm=y
-buildprop=xo
+cm=y && buildprop=xo
 ;;
 
 ha)
 cp ha_sms_patch.java frameworks/opt/telephony/src/java/com/android/internal/telephony/RIL.java
-cm=n
-buildprop=ha
+cm=n && buildprop=ha
 ;;
 
 om)
-echo "Vendor의 apns-conf파일 삭제"
-rm -f vendor/omni/prebuilt/etc/apns-conf.xml
-echo "PRODUCT_COPY_FILES += \
-    vendor/omni/prebuilt/etc/selective-spn-conf.xml:system/etc/selective-spn-conf.xml
-
-# SIM Toolkit
-PRODUCT_PACKAGES += \
-    Stk
-" > vendor/omni/config/gsm.mk
-cm=n
-buildprop=om
+cm=n && buildprop=om
 ;;
 esac
 #######################################################################
@@ -375,8 +237,8 @@ esac
 #CCACHE SETTING                                                    
 #######################################################################
 export USE_CCACHE=1
-prebuilts/misc/linux-x86/ccache/ccache -M 50G
-prebuilts/misc/darwin-x86/ccache/ccache -M 50G
+prebuilts/misc/linux-x86/ccache/ccache -M 50G //Linux
+prebuilts/misc/darwin-x86/ccache/ccache -M 50G //Mac OS
 #######################################################################
 #DEVICE Source Download                                                        
 #######################################################################
