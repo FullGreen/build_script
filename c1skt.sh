@@ -412,7 +412,7 @@ if [ -d device/samsung/c1skt-common ]; then
  tput setaf 2
  echo "kernel/samsung/smdk4412[DOWNLOAD]"
  tput setaf 3
- git clone hhttps://github.com/FullGreen/fullgreenkernel_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
+ git clone https://github.com/FullGreen/fullgreenkernel_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
  fi
  
  if [ -d vendor/samsung ]; then 
