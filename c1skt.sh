@@ -15,7 +15,6 @@
 #
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 #######################################################################
 #color                                                        
 #######################################################################
@@ -35,7 +34,7 @@ device=c1skt #기기명
 #ROM Source Download                                                        
 #######################################################################
 echo "───────────────────────────────────────────────────" 
-echo "         Fullgreen BUILD Script[1.2.9]│$device     "
+echo "         Fullgreen BUILD Script[1.3.0]│$device     "
 echo "───────────────────────────────────────────────────" 
 echo "cy  │ Cyanogenmod"
 echo "cyos│ CyanogenOS"
@@ -75,10 +74,8 @@ patch=ha
 elif [ -a om ]; then
 patch=om
 else
-
 echo "어떤롬을 빌드하시겠습니까? [cy/rr/bl/te/fl/ai/cr/na/xo/ha/om/cyos]"
 read main
-
 fi
 
 case $main in
@@ -125,9 +122,10 @@ echo "소스 다운로드를 건너뛰고 싶으시면 [n]을 입력해주세요
 read tru
 repo sync --force-sync -j$tru
 
-#######################################################################
-#SMS PATCH                                                 
-#######################################################################
+clear
+echo "#######################################################################"
+echo "#SMS PATCH"                                                 
+echo "#######################################################################"
 case $patch in
 cy)
 cp sms_patch.java frameworks/opt/telephony/src/java/com/android/internal/telephony/RIL.java
@@ -190,140 +188,103 @@ om)
 cm=n && buildprop=om
 ;;
 esac
-#######################################################################
-#Toolchain SETTING                                                    
-#######################################################################
-if [ patch=ha ]; then
-toolchain=n
-elif [ patch=om ]; then
-toolchain=n
-else
-toolchain=y
-fi
-case $toolchain in
-n)
-echo "toolchain[PASS]"
+clear
+echo "#######################################################################"
+echo "#Toolchain"                                                   
+echo "#######################################################################"
+case $patch in
+ha|om)
+echo "[PASS]Toolchain download"
 ;;
-y)
-#UBER kernel
-if [ -a uber48 ]; then 
-echo "UBER 4.8[PASS]"
+cy|cyos|rr|bl|te|fl|ai|cr|na|xo)
+#Google kernel
+if [ -a fullgreen/toolchain_kernel ]; then 
+echo "[PASS]Kernel Toolchain download"
 else
 rm -Rf prebuilts/gcc/linux-x86/arm/arm-eabi-4.8
-git clone https://bitbucket.org/UBERTC/arm-eabi-4.8.git -b master prebuilts/gcc/linux-x86/arm/arm-eabi-4.8 && touch uber48
-fi
-if [ -a uber49 ]; then 
-echo "UBER 4.9[PASS]"
-else
-rm -Rf prebuilts/gcc/linux-x86/arm/arm-eabi-4.9
-git clone https://bitbucket.org/UBERTC/arm-eabi-4.9.git -b master prebuilts/gcc/linux-x86/arm/arm-eabi-4.9 && touch uber49
+git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-eabi-4.8 prebuilts/gcc/linux-x86/arm/arm-eabi-4.8 && touch fullgreen/toolchain_kernel
 fi
 #UBER rom
-#if [ -a ubera48 ]; then 
-#echo "UBER ANDROID 4.8[PASS]"
-#else
-#rm -Rf prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.8
-#git clone https://bitbucket.org/UBERTC/arm-linux-androideabi-4.8.git -b master prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.8 && touch ubera48
-#fi
-#if [ -a ubera49 ]; then 
-#echo "UBER ANDROID 4.9[PASS]"
+#if [ -a fullgreen/toolchain_rom ]; then 
+#echo "[PASS]Rom Toolchain download"
 #else
 #rm -Rf prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9
-#git clone https://bitbucket.org/UBERTC/arm-linux-androideabi-4.9.git -b master prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9 && touch ubera49
+#git clone https://bitbucket.org/UBERTC/arm-linux-androideabi-4.9.git -b master prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9 && touch fullgreen/toolchain_rom
 #fi
 ;;
 esac
-#######################################################################
-#CCACHE SETTING                                                    
-#######################################################################
+clear
+echo "#######################################################################"
+echo "#CCACHE SETTING"                                                    
+echo "#######################################################################"
 export USE_CCACHE=1
 prebuilts/misc/linux-x86/ccache/ccache -M 50G //Linux
 prebuilts/misc/darwin-x86/ccache/ccache -M 50G //Mac OS
-#######################################################################
-#DEVICE Source Download                                                        
-#######################################################################
-git clone https://github.com/FullGreen/android_packages_apps_helper.git -b master packages/apps/helper
-cd packages/apps/helper && git pull && cd ../../..
+clear
+echo "#######################################################################"
+echo "#DEVICE Source Download"                                                        
+echo "#######################################################################"
+if [ -d packages/apps/helper ]; then 
+ tput setaf 1 && echo "[PASS]packages/apps/helper" && tput setaf 7
+ cd packages/apps/helper && git pull && cd ../../..
+ else
+ tput setaf 1 && echo "[DOWNLOAD]packages/apps/helper" && tput setaf 7
+ git clone https://github.com/FullGreen/android_packages_apps_helper.git -b master packages/apps/helper
+ fi
 
 case $cm in
-
 n)
  echo "CyanogenMod가 아닙니다.[PASS]"
  ;;
-
 y)
 rm -Rf hardware/libhardware
 git clone https://github.com/FullGreen/android_hardware_libhardware.git -b cm-13.0 hardware/libhardware
 
 if [ -d device/samsung/c1skt-common ]; then 
- tput setaf 1
- echo "device/samsung/c1skt-common[PASS]"
- tput setaf 3
+ tput setaf 1 && echo "device/samsung/c1skt-common[PASS]" && tput setaf 7
  cd device/samsung/c1skt-common && git pull && cd ../../..
  else
- tput setaf 2
- echo "device/samsung/c1skt-common[DOWNLOAD]" 
- tput setaf 3
+ tput setaf 2 && echo "device/samsung/c1skt-common[DOWNLOAD]" && tput setaf 7
  git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
  fi
 
  if [ -d kernel/samsung/smdk4412 ]; then 
- tput setaf 1
- echo "kernel/samsung/smdk4412[PASS]"
- tput setaf 3
+ tput setaf 1 && echo "kernel/samsung/smdk4412[PASS]" && tput setaf 7
  cd kernel/samsung/smdk4412 && git pull && cd ../../..
  else
- tput setaf 2
- echo "kernel/samsung/smdk4412[DOWNLOAD]"
- tput setaf 3
+ tput setaf 2 && echo "kernel/samsung/smdk4412[DOWNLOAD]" && tput setaf 7
  git clone https://github.com/FullGreen/fullgreenkernel_smdk4412.git -b Android-6.0 kernel/samsung/smdk4412
  fi
  
  if [ -d vendor/samsung ]; then 
- tput setaf 1
- echo "vendor/samsung[PASS]"
- tput setaf 3 
+ tput setaf 1 && echo "vendor/samsung[PASS]" && tput setaf 7
  cd vendor/samsung && git pull && cd ../..
  else
- tput setaf 2
- echo "vendor/samsung[DOWNLOAD]"
- tput setaf 3
+ tput setaf 2 && echo "vendor/samsung[DOWNLOAD]" && tput setaf 7
  git clone https://github.com/FullGreen/cyanogenmod_proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
  fi
 
  if [ -d packages/apps/SamsungServiceMode ]; then 
- tput setaf 1
- echo "packages/apps/SamsungServiceMode[PASS]"
- tput setaf 3 
+ tput setaf 1 && echo "packages/apps/SamsungServiceMode[PASS]" && tput setaf 7 
  cd packages/apps/SamsungServiceMode && git pull && cd ../../..
  else
- tput setaf 2
- echo "packages/apps/SamsungServiceMode[DOWNLOAD]" 
- tput setaf 3
+ tput setaf 2 && echo "packages/apps/SamsungServiceMode[DOWNLOAD]" && tput setaf 7
  git clone https://github.com/CyanogenMod/android_packages_apps_SamsungServiceMode.git -b cm-13.0 packages/apps/SamsungServiceMode
  fi
 
  if [ -d external/stlport ]; then 
- tput setaf 1
- echo "external/stlport[PASS]"
- tput setaf 3
+ tput setaf 1 && echo "external/stlport[PASS]" && tput setaf 7
  cd external/stlport && git pull && cd ../..
  else
- tput setaf 2
- echo "external/stlport[DOWNLOAD]"
- tput setaf 3
+ tput setaf 7 && echo "external/stlport[DOWNLOAD]" && tput setaf 7
  git clone https://github.com/CyanogenMod/android_external_stlport.git -b cm-13.0 external/stlport
  fi
 
  if [ -d hardware/samsung ]; then 
- tput setaf 1
- echo "hardware/samsung[PASS]"
- tput setaf 3
+ tput setaf 1 && echo "hardware/samsung[PASS]" && tput setaf 7
  cd hardware/samsung && git pull && cd ../..
  else
- tput setaf 2
- echo "hardware/samsung[DOWNLOAD]"
- tput setaf 3
+ tput setaf 2 && echo "hardware/samsung[DOWNLOAD]" && tput setaf 7
  git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
  fi
  ;;
@@ -333,14 +294,10 @@ case $patch in
 
 cy)
  if [ -d device/samsung/c1skt ]; then 
- tput setaf 1
- echo "device/samsung/c1skt[UPDATE]"
- tput setaf 3
+ tput setaf 1 && echo "device/samsung/c1skt[UPDATE]" && tput setaf 7
  cd device/samsung/c1skt && git pull && cd ../../..
  else
- tput setaf 2
- echo "device/samsung/c1skt[DOWNLOAD]"
- tput setaf 3
+ tput setaf 2 && echo "device/samsung/c1skt[DOWNLOAD]" && tput setaf 7
  git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
  fi
  ;;
@@ -351,120 +308,84 @@ bl)
 
 ai)
 if [ -d device/samsung/c1skt ]; then 
-tput setaf 1
-echo "device/samsung/c1skt[PASS]"
-tput setaf 3
+tput setaf 1 && echo "device/samsung/c1skt[PASS]" && tput setaf 7
 cd device/samsung/c1skt && git pull && cd ../../..
 else
-tput setaf 2
-echo "device/samsung/c1skt[DOWNLOAD]"
-tput setaf 3
+tput setaf 2 && echo "device/samsung/c1skt[DOWNLOAD]" && tput setaf 7
 git clone https://github.com/FullgreenDEVaicp/aicp_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
 fi
 ;;
 
 cr)
 if [ -d device/samsung/c1skt ]; then 
-tput setaf 1
-echo "device/samsung/c1skt[PASS]"
-tput setaf 3
+tput setaf 1 && echo "device/samsung/c1skt[PASS]" && tput setaf 7
 cd device/samsung/c1skt && git pull && cd ../../..
 else
-tput setaf 2
-echo "device/samsung/c1skt[DOWNLOAD]"
-tput setaf 3
+tput setaf 2 && echo "device/samsung/c1skt[DOWNLOAD]" && tput setaf 7
 git clone https://github.com/FullgreenDEVcrdroidandroid/crdroidandroid_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
 fi
 ;;
 
 na)
 if [ -d device/samsung/c1skt ]; then 
-tput setaf 1
-echo "device/samsung/c1skt[PASS]"
-tput setaf 3
+tput setaf 1 && echo "device/samsung/c1skt[PASS]" && tput setaf 7
 cd device/samsung/c1skt && git pull && cd ../../..
 else
-tput setaf 2
-echo "device/samsung/c1skt[DOWNLOAD]"
-tput setaf 3
+tput setaf 2 && echo "device/samsung/c1skt[DOWNLOAD]" && tput setaf 7
 git clone https://github.com/FullgreenDEVnamelessrom/namelessrom_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
 fi
 ;;
 
 xo)
 if [ -d device/samsung/c1skt ]; then 
-tput setaf 1
-echo "device/samsung/c1skt[PASS]"
-tput setaf 3
+tput setaf 1 && echo "device/samsung/c1skt[PASS]" && tput setaf 7
 cd device/samsung/c1skt && git pull && cd ../../..
 else
-tput setaf 2
-echo "device/samsung/c1skt[DOWNLOAD]"
-tput setaf 3
+tput setaf 2 && echo "device/samsung/c1skt[DOWNLOAD]" && tput setaf 7
 git clone https://github.com/FullgreenDEVxosp/xosp_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
 fi
 ;;
 
 ha)
 if [ -d device/samsung/c1skt ]; then 
-tput setaf 1
-echo "device/samsung/c1skt[PASS]"
-tput setaf 3
+tput setaf 1 && echo "device/samsung/c1skt[PASS]" && tput setaf 7
 cd device/samsung/c1skt && git pull && cd ../../..
 else
-tput setaf 2
-echo "device/samsung/c1skt[DOWNLOAD]"
-tput setaf 3
+tput setaf 2 && echo "device/samsung/c1skt[DOWNLOAD]" && tput setaf 7
 git clone https://github.com/FullgreenDEVhaxynox/aosp_device_samsung_c1skt.git -b android-6.0 device/samsung/c1skt
 fi
 
 if [ -d device/samsung/c1skt-common ]; then 
-tput setaf 1
-echo "device/samsung/c1skt-common[PASS]"
-tput setaf 3
+tput setaf 1 && echo "device/samsung/c1skt-common[PASS]" && tput setaf 7
 cd device/samsung/c1skt-common && git pull && cd ../../..
 else
-tput setaf 2
-echo "device/samsung/c1skt-common[DOWNLOAD]"
-tput setaf 3
+tput setaf 2 && echo "device/samsung/c1skt-common[DOWNLOAD]" && tput setaf 7
 git clone https://github.com/FullgreenDEVhaxynox/aosp_device_samsung_c1skt-common.git -b android-6.0 device/samsung/c1skt-common
 fi
 
 if [ -a kernela ]; then 
-tput setaf 1
-echo "kernel/samsung/smdk4412[PASS]"
-tput setaf 3
+tput setaf 1 && echo "kernel/samsung/smdk4412[PASS]" && tput setaf 7
 cd kernel/samsung/smdk4412 && git pull && cd ../../..
 else
-tput setaf 2
-echo "kernel/samsung/smdk4412[DOWNLOAD]"
-tput setaf 3
+tput setaf 2 && echo "kernel/samsung/smdk4412[DOWNLOAD]" && tput setaf 7
 rm -Rf kernel/samsung/smdk4412
 git clone https://github.com/FullgreenDEVhaxynox/aosp_kernel_samsung_smdk4412.git -b android-6.0 kernel/samsung/smdk4412 && touch kernela
 fi
 
 if [ -a vendora ]; then 
-tput setaf 1
-echo "vendor/samsung[PASS]"
-tput setaf 3
+tput setaf 1 && echo "vendor/samsung[PASS]" && tput setaf 7
 cd vendor/samsung && git pull && cd ../..
 else
-tput setaf 2
-echo "vendor/samsung[DOWNLOAD]"
-tput setaf 3
+tput setaf 2 && echo "vendor/samsung[DOWNLOAD]" && tput setaf 7
 rm -Rf vendor/samsung
 git clone https://github.com/FullgreenDEVhaxynox/proprietary_vendor_samsung.git -b android-6.0 vendor/samsung && touch vendora
 fi
 
 if [ -a hardwarea ]; then 
-tput setaf 1
-echo "hardware/samsung[PASS]"
-tput setaf 3
+tput setaf 1 && echo "hardware/samsung[PASS]" && tput setaf 7
 cd hardware/samsung && git pull && cd ../..
 else
-tput setaf 2
-echo "hardware/samsung[DOWNLOAD]"
-tput setaf 3
+tput setaf 2 && echo "hardware/samsung[DOWNLOAD]" && tput setaf 7
 rm -Rf hardware/samsung
 git clone https://github.com/FullgreenDEVhaxynox/android_hardware_samsung.git -b android-6.0 hardware/samsung && touch hardwarea
 fi
@@ -475,139 +396,109 @@ git clone https://github.com/CyanogenMod/android_external_guava.git -b cm-13.0 e
 
 om)
 if [ -d device/samsung/c1skt ]; then 
-tput setaf 1
-echo "device/samsung/c1skt[PASS]"
-tput setaf 3
+tput setaf 1 && echo "device/samsung/c1skt[PASS]" && tput setaf 7
 cd device/samsung/c1skt && git pull && cd ../../..
 else
-tput setaf 2
-echo "device/samsung/c1skt[DOWNLOAD]"
-tput setaf 3
+tput setaf 2 && echo "device/samsung/c1skt[DOWNLOAD]" && tput setaf 7
 git clone https://github.com/FullgreenDEVomnirom/omnirom_device_samsung_c1skt.git -b android-6.0 device/samsung/c1skt
 fi
 
 if [ -d device/samsung/c1skt-common ]; then 
-tput setaf 1
-echo "device/samsung/c1skt-common[PASS]"
-tput setaf 3
+tput setaf 1 && echo "device/samsung/c1skt-common[PASS]" && tput setaf 7
 cd device/samsung/c1skt-common && git pull && cd ../../..
 else
-tput setaf 2
-echo "device/samsung/c1skt-common[DOWNLOAD]"
-tput setaf 3
+tput setaf 2 && echo "device/samsung/c1skt-common[DOWNLOAD]" && tput setaf 7
 git clone https://github.com/FullgreenDEVomnirom/omnirom_device_samsung_c1skt-common.git -b android-6.0 device/samsung/c1skt-common
 fi
 
 if [ -d kernel/samsung/smdk4412 ]; then 
-tput setaf 1
-echo "kernel/samsung/smdk4412[PASS]"
-tput setaf 3
+tput setaf 1 && echo "kernel/samsung/smdk4412[PASS]" && tput setaf 7
 cd kernel/samsung/smdk4412 && git pull && cd ../../..
 else
-tput setaf 2
-echo "kernel/samsung/smdk4412[DOWNLOAD]"
-tput setaf 3
+tput setaf 2 && echo "kernel/samsung/smdk4412[DOWNLOAD]" && tput setaf 7
 git clone https://github.com/FullgreenDEVomnirom/omnirom_kernel_samsung_smdk4412.git -b android-6.0 kernel/samsung/smdk4412
 fi
 
 if [ -d vendor/samsung ]; then 
-tput setaf 1
-echo "vendor/samsung[PASS]"
-tput setaf 3
+tput setaf 1 && echo "vendor/samsung[PASS]" && tput setaf 7
 cd vendor/samsung && git pull && cd ../..
 else
-tput setaf 2
-echo "vendor/samsung[DOWNLOAD]"
-tput setaf 3
+tput setaf 2 && echo "vendor/samsung[DOWNLOAD]" && tput setaf 7
 git clone https://github.com/FullgreenDEVomnirom/proprietary_vendor_samsung.git -b android-6.0 vendor/samsung
 fi
 
 if [ -d packages/apps/SamsungServiceMode ]; then 
-tput setaf 1
-echo "packages/apps/SamsungServiceMode[PASS]"
-tput setaf 3
+tput setaf 1 && echo "packages/apps/SamsungServiceMode[PASS]" && tput setaf 7
 cd packages/apps/SamsungServiceMode && git pull && cd ../../..
 else
-tput setaf 2
-echo "packages/apps/SamsungServiceMode[DOWNLOAD]"
-tput setaf 3
+tput setaf 2 && echo "packages/apps/SamsungServiceMode[DOWNLOAD]" && tput setaf 7
 git clone https://github.com/omnirom/android_packages_apps_SamsungServiceMode.git -b android-6.0 packages/apps/SamsungServiceMode
 fi
 
 if [ -d frameworks/opt/telephony ]; then 
-tput setaf 1
-echo "frameworks/opt/telephony[DELETE]"
+tput setaf 1 && echo "frameworks/opt/telephony[DELETE]" && tput setaf 7
 rm -Rf frameworks/opt/telephony
-tput setaf 2
-echo "frameworks/opt/telephony[DOWNLOAD]"
-tput setaf 3
+tput setaf 2 && echo "frameworks/opt/telephony[DOWNLOAD]" && tput setaf 7
 git clone https://github.com/FullgreenDEVomnirom/android_frameworks_opt_telephony.git -b android-6.0 frameworks/opt/telephony
 else
-tput setaf 2
-echo "frameworks/opt/telephony[DOWNLOAD]"
-tput setaf 3
+tput setaf 2 && echo "frameworks/opt/telephony[DOWNLOAD]" && tput setaf 7
 git clone https://github.com/FullgreenDEVomnirom/android_frameworks_opt_telephony.git -b android-6.0 frameworks/opt/telephony
 fi
 
 if [ -d hardware/samsung ]; then 
-tput setaf 1
-echo "hardware/samsung[DELETE]"
+tput setaf 1 && echo "hardware/samsung[DELETE]" && tput setaf 7
 rm -Rf hardware/samsung
-tput setaf 2
-echo "hardware/samsung[DOWNLOAD]"
-tput setaf 3
+tput setaf 2 && echo "hardware/samsung[DOWNLOAD]" &&tput setaf 7
 git clone https://github.com/FullgreenDEVomnirom/android_hardware_samsung.git -b android-6.0 hardware/samsung
 else
-tput setaf 2
-echo "hardware/samsung[DOWNLOAD]"
-tput setaf 3
+tput setaf 2 && echo "hardware/samsung[DOWNLOAD]" && tput setaf 7
 git clone https://github.com/FullgreenDEVomnirom/android_hardware_samsung.git -b android-6.0 hardware/samsung
 fi
 ;;
-
 esac
-#######################################################################
-#BUILD                                                       
-#######################################################################
+clear
+echo "#######################################################################"
+echo "#BUILD"                                                     
+echo "#######################################################################"
 if [ -a buildprop ]; then
 buildprop=pass
 fi
 case $buildprop in 
 cy)
-echo "ro.fullgreen.rom=cyanogenmod" >> device/samsung/c1skt/system.prop
+echo "ro.fullgreen.rom=Cyanogenmod" >> device/samsung/c1skt/system.prop
 ;;
 cyos)
 echo "ro.fullgreen.rom=CyanogenOS" >> device/samsung/c1skt/system.prop
 ;;
 bl)
-echo "ro.fullgreen.rom=blissroms" >> device/samsung/c1skt/system.prop
+echo "ro.fullgreen.rom=Blissroms" >> device/samsung/c1skt/system.prop
 ;;
 ai)
-echo "ro.fullgreen.rom=aicp" >> device/samsung/c1skt/system.prop
+echo "ro.fullgreen.rom=Aicp" >> device/samsung/c1skt/system.prop
 ;;
 cr)
-echo "ro.fullgreen.rom=crdroid" >> device/samsung/c1skt/system.prop
+echo "ro.fullgreen.rom=crDroid" >> device/samsung/c1skt/system.prop
 ;;
 na)
-echo "ro.fullgreen.rom=namelessrom" >> device/samsung/c1skt/system.prop
+echo "ro.fullgreen.rom=Namelessrom" >> device/samsung/c1skt/system.prop
 ;;
 xo)
-echo "ro.fullgreen.rom=xosp" >> device/samsung/c1skt/system.prop
+echo "ro.fullgreen.rom=XOSP" >> device/samsung/c1skt/system.prop
 ;;
 ha)
-echo "ro.fullgreen.rom=haxynox" >> device/samsung/c1skt/system.prop
+echo "ro.fullgreen.rom=Haxynox" >> device/samsung/c1skt/system.prop
 ;;
 om)
-echo "ro.fullgreen.rom=omnirom" >> device/samsung/c1skt/system.prop
+echo "ro.fullgreen.rom=Omnirom" >> device/samsung/c1skt/system.prop
 ;;
 te)
-echo "ro.fullgreen.rom=temasek" >> device/samsung/c1skt/system.prop
+echo "ro.fullgreen.rom=Temasek" >> device/samsung/c1skt/system.prop
 ;;
 fl)
-echo "ro.fullgreen.rom=flarerom" >> device/samsung/c1skt/system.prop
+echo "ro.fullgreen.rom=Flarerom" >> device/samsung/c1skt/system.prop
 ;;
 rr)
-echo "ro.fullgreen.rom=resurrectionremix" >> device/samsung/c1skt/system.prop
+echo "ro.fullgreen.rom=Resurrectionremix" >> device/samsung/c1skt/system.prop
 ;;
 esac
 
