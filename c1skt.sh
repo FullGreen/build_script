@@ -123,7 +123,13 @@ esac
 echo "소스를 동시에 다운로드 받을 숫자를 입력하세요. [숫자 입력]"
 echo "소스 다운로드를 건너뛰고 싶으시면 [n]을 입력해주세요."
 read tru
-repo sync --force-sync -j$tru
+vad='^[0-9]+$'
+if ! [[ $tru =~ $vad ]] ; then
+   echo "숫자를 입력하세요.";
+   exit 1
+else
+   repo sync --force-sync -j$tru
+fi
 
 #######################################################################
 #SMS PATCH                                                 
