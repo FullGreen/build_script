@@ -15,10 +15,14 @@
 #
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+echo "#######################################################################"
+echo "Build Script 업그레이드 중..."
+echo "#######################################################################"
+git clone https://github.com/FullGreen/build_script -b master && cd build_script && mv c1skt.sh ../ && mv README.md ../ && cd ../ && rm -Rf build_script
+
 #######################################################################
 #color                                                        
 #######################################################################
-
 red='tput setaf 1'                 # Red
 green='tput setaf 2'             # Green
 yellow='tput setaf 3'           # Yellow
@@ -27,14 +31,13 @@ violet='tput setaf 5'           # Violet
 cyan='tput setaf 6'               # Cyan
 white='tput setaf 7'             # White
 clear
-
 device=c1skt #기기명
 
 #######################################################################
 #ROM Source Download                                                        
 #######################################################################
 echo "───────────────────────────────────────────────────" 
-echo "         Fullgreen BUILD Script[1.3.0]│$device     "
+echo "         Fullgreen BUILD Script[1.3.1]│$device     "
 echo "───────────────────────────────────────────────────" 
 echo "cy  │ Cyanogenmod"
 echo "cyos│ CyanogenOS"
@@ -461,9 +464,9 @@ echo "#######################################################################"
 echo "#BUILD"                                                     
 echo "#######################################################################"
 if [ -a buildprop ]; then
-buildprop=pass
-fi
-case $buildprop in 
+echo "[PASS]Build Prop Patch"
+else
+case $patch in 
 cy)
 echo "ro.fullgreen.rom=Cyanogenmod" >> device/samsung/c1skt/system.prop
 ;;
@@ -501,6 +504,8 @@ rr)
 echo "ro.fullgreen.rom=Resurrectionremix" >> device/samsung/c1skt/system.prop
 ;;
 esac
+touch buildprop
+fi
 
 case $patch in
 cy|bl|ai|cr|na|xo|om)
