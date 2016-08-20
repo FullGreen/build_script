@@ -37,7 +37,7 @@ device=c1skt #기기명
 #ROM Source Download                                                        
 #######################################################################
 echo "───────────────────────────────────────────────────" 
-echo "         Fullgreen BUILD Script[1.3.1]│$device     "
+echo "         Fullgreen BUILD Script[1.3.2]│$device     "
 echo "───────────────────────────────────────────────────" 
 echo "cy  │ Cyanogenmod"
 echo "cyos│ CyanogenOS"
@@ -240,9 +240,6 @@ n)
  echo "CyanogenMod가 아닙니다.[PASS]"
  ;;
 y)
-rm -Rf hardware/libhardware
-git clone https://github.com/FullGreen/android_hardware_libhardware.git -b cm-13.0 hardware/libhardware
-
 if [ -d device/samsung/c1skt-common ]; then 
  tput setaf 1 && echo "device/samsung/c1skt-common[PASS]" && tput setaf 7
  cd device/samsung/c1skt-common && git pull && cd ../../..
@@ -256,7 +253,7 @@ if [ -d device/samsung/c1skt-common ]; then
  cd kernel/samsung/smdk4412 && git pull && cd ../../..
  else
  tput setaf 2 && echo "kernel/samsung/smdk4412[DOWNLOAD]" && tput setaf 7
- git clone https://github.com/FullGreen/fullgreenkernel_smdk4412.git -b Android-6.0 kernel/samsung/smdk4412
+ git clone https://github.com/FullGreen/fullgreenkernel_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
  fi
  
  if [ -d vendor/samsung ]; then 
