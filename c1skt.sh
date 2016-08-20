@@ -35,7 +35,7 @@ device=c1skt #기기명
 #ROM Source Download                                                        
 #######################################################################
 echo "───────────────────────────────────────────────────" 
-echo "         Fullgreen BUILD Script[1.2.8]│$device     "
+echo "         Fullgreen BUILD Script[1.2.9]│$device     "
 echo "───────────────────────────────────────────────────" 
 echo "cy  │ Cyanogenmod"
 echo "cyos│ CyanogenOS"
@@ -252,6 +252,8 @@ n)
  ;;
 
 y)
+rm -Rf hardware/libhardware
+git clone https://github.com/FullGreen/android_hardware_libhardware.git -b cm-13.0 hardware/libhardware
 
 if [ -d device/samsung/c1skt-common ]; then 
  tput setaf 1
