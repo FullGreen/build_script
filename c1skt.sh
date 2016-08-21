@@ -15,10 +15,10 @@
 #
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-echo "#######################################################################"
-echo "Build Script 업그레이드 중..."
-echo "#######################################################################"
-mkdir tmp && cd tmp && wget https://raw.githubusercontent.com/FullGreen/build_script/master/c1skt.sh && mv c1skt.sh .. && cd .. && rmdir tmp
+
+# SETTINGS
+version="1.3.2"
+wget https://raw.githubusercontent.com/FullGreen/build_script/master/c1skt.sh -O c1skt.sh
 
 #######################################################################
 #color                                                        
@@ -227,8 +227,8 @@ echo "#######################################################################"
 echo "#CCACHE SETTING"                                                    
 echo "#######################################################################"
 export USE_CCACHE=1
-prebuilts/misc/linux-x86/ccache/ccache -M 50G //Linux
-prebuilts/misc/darwin-x86/ccache/ccache -M 50G //Mac OS
+prebuilts/misc/linux-x86/ccache/ccache -M 50G
+prebuilts/misc/darwin-x86/ccache/ccache -M 50G
 clear
 echo "#######################################################################"
 echo "#DEVICE Source Download"                                                        
@@ -511,7 +511,7 @@ touch buildprop
 fi
 
 case $patch in
-cy|bl|ai|cr|na|xo|om)
+cy|cyos|rr|bl|te|fl|ai|cr|na|xo|om)
     clear && . build/envsetup.sh && brunch c1skt
 ;;
 ha)
