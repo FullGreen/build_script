@@ -18,7 +18,7 @@
 echo "#######################################################################"
 echo "Build Script 업그레이드 중..."
 echo "#######################################################################"
-rm -rf build_script && git clone https://github.com/FullGreen/build_script -b master && cd build_script && mv c1skt.sh .. && mv README.md .. && cd .. && rm -Rf build_script
+mkdir tmp && cd tmp && wget https://raw.githubusercontent.com/FullGreen/build_script/master/c1skt.sh && mv c1skt.sh .. && cd .. && rmdir tmp
 
 #######################################################################
 #color                                                        
