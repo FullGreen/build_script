@@ -17,49 +17,38 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # CONFIG
-#
-# Show debug message (0 = disable, 1 = enable)
-# debug="0"
-
-# Language (Auto detect - under development)
-#lang="en"
-
-# script version (Under development)
-#version="1"
+# script version
+version="1"
 
 # startup
 export B_SCRIPT_HOME=`readlink -f ./`
 
 # Check update
-#wget -q --spider http://google.com
-#if [ $? -eq 0 ]; then 
-#	echo "Internet Connected" 
-#else 
-#	echo "Internet is not enabled. Check your Internet status." 
-#	exit 1 
-#fi
-#
-#wget https://raw.githubusercontent.com/FullGreen/build_script/master/version -O version
-#server_version=$(<version)
-#if [ version < server_version ]  then ## 음?
-#fi
+wget -q --spider http://google.com
+if [ $? -eq 0 ]; then 
+	echo "인터넷에 연결되었습니다."
+else 
+	echo "인터넷에 연결되지 않았습니다. 인터넷 상태를 확인 해 주세요." 
+	exit
+fi
 
-# update or new (Under development)
-#read un
-#case $un in
-#	1)
-#		;;
-#	2)
-#		;;
-#esac
+wget https://raw.githubusercontent.com/FullGreen/build_script/master/version -O version
+#server_version=$(<version)
+server_version="1"
+if [ version -lt server_version ]; then
+	wget https://raw.githubusercontent.com/FullGreen/build_script/master/c1skt.sh -O c1skt.sh
+	echo "스크립트가 업데이트 되었습니다. 다시 실행 해 주세요."
+	exit
+fi
+rm version
 
 # Clean up
 clear
 
 # Select ROM Source
-echo "=================================================="
-echo "== Select your ROM | This script is only c1skt."
-echo "=================================================="
+echo "==========================================================================="
+echo "== 빌드할 ROM 을 선택하세요. 이 스크립트는 갤럭시 S3 LTE 전용입니다."
+echo "==========================================================================="
 echo "1 | CyanogenMod"
 echo "2 | CyanogenOS"
 echo "3 | ResurrectionRemix"
@@ -72,6 +61,7 @@ echo "7 | NamelessROM"
 echo "8 | XOSP"
 echo "9 | Haxynox"
 echo "0 | OmniROM"
+echo "u | 디바이스 소스 업데이트 (AICP, CroidAndroid, Namelessrom, XOSP, Haxynox, OmiROM 는 아직 안됨)"
 read main
 case $main in
 	1)
@@ -104,6 +94,30 @@ case $main in
 	0)
 		repo init -u git://github.com/omnirom/android.git -b android-6.0
 		;;
+	u)
+		echo "packages/apps/helper"
+		cd packages/apps/helper && git pull && cd $B_SCRIPT_HOME
+		echo "device/samsung/c1skt-common"
+		cd device/samsung/c1skt-common && git pull && cd $B_SCRIPT_HOME
+		echo "kernel/samsung/smdk4412"
+		cd kernel/samsung/smdk4412 && git pull && cd $B_SCRIPT_HOME
+		echo "vendor/samsung"
+		cd vendor/samsung && git pull && cd $B_SCRIPT_HOME
+		echo "package/apps/SamsungServiceMode"
+		cd packages/apps/SamsungServiceMode && git pull && cd $B_SCRIPT_HOME
+		echo "external/stlport"
+		cd external/stlport && git pull && cd $B_SCRIPT_HOME
+		echo "hardware/samsung"
+		cd hardware/samsung && git pull && cd $B_SCRIPT_HOME
+		echo "device/samsung/c1skt"
+		cd device/samsung/c1skt && git pull && cd $B_SCRIPT_HOME
+		echo "성공."
+		exit
+		;;
+	*)
+		echo "숫자가 아닌 다른 문자가 입력되었습니다. 스크립트를 다시 실행 해 주세요.";
+		exit
+		;;
 esac
 
 # Clean up
@@ -111,13 +125,12 @@ sleep 1
 clear
 
 # Multiple source download
-echo "Enter a number in the download thread."
-echo "If you want downlaod skip, enter 'n'."
+echo "동시에 다운로드 할 수를 입력하세요."
 read download_thread
 vad='^[0-9]+$'
 if ! [[ $tru =~ $vad ]] ; then
-	echo "Please enter number. Exiting";
-	exit 1
+	echo "숫자가 아닌 다른 문자가 입력되었습니다. 스크립트를 다시 실행 해 주세요.";
+	exit
 else
 	repo sync --force-sync -j$download_thread
 fi
@@ -127,7 +140,7 @@ sleep 1
 clear
 
 # SMS Patch
-echo "SMS Patching..."
+echo "SMS 패치중.."
 case $main in
 	1|3|4|5|6|7|8)
 		wget https://raw.githubusercontent.com/FullGreen/build_script/master/sms_patch.java -O frameworks/opt/telephony/src/java/com/android/internal/telephony/RIL.java
@@ -140,15 +153,15 @@ case $main in
 		wget https://raw.githubusercontent.com/FullGreen/build_script/master/ha_sms_patch.java -O frameworks/opt/telephony/src/java/com/android/internal/telephony/RIL.java
 		;;
 	0)
-		echo "OnmiROM. Skipping.."
+		echo "OnmiROM 은 SMS 패치를 하지 않습니다."
 		;;
 esac
-echo "Done."
+echo "성공."
 
 # Toolchain download
 case $main in
 	9|0)
-		echo "No require toolchain. skipping.."
+		echo "이 ROM 은 Toolchain 을 필요로 하지 않습니다."
 		;;
 	1|2|3|4|5|6|7|8)
 		rm -rf prebuilts/gcc/linux-x86/arm/arm-eabi-4.8
@@ -184,14 +197,14 @@ case $main in
 		git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
 		;;
 	2|3|4|5|6|7|8|9)
-		echo "Not cyanogenmod. skipping.."
+		echo "CyanogenMod 가 아닙니다."
 		;;
 esac
 
 # Patch & Clean up
 sleep 1
 clear
-echo "Patching..."
+echo "패치중..."
 case $main in
 	1|2|3|4)
 		git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
@@ -235,48 +248,48 @@ clear
 case $main in
 	1)
 		echo "ro.fullgreen.rom=Cyanogenmod" >> device/samsung/c1skt/system.prop
-		touch .repo/tmp/1
+		touch .repo/1
 		;;
 	2)
 		echo "ro.fullgreen.rom=CyanogenOS" >> device/samsung/c1skt/system.prop
-		touch .repo/tmp/2
+		touch .repo/2
 		;;
 	3)
 		echo "ro.fullgreen.rom=Resurrectionremix" >> device/samsung/c1skt/system.prop
-		touch .repo/tmp/3
+		touch .repo/3
 		;;
 	4)
 		echo "ro.fullgreen.rom=Temasek" >> device/samsung/c1skt/system.prop
-		touch .repo/tmp/4
+		touch .repo/4
 		;;
 	5)
 		echo "ro.fullgreen.rom=Aicp" >> device/samsung/c1skt/system.prop
-		touch .repo/tmp/5
+		touch .repo/5
 		;;
 	6)
 		echo "ro.fullgreen.rom=crDroid" >> device/samsung/c1skt/system.prop
-		touch .repo/tmp/6
+		touch .repo/6
 		;;
 	7)
 		echo "ro.fullgreen.rom=Namelessrom" >> device/samsung/c1skt/system.prop
-		touch .repo/tmp/7
+		touch .repo/7
 		;;
 	8)
 		echo "ro.fullgreen.rom=XOSP" >> device/samsung/c1skt/system.prop
-		touch .repo/tmp/8
+		touch .repo/8
 		;;
 	9)
 		echo "ro.fullgreen.rom=Haxynox" >> device/samsung/c1skt/system.prop
-		touch .repo/tmp/9
+		touch .repo/9
 		;;
 	0)
 		echo "ro.fullgreen.rom=Omnirom" >> device/samsung/c1skt/system.prop
-		touch .repo/tmp/0
+		touch .repo/0
 		;;
 esac
 
 # Build
-echo "Are you want build now? (y/n)"
+echo "지금 빌드하는 것을 원합니까? (y/n)"
 read buildnow
 case $buildnow in
 	y)
@@ -290,9 +303,9 @@ case $buildnow in
 		esac
 		;;
 	n)
-		echo "abouted."
+		echo "취소됨."
 		;;
 	*)
-		echo "abouted."
+		echo "취소됨."
 		;;
 esac
