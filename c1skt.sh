@@ -107,6 +107,7 @@ case $main in
 esac
 
 # Clean up
+sleep 1
 clear
 
 # Multiple source download
@@ -122,6 +123,7 @@ else
 fi
 
 # Clean up
+sleep 1
 clear
 
 # SMS Patch
@@ -156,7 +158,8 @@ case $main in
 esac
 
 # clean up
-clean
+sleep 1
+clear
 
 # ccache
 # THIS SCRIPT IS WILL EDIT ACCOUNT TERMINAL SETTINGS
@@ -170,3 +173,126 @@ if [ -d packages/apps/helper ]; then
 else
 	git clone https://github.com/FullGreen/android_packages_apps_helper.git -b master packages/apps/helper
 fi
+
+case $main in
+	1)
+		git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt-common.git -b cm-13.0 device/samsung/c1skt-common
+		git clone https://github.com/FullGreen/fullgreenkernel_smdk4412.git -b cm-13.0 kernel/samsung/smdk4412
+		git clone https://github.com/FullGreen/cyanogenmod_proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
+		git clone https://github.com/CyanogenMod/android_packages_apps_SamsungServiceMode.git -b cm-13.0 packages/apps/SamsungServiceMode
+		git clone https://github.com/CyanogenMod/android_external_stlport.git -b cm-13.0 external/stlport
+		git clone https://github.com/FullGreen/cyanogenmod_hardware_samsung.git -b cm-13.0 hardware/samsung
+		;;
+	2|3|4|5|6|7|8|9)
+		echo "Not cyanogenmod. skipping.."
+		;;
+esac
+
+# Patch & Clean up
+sleep 1
+clear
+echo "Patching..."
+case $main in
+	1|2|3|4)
+		git clone https://github.com/FullGreen/cyanogenmod_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
+		;;
+	5)
+		git clone https://github.com/FullgreenDEVaicp/aicp_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
+		;;
+	6)
+		git clone https://github.com/FullgreenDEVcrdroidandroid/crdroidandroid_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
+		;;
+	7)
+		git clone https://github.com/FullgreenDEVnamelessrom/namelessrom_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
+		;;
+	8)
+		git clone https://github.com/FullgreenDEVxosp/xosp_device_samsung_c1skt.git -b cm-13.0 device/samsung/c1skt
+		;;
+	9)
+		git clone https://github.com/FullgreenDEVhaxynox/aosp_device_samsung_c1skt.git -b android-6.0 device/samsung/c1skt
+		git clone https://github.com/FullgreenDEVhaxynox/aosp_device_samsung_c1skt-common.git -b android-6.0 device/samsung/c1skt-common
+		git clone https://github.com/FullgreenDEVhaxynox/aosp_kernel_samsung_smdk4412.git -b android-6.0 kernel/samsung/smdk4412
+		git clone https://github.com/FullgreenDEVhaxynox/proprietary_vendor_samsung.git -b android-6.0 vendor/samsung
+		rm -rf hardware/samsung
+		git clone https://github.com/FullgreenDEVhaxynox/android_hardware_samsung.git -b android-6.0 hardware/samsung
+		rm -rf external/guava
+		git clone https://github.com/CyanogenMod/android_external_guava.git -b cm-13.0 external/guava
+		;;
+	0)
+		git clone https://github.com/FullgreenDEVomnirom/omnirom_device_samsung_c1skt.git -b android-6.0 device/samsung/c1skt
+		git clone https://github.com/FullgreenDEVomnirom/omnirom_device_samsung_c1skt-common.git -b android-6.0 device/samsung/c1skt-common
+		git clone https://github.com/FullgreenDEVomnirom/omnirom_kernel_samsung_smdk4412.git -b android-6.0 kernel/samsung/smdk4412
+		git clone https://github.com/FullgreenDEVomnirom/proprietary_vendor_samsung.git -b android-6.0 vendor/samsung
+		git clone https://github.com/omnirom/android_packages_apps_SamsungServiceMode.git -b android-6.0 packages/apps/SamsungServiceMode
+		git clone https://github.com/FullgreenDEVomnirom/android_frameworks_opt_telephony.git -b android-6.0 frameworks/opt/telephony
+		git clone https://github.com/FullgreenDEVomnirom/android_hardware_samsung.git -b android-6.0 hardware/samsung
+		;;
+esac
+
+# Build.prop
+sleep 1
+clear
+case $main in
+	1)
+		echo "ro.fullgreen.rom=Cyanogenmod" >> device/samsung/c1skt/system.prop
+		touch .repo/tmp/1
+		;;
+	2)
+		echo "ro.fullgreen.rom=CyanogenOS" >> device/samsung/c1skt/system.prop
+		touch .repo/tmp/2
+		;;
+	3)
+		echo "ro.fullgreen.rom=Resurrectionremix" >> device/samsung/c1skt/system.prop
+		touch .repo/tmp/3
+		;;
+	4)
+		echo "ro.fullgreen.rom=Temasek" >> device/samsung/c1skt/system.prop
+		touch .repo/tmp/4
+		;;
+	5)
+		echo "ro.fullgreen.rom=Aicp" >> device/samsung/c1skt/system.prop
+		touch .repo/tmp/5
+		;;
+	6)
+		echo "ro.fullgreen.rom=crDroid" >> device/samsung/c1skt/system.prop
+		touch .repo/tmp/6
+		;;
+	7)
+		echo "ro.fullgreen.rom=Namelessrom" >> device/samsung/c1skt/system.prop
+		touch .repo/tmp/7
+		;;
+	8)
+		echo "ro.fullgreen.rom=XOSP" >> device/samsung/c1skt/system.prop
+		touch .repo/tmp/8
+		;;
+	9)
+		echo "ro.fullgreen.rom=Haxynox" >> device/samsung/c1skt/system.prop
+		touch .repo/tmp/9
+		;;
+	0)
+		echo "ro.fullgreen.rom=Omnirom" >> device/samsung/c1skt/system.prop
+		touch .repo/tmp/0
+		;;
+esac
+
+# Build
+echo "Are you want build now? (y/n)"
+read buildnow
+case $buildnow in
+	y)
+		case $main in
+			1|2|3|4|5|6|7|8|0)
+				clear && . build/envsetup.sh && brunch c1skt
+				;;
+			9)
+				clear && . build/envsetup.sh && lunch aosp_c1skt-userdebug && make -j8 otapackage
+				;;
+		esac
+		;;
+	n)
+		echo "abouted."
+		;;
+	*)
+		echo "abouted."
+		;;
+esac
