@@ -33,8 +33,7 @@ else
 fi
 
 wget https://raw.githubusercontent.com/FullGreen/build_script/master/version -O version
-#server_version=$(<version)
-server_version="1"
+server_version=$(<version)
 if [ version -lt server_version ]; then
 	wget https://raw.githubusercontent.com/FullGreen/build_script/master/c1skt.sh -O c1skt.sh
 	echo "스크립트가 업데이트 되었습니다. 다시 실행 해 주세요."
