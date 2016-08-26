@@ -18,7 +18,7 @@
 
 # CONFIG
 # script version
-version="1"
+version="123"
 
 # startup
 export B_SCRIPT_HOME=`readlink -f ./`
@@ -45,23 +45,26 @@ rm version
 clear
 
 # Select ROM Source
-echo "==========================================================================="
-echo "== 빌드할 ROM 을 선택하세요. 이 스크립트는 갤럭시 S3 LTE 전용입니다."
-echo "==========================================================================="
-echo "1 | CyanogenMod"
-echo "2 | CyanogenOS"
-echo "3 | ResurrectionRemix"
+echo "    ___       ___       ___       ___       ___     "
+echo "   /\  \     /\__\     /\  \     /\__\     /\  \    "
+echo "  /  \  \   / / _/_   _\ \  \   / /  /    /  \  \   "
+echo " /  \ \__\ / /_/\__\ /\/  \__\ / /__/    / /\ \__\  "
+echo " \ \  /  / \ \/ /  / \  /\/__/ \ \  \    \ \/ /  /  "
+echo "  \  /  /   \  /  /   \ \__\    \ \__\    \  /  /   "
+echo "   \/__/     \/__/     \/__/     \/__/     \/__/    "
+echo "                                c1skt[SHV-E210S/K]  "
+echo ""
+echo "① CyanogenMod          ② CyanogenOS"
+echo "③ ResurrectionRemix    ④ Temasek"
+echo "⑤ AICP                 ⑥ CroidAndroid"
+echo "⑦ NamelessROM          ⑧ XOSP"
+echo "⑨ Haxynox              ⓞ OmniROM"
+echo "ⓤ 디바이스 소스 업데이트"
 #echo "4 | Blisspop / NOT READY"
-echo "4 | Temasek"
 #echo "5 | FlareROM / UNAVALIABLE"
-echo "5 | AICP"
-echo "6 | CroidAndroid"
-echo "7 | NamelessROM"
-echo "8 | XOSP"
-echo "9 | Haxynox"
-echo "0 | OmniROM"
-echo "u | 디바이스 소스 업데이트 (AICP, CroidAndroid, Namelessrom, XOSP, Haxynox, OmiROM 는 아직 안됨)"
-read main
+echo ""
+echo "빌드할 ROM 을 선택하세요."
+read main 
 case $main in
 	1)
 		repo init -u git://github.com/CyanogenMod/android.git -b cm-13.0
@@ -94,23 +97,27 @@ case $main in
 		repo init -u git://github.com/omnirom/android.git -b android-6.0
 		;;
 	u)
-		echo "packages/apps/helper"
-		cd packages/apps/helper && git pull && cd $B_SCRIPT_HOME
-		echo "device/samsung/c1skt-common"
-		cd device/samsung/c1skt-common && git pull && cd $B_SCRIPT_HOME
-		echo "kernel/samsung/smdk4412"
-		cd kernel/samsung/smdk4412 && git pull && cd $B_SCRIPT_HOME
-		echo "vendor/samsung"
-		cd vendor/samsung && git pull && cd $B_SCRIPT_HOME
-		echo "package/apps/SamsungServiceMode"
-		cd packages/apps/SamsungServiceMode && git pull && cd $B_SCRIPT_HOME
-		echo "external/stlport"
-		cd external/stlport && git pull && cd $B_SCRIPT_HOME
-		echo "hardware/samsung"
-		cd hardware/samsung && git pull && cd $B_SCRIPT_HOME
-		echo "device/samsung/c1skt"
-		cd device/samsung/c1skt && git pull && cd $B_SCRIPT_HOME
-		echo "성공."
+       if [ 5|6|7|8|9|0 ]; then
+         echo "(AICP, CroidAndroid, Namelessrom, XOSP, Haxynox, OmiROM 는 아직 안됨)"
+       else
+		  echo "packages/apps/helper"
+		  cd packages/apps/helper && git pull && cd $B_SCRIPT_HOME
+		  echo "device/samsung/c1skt-common"
+		  cd device/samsung/c1skt-common && git pull && cd $B_SCRIPT_HOME
+	  	  echo "kernel/samsung/smdk4412"
+		  cd kernel/samsung/smdk4412 && git pull && cd $B_SCRIPT_HOME
+		  echo "vendor/samsung"
+		  cd vendor/samsung && git pull && cd $B_SCRIPT_HOME
+		  echo "package/apps/SamsungServiceMode"
+		  cd packages/apps/SamsungServiceMode && git pull && cd $B_SCRIPT_HOME
+		  echo "external/stlport"
+		  cd external/stlport && git pull && cd $B_SCRIPT_HOME
+		  echo "hardware/samsung"
+		  cd hardware/samsung && git pull && cd $B_SCRIPT_HOME
+		  echo "device/samsung/c1skt"
+		  cd device/samsung/c1skt && git pull && cd $B_SCRIPT_HOME
+		  echo "성공."
+       fi
 		exit
 		;;
 	*)
@@ -176,8 +183,11 @@ clear
 # ccache
 # THIS SCRIPT IS WILL EDIT ACCOUNT TERMINAL SETTINGS
 echo "USE_CCACHE=1" >> ~/.bashrc
-prebuilts/misc/linux-x86/ccache/ccache -M 50G
-# prebuilts/misc/darwin-x86/ccache/ccache -M 50G (mac build is under development)
+if [ "$OS_TYPE" = "Darwin" ]; then
+  prebuilts/misc/darwin-x86/ccache/ccache -M 50G
+else
+  prebuilts/misc/linux-x86/ccache/ccache -M 50G
+fi
 
 # Device source download
 if [ -d packages/apps/helper ]; then 
