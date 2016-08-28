@@ -1,11 +1,20 @@
-cyanogenmod/resurrectionremix/blisspop/temasek/flarerom/aicp/crdroidandroid/namelessrom/haxynox
-모두 9개의 커스텀롬을 지원하며 현재 지원기종은 c1skt(갤럭시S3LTE SKT,KT)입니다.
+    ___       ___       ___       ___       ___     
+   /\  \     /\__\     /\  \     /\__\     /\  \    
+  /  \  \   / / _/_   _\ \  \   / /  /    /  \  \   
+ /  \ \__\ / /_/\__\ /\/  \__\ / /__/    / /\ \__\  
+ \ \  /  / \ \/ /  / \  /\/__/ \ \  \    \ \/ /  /  
+  \  /  /   \  /  /   \ \__\    \ \__\    \  /  /   
+   \/__/     \/__/     \/__/     \/__/     \/__/    
 
 #실행방법
 1.
 
-    chmod 755 c1skt.sh
+    ./build.sh
 
-2.
+#빌드 가능한 롬
+① CyanogenMod ② CyanogenOS ③ ResurrectionRemix ④ Temasek ⑤ AICP ⑥ CroidAndroid ⑦ NamelessROM ⑧ XOSP ⑨ Haxynox ⓞ OmniROM
 
-    ./c1skt.sh
+i9300/i9305 모델은 AICP,CroidAndroid,NamelessROM,XOSP,Haxynox,OmniROM 빌드를 지원하지 않습니다.
+
+#빌드 가능한 기종
+① SHV-E210S ② SHV-E210K ③ SHV-E210L ④ GT-I9300 ⑤ GT-I9305 
