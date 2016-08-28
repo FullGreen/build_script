@@ -106,25 +106,25 @@ fi
 clear
 
 if [ -a .tmp/1 ]; then
-	repo init -u git://github.com/CyanogenMod/android.git -b cm-13.0
+	repo init -u git://github.com/CyanogenMod/android.git -b cm-13.0 && main=1
 elif [ -a .tmp/2 ]; then
-	repo init -u git://github.com/CyanogenMod/android.git -b stable/cm-13.0-ZNH2K
+	repo init -u git://github.com/CyanogenMod/android.git -b stable/cm-13.0-ZNH2K && main=2
 elif [ -a .tmp/3 ]; then
-	repo init -u git://github.com/ResurrectionRemix/platform_manifest.git -b marshmallow
+	repo init -u git://github.com/ResurrectionRemix/platform_manifest.git -b marshmallow && main=3
 elif [ -a .tmp/4 ]; then
-	repo init -u git://github.com/temasek/android.git -b cm-13.0
+	repo init -u git://github.com/temasek/android.git -b cm-13.0 && main=4
 elif [ -a .tmp/5 ]; then
-	repo init -u git://github.com/AICP/platform_manifest.git -b 1.0-MM
+	repo init -u git://github.com/AICP/platform_manifest.git -b 1.0-MM && main=5
 elif [ -a .tmp/6 ]; then
-	repo init -u git://github.com/croidandroid/android -b 6.0.0
+	repo init -u git://github.com/croidandroid/android -b 6.0.0 && main=6
 elif [ -a .tmp/7 ]; then
-	repo init -u git://github.com/NamelessRom/android.git -b n-3.0
+	repo init -u git://github.com/NamelessRom/android.git -b n-3.0 && main=7
 elif [ -a .tmp/8 ]; then
-	repo init -u git://github.com/XOSP-Project/platform_manifest.git -b xosp-mm
+	repo init -u git://github.com/XOSP-Project/platform_manifest.git -b xosp-mm && main=8
 elif [ -a .tmp/9 ]; then
-	repo init -u git://github.com/Haxynox/platform_manifest.git -b Mmm
+	repo init -u git://github.com/Haxynox/platform_manifest.git -b Mmm && main=9
 elif [ -a .tmp/0 ]; then
-	repo init -u git://github.com/omnirom/android.git -b android-6.0
+	repo init -u git://github.com/omnirom/android.git -b android-6.0 && main=0
 fi
 
 # Clean up
