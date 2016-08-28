@@ -160,106 +160,136 @@ fi
 sleep 1
 clear
 
-rm -f .repo/local_manifests/local_manifest.xml
+rm -rf .repo/local_manifests
 if [ -a .tmp/device/c1skt ]; then
 case $main in
 	1)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml -O .repo/local_manifests/local_manifest.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml
+       mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 	2)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenos_c1lte.xml -O .repo/local_manifests/local_manifest.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenos_c1lte.xml
+       mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 	3)
-       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml -O .repo/local_manifests/local_manifest.xml
+       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml
+       mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 	4)
-       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml -O .repo/local_manifests/local_manifest.xml
+       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml
+       mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 	5)
-       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/aicp_c1lte.xml -O .repo/local_manifests/local_manifest.xml
+       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/aicp_c1lte.xml
+       mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 	6)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/crdroid_c1lte.xml -O .repo/local_manifests/local_manifest.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/crdroid_c1lte.xml
+       mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 	7)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/namelessrom_c1lte.xml -O .repo/local_manifests/local_manifest.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/namelessrom_c1lte.xml
+       mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 	8)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/xosp_c1lte.xml -O .repo/local_manifests/local_manifest.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/xosp_c1lte.xml -O
+       mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 	9)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/haxynox_c1lte.xml -O .repo/local_manifests/local_manifest.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/haxynox_c1lte.xml
+       mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 	0)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/omnirom_c1lte.xml -O .repo/local_manifests/local_manifest.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/omnirom_c1lte.xml
+       mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 esac
 repo sync -j8
 elif [ -a .tmp/device/c1ktt ]; then
 case $main in
 	1)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml -O .repo/local_manifests/local_manifest.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml
+       mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 	2)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenos_c1lte.xml -O .repo/local_manifests/local_manifest.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenos_c1lte.xml
+       mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 	3)
-       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml -O .repo/local_manifests/local_manifest.xml
+       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml
+       mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 	4)
-       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml -O .repo/local_manifests/local_manifest.xml
+       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml
+       mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 	5)
-       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/aicp_c1lte.xml -O .repo/local_manifests/local_manifest.xml
+       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/aicp_c1lte.xml
+       mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 	6)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/crdroid_c1lte.xml -O .repo/local_manifests/local_manifest.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/crdroid_c1lte.xml
+       mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 	7)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/namelessrom_c1lte.xml -O .repo/local_manifests/local_manifest.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/namelessrom_c1lte.xml
+       mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 	8)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/xosp_c1lte.xml -O .repo/local_manifests/local_manifest.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/xosp_c1lte.xml -O
+       mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 	9)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/haxynox_c1lte.xml -O .repo/local_manifests/local_manifest.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/haxynox_c1lte.xml
+       mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 	0)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/omnirom_c1lte.xml -O .repo/local_manifests/local_manifest.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/omnirom_c1lte.xml
+       mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 esac
 repo sync -j8
 elif [ -a .tmp/device/c1lgt ]; then
 case $main in
 	1)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml -O .repo/local_manifests/local_manifest.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml
+       mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 	2)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenos_c1lte.xml -O .repo/local_manifests/local_manifest.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenos_c1lte.xml
+       mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 	3)
-       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml -O .repo/local_manifests/local_manifest.xml
+       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml
+       mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 	4)
-       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml -O .repo/local_manifests/local_manifest.xml
+       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml
+       mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 	5)
-       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/aicp_c1lte.xml -O .repo/local_manifests/local_manifest.xml
+       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/aicp_c1lte.xml
+       mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 	6)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/crdroid_c1lte.xml -O .repo/local_manifests/local_manifest.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/crdroid_c1lte.xml
+       mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 	7)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/namelessrom_c1lte.xml -O .repo/local_manifests/local_manifest.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/namelessrom_c1lte.xml
+       mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 	8)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/xosp_c1lte.xml -O .repo/local_manifests/local_manifest.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/xosp_c1lte.xml -O
+       mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 	9)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/haxynox_c1lte.xml -O .repo/local_manifests/local_manifest.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/haxynox_c1lte.xml
+       mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 	0)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/omnirom_c1lte.xml -O .repo/local_manifests/local_manifest.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/omnirom_c1lte.xml
+       mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 esac
 repo sync -j8
@@ -294,8 +324,8 @@ case $buildnow in
 esac
 
 # Changelog
-export Date=`date --date= +%Y-%m-%d-%r`
-export Changelog=$Date.txt
+export Changelog=Changelog.txt
+rm $Changelog
 
 if [ -f $Changelog ];
 then
