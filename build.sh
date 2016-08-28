@@ -204,7 +204,6 @@ case $main in
        mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 esac
-repo sync -j8
 elif [ -a .tmp/device/c1ktt ]; then
 case $main in
 	1)
@@ -248,7 +247,6 @@ case $main in
        mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 esac
-repo sync -j8
 elif [ -a .tmp/device/c1lgt ]; then
 case $main in
 	1)
@@ -292,7 +290,6 @@ case $main in
        mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 esac
-repo sync -j8
 elif [ -a .tmp/device/i9300 ]; then
 	breakfast i9300
     git clone https://github.com/TheMuppets/proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
@@ -300,6 +297,7 @@ elif [ -a .tmp/device/i9305 ]; then
 	breakfast i9305
     git clone https://github.com/TheMuppets/proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
 fi
+repo sync --force-sync -j8
 
 # Build
 echo "지금 빌드하는 것을 원합니까? (y/n)"
