@@ -18,7 +18,7 @@
 
 # CONFIG
 # script version
-version="140"
+version="141"
 
 # startup
 export B_SCRIPT_HOME=`readlink -f ./`
@@ -60,8 +60,8 @@ echo "                   Android 6.0 빌드 스크립트 환경 설정  "
 echo ""
 echo "빌드 스크립트의 환경 설정을 시작하겠습니다."
 echo "빌드 하시려는 기기를 선택해주세요."
-echo "①GALAXY S3 LTE SKT ②GALAXY S3 LTE KT ③GALAXY S3 LTE KT"
-echo "④GALAXY S3 International   ⑤GALAXY S3 LTE International"
+echo "① GALAXY S3 LTE SKT ② GALAXY S3 LTE KT ③ GALAXY S3 LTE KT"
+echo "④ GALAXY S3 International   ⑤ GALAXY S3 LTE International"
 read device
 case $device in
 	1)
@@ -164,102 +164,102 @@ rm -f .repo/local_manifests/local_manifest.xml
 if [ -a .tmp/device/c1skt ]; then
 case $main in
 	1)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1skt.xml -O .repo/local_manifests/local_manifest.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml -O .repo/local_manifests/local_manifest.xml
 		;;
 	2)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenos_c1skt.xml -O .repo/local_manifests/local_manifest.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenos_c1lte.xml -O .repo/local_manifests/local_manifest.xml
 		;;
 	3)
-       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1skt.xml -O .repo/local_manifests/local_manifest.xml
+       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml -O .repo/local_manifests/local_manifest.xml
 		;;
 	4)
-       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1skt.xml -O .repo/local_manifests/local_manifest.xml
+       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml -O .repo/local_manifests/local_manifest.xml
 		;;
 	5)
-       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/aicp_c1skt.xml -O .repo/local_manifests/local_manifest.xml
+       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/aicp_c1lte.xml -O .repo/local_manifests/local_manifest.xml
 		;;
 	6)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/crdroid_c1skt.xml -O .repo/local_manifests/local_manifest.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/crdroid_c1lte.xml -O .repo/local_manifests/local_manifest.xml
 		;;
 	7)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/namelessrom_c1skt.xml -O .repo/local_manifests/local_manifest.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/namelessrom_c1lte.xml -O .repo/local_manifests/local_manifest.xml
 		;;
 	8)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/xosp_c1skt.xml -O .repo/local_manifests/local_manifest.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/xosp_c1lte.xml -O .repo/local_manifests/local_manifest.xml
 		;;
 	9)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/haxynox_c1skt.xml -O .repo/local_manifests/local_manifest.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/haxynox_c1lte.xml -O .repo/local_manifests/local_manifest.xml
 		;;
 	0)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/omnirom_c1skt.xml -O .repo/local_manifests/local_manifest.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/omnirom_c1lte.xml -O .repo/local_manifests/local_manifest.xml
 		;;
 esac
 repo sync -j8
 elif [ -a .tmp/device/c1ktt ]; then
 case $main in
 	1)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1skt.xml -O .repo/local_manifests/local_manifest.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml -O .repo/local_manifests/local_manifest.xml
 		;;
 	2)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenos_c1skt.xml -O .repo/local_manifests/local_manifest.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenos_c1lte.xml -O .repo/local_manifests/local_manifest.xml
 		;;
 	3)
-       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1skt.xml -O .repo/local_manifests/local_manifest.xml
+       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml -O .repo/local_manifests/local_manifest.xml
 		;;
 	4)
-       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1skt.xml -O .repo/local_manifests/local_manifest.xml
+       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml -O .repo/local_manifests/local_manifest.xml
 		;;
 	5)
-       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/aicp_c1skt.xml -O .repo/local_manifests/local_manifest.xml
+       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/aicp_c1lte.xml -O .repo/local_manifests/local_manifest.xml
 		;;
 	6)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/crdroid_c1skt.xml -O .repo/local_manifests/local_manifest.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/crdroid_c1lte.xml -O .repo/local_manifests/local_manifest.xml
 		;;
 	7)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/namelessrom_c1skt.xml -O .repo/local_manifests/local_manifest.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/namelessrom_c1lte.xml -O .repo/local_manifests/local_manifest.xml
 		;;
 	8)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/xosp_c1skt.xml -O .repo/local_manifests/local_manifest.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/xosp_c1lte.xml -O .repo/local_manifests/local_manifest.xml
 		;;
 	9)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/haxynox_c1skt.xml -O .repo/local_manifests/local_manifest.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/haxynox_c1lte.xml -O .repo/local_manifests/local_manifest.xml
 		;;
 	0)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/omnirom_c1skt.xml -O .repo/local_manifests/local_manifest.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/omnirom_c1lte.xml -O .repo/local_manifests/local_manifest.xml
 		;;
 esac
 repo sync -j8
 elif [ -a .tmp/device/c1lgt ]; then
 case $main in
 	1)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lgt.xml -O .repo/local_manifests/local_manifest.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml -O .repo/local_manifests/local_manifest.xml
 		;;
 	2)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenos_c1lgt.xml -O .repo/local_manifests/local_manifest.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenos_c1lte.xml -O .repo/local_manifests/local_manifest.xml
 		;;
 	3)
-       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lgt.xml -O .repo/local_manifests/local_manifest.xml
+       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml -O .repo/local_manifests/local_manifest.xml
 		;;
 	4)
-       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lgt.xml -O .repo/local_manifests/local_manifest.xml
+       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml -O .repo/local_manifests/local_manifest.xml
 		;;
 	5)
-       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/aicp_c1lgt.xml -O .repo/local_manifests/local_manifest.xml
+       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/aicp_c1lte.xml -O .repo/local_manifests/local_manifest.xml
 		;;
 	6)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/crdroid_c1lgt.xml -O .repo/local_manifests/local_manifest.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/crdroid_c1lte.xml -O .repo/local_manifests/local_manifest.xml
 		;;
 	7)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/namelessrom_c1lgt.xml -O .repo/local_manifests/local_manifest.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/namelessrom_c1lte.xml -O .repo/local_manifests/local_manifest.xml
 		;;
 	8)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/xosp_c1lgt.xml -O .repo/local_manifests/local_manifest.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/xosp_c1lte.xml -O .repo/local_manifests/local_manifest.xml
 		;;
 	9)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/haxynox_c1lgt.xml -O .repo/local_manifests/local_manifest.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/haxynox_c1lte.xml -O .repo/local_manifests/local_manifest.xml
 		;;
 	0)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/omnirom_c1lgt.xml -O .repo/local_manifests/local_manifest.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/omnirom_c1lte.xml -O .repo/local_manifests/local_manifest.xml
 		;;
 esac
 repo sync -j8
@@ -292,3 +292,33 @@ case $buildnow in
 		echo "취소됨."
 		;;
 esac
+
+# Changelog
+export Date=`date --date= +%Y-%m-%d-%r`
+export Changelog=$Date.txt
+
+if [ -f $Changelog ];
+then
+  rm -f $Changelog
+fi
+
+touch $Changelog
+
+for i in $(seq 5);
+do
+export After_Date=`date --date="$i days ago" +%Y-%m-%d`
+k=$(expr $i - 1)
+  export Until_Date=`date --date="$k days ago" +%Y-%m-%d`
+
+  # Line with after --- until was too long for a small ListView
+  echo '====================' >> $Changelog;
+  echo  "     "$Until_Date       >> $Changelog;
+  echo '===================='  >> $Changelog;
+  echo >> $Changelog;
+
+  # Cycle through every repo to find commits between 2 dates
+  repo forall -pc 'git log --oneline --after=$After_Date --until=$Until_Date' >> $Changelog
+  echo >> $Changelog;
+done
+
+sed -i 's/project/   */g' $Changelog
