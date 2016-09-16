@@ -96,7 +96,7 @@ echo "③ ResurrectionRemix    ④ Temasek"
 echo "⑤ AICP                 ⑥ CroidAndroid"
 echo "⑦ NamelessROM          ⑧ XOSP"
 echo "⑨ Haxynox              ⓞ OmniROM"
-#echo "4 | Blisspop / NOT READY"
+echo "11| Blisspop"
 #echo "5 | FlareROM / UNAVALIABLE"
 read main && touch .tmp/$main
 touch .tmp/setting2
@@ -184,7 +184,7 @@ case $main in
        mkdir .repo/local_manifests && mv aicp_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 	6)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/crdroid_c1lte.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml
        mkdir .repo/local_manifests && mv crdroid_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 	7)
@@ -192,7 +192,7 @@ case $main in
        mkdir .repo/local_manifests && mv namelessrom_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 	8)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/xosp_c1lte.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml
        mkdir .repo/local_manifests && mv xosp_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 	9)
@@ -203,6 +203,10 @@ case $main in
 		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/omnirom_c1lte.xml
        mkdir .repo/local_manifests && mv omnirom_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
+	11)
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml
+       mkdir .repo/local_manifests && mv xosp_c1lte.xml .repo/local_manifests/local_manifest.xml
+		;;		
 esac
 elif [ -a .tmp/device/c1ktt ]; then
 case $main in
@@ -227,7 +231,7 @@ case $main in
        mkdir .repo/local_manifests && mv aicp_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 	6)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/crdroid_c1lte.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml
        mkdir .repo/local_manifests && mv crdroid_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 	7)
@@ -235,7 +239,7 @@ case $main in
        mkdir .repo/local_manifests && mv namelessrom_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 	8)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/xosp_c1lte.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml
        mkdir .repo/local_manifests && mv xosp_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 	9)
@@ -245,6 +249,10 @@ case $main in
 	0)
 		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/omnirom_c1lte.xml
        mkdir .repo/local_manifests && mv omnirom_c1lte.xml .repo/local_manifests/local_manifest.xml
+		;;
+	11)
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml
+       mkdir .repo/local_manifests && mv xosp_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 esac
 elif [ -a .tmp/device/c1lgt ]; then
@@ -270,7 +278,7 @@ case $main in
        mkdir .repo/local_manifests && mv aicp_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 	6)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/crdroid_c1lte.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml
        mkdir .repo/local_manifests && mv crdroid_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 	7)
@@ -278,7 +286,7 @@ case $main in
        mkdir .repo/local_manifests && mv namelessrom_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 	8)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/xosp_c1lte.xml
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml
        mkdir .repo/local_manifests && mv xosp_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 	9)
@@ -288,6 +296,10 @@ case $main in
 	0)
 		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/omnirom_c1lte.xml
        mkdir .repo/local_manifests && mv omnirom_c1lte.xml .repo/local_manifests/local_manifest.xml
+		;;
+	11)
+		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml
+       mkdir .repo/local_manifests && mv xosp_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 esac
 elif [ -a .tmp/device/i9300 ]; then
