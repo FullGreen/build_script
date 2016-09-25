@@ -101,6 +101,14 @@ echo "11| Blisspop"
 read main && touch .tmp/$main
 touch .tmp/setting2
 fi
+if [ -a .tmp/setting3 ]; then
+echo "빌드 스크립트 환경 설정[3]이 완료되었습니다."
+else
+echo "빌드를 자동으로 진행할까요?"
+echo "① 네          ② 아니오"
+read auto && touch .tmp/auto/$auto
+touch .tmp/setting3
+fi
 
 # Clean up
 clear
@@ -131,22 +139,6 @@ fi
 sleep 1
 clear
 
-# Multiple source download
-echo "동시에 다운로드 할 수를 입력하세요."
-echo "소스 다운로드를 건너뛰시려면 N을 입력해주세요."
-read download_thread
-vad='^[0-9]+$'
-if ! [[ $download_thread =~ $vad ]] ; then
-	echo "숫자가 아닌 다른 문자가 입력되었습니다."
-	echo "소스 다운로드를 건너뛰겠습니다."
-else
-	repo sync --force-sync -j$download_thread
-fi
-
-# Clean up
-sleep 1
-clear
-
 # ccache
 # THIS SCRIPT IS WILL EDIT ACCOUNT TERMINAL SETTINGS
 echo "USE_CCACHE=1" >> ~/.bashrc
@@ -162,21 +154,10 @@ clear
 
 rm -rf .repo/local_manifests
 if [ -a .tmp/device/c1skt ]; then
+mkdir .repo
 case $main in
-	1)
+	1|2|3|4)
 		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml
-       mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
-		;;
-	2)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenos_c1lte.xml
-       mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
-		;;
-	3)
-       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml
-       mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
-		;;
-	4)
-       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml
        mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
 	5)
@@ -209,20 +190,9 @@ case $main in
 		;;		
 esac
 elif [ -a .tmp/device/c1ktt ]; then
+mkdir .repo
 case $main in
-	1)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml
-       mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
-		;;
-	2)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenos_c1lte.xml
-       mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
-		;;
-	3)
-       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml
-       mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
-		;;
-	4)
+	1|2|3|4)
        wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml
        mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
@@ -256,20 +226,9 @@ case $main in
 		;;
 esac
 elif [ -a .tmp/device/c1lgt ]; then
+mkdir .repo
 case $main in
-	1)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml
-       mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
-		;;
-	2)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenos_c1lte.xml
-       mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
-		;;
-	3)
-       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml
-       mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
-		;;
-	4)
+	1|2|3|4)
        wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml
        mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 		;;
@@ -309,19 +268,52 @@ elif [ -a .tmp/device/i9305 ]; then
 	breakfast i9305
     git clone https://github.com/TheMuppets/proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
 fi
-repo sync --force-sync -j8
+
+# Multiple source download
+download_thread="sed -n '1p' .tmp/download_thread"
+if [ -a .tmp/download_thread ]; then
+    repo sync --force-sync -j$download_thread
+else
+    echo "동시에 다운로드 할 수를 입력하세요."
+    echo "소스 다운로드를 건너뛰시려면 N을 입력해주세요."
+    read download_thread
+    mkdir .tmp && touch .tmp/download_thread
+    number_test
+    echo "$download_thread" > .tmp/download_thread
+    repo sync --force-sync -j$download_thread
+fi
+
+number_test()
+{
+    vad='^[0-9]+$'
+    if ! [[ $download_thread =~ $vad ]] ; then
+    echo "숫자가 아닌 다른 문자가 입력되었습니다."
+    exit
+fi
+}
 
 # Build
-echo "지금 빌드하는 것을 원합니까? (y/n)"
-read buildnow
+if [ -a .tmp/auto/1 ]; then
+    echo "지금 빌드하는 것을 원합니까? (y[자동선택])"
+    buildnow=y
+else
+    echo "지금 빌드하는 것을 원합니까? (y/n)"
+    read buildnow
+fi
+
 case $buildnow in
 	y)
 		case $main in
 			1|2|3|4|5|6|7|8|0)
-				clear && . build/envsetup.sh && brunch $device
+				clear
+                . build/envsetup.sh
+                brunch "$device"
 				;;
 			9)
-				clear && . build/envsetup.sh && lunch aosp_$device-userdebug && make -j8 otapackage
+				clear
+                . build/envsetup.sh
+                lunch aosp_"$device"-userdebug
+                make -j8 otapackage
 				;;
 		esac
 		;;
@@ -346,9 +338,14 @@ touch $Changelog
 
 for i in $(seq 5);
 do
-export After_Date=`date --date="$i days ago" +%Y-%m-%d`
 k=$(expr $i - 1)
-  export Until_Date=`date --date="$k days ago" +%Y-%m-%d`
+if [ "$OS_TYPE" = "Darwin" ]; then
+export After_Date=`date +%Y-%m-%d`
+export Until_Date=`date +%Y-%m-%d`
+else
+export After_Date=`date --date="$i days ago" +%Y-%m-%d`
+export Until_Date=`date --date="$k days ago" +%Y-%m-%d`
+fi
 
   # Line with after --- until was too long for a small ListView
   echo '====================' >> $Changelog;
