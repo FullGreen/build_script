@@ -60,7 +60,7 @@ echo "                   Android 6.0 빌드 스크립트 환경 설정  "
 echo ""
 echo "빌드 스크립트의 환경 설정을 시작하겠습니다."
 echo "빌드 하시려는 기기를 선택해주세요."
-echo "① GALAXY S3 LTE SKT ② GALAXY S3 LTE KT ③ GALAXY S3 LTE KT"
+echo "① GALAXY S3 LTE SKT ② GALAXY S3 LTE KT ③ GALAXY S3 LTE LG"
 echo "④ GALAXY S3 International   ⑤ GALAXY S3 LTE International"
 read device
 case $device in
