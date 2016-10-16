@@ -16,12 +16,14 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# CONFIG
-# script version
-version="141"
-
-# startup
-export B_SCRIPT_HOME=`readlink -f ./`
+# Config
+version="143" # script version
+export device=`sed -n '2p' settings`
+export rom=`sed -n '4p' settings`
+export buildtype=`sed -n '6p' settings`
+export reposync=`sed -n '8p' settings`
+buildcm="lunch cm_"$device"-"$buildtype
+buildaosp="lunch aosp_"$device"-"$buildtype
 
 # Check update
 wget -q --spider http://google.com
@@ -41,288 +43,131 @@ if [ $version -lt $server_version ]; then
 fi
 rm version
 
-# Clean up
+# Information
+clear
+echo "===================================================="
+echo "기기: $device" 
+echo "롬: $rom" 
+echo "자동: $auto" 
+echo "REPO SYNC: $reposync" 
+echo "===================================================="
+read -t 5
 clear
 
-# Setting
-mkdir .tmp && mkdir .tmp/device
-if [ -a .tmp/setting1 ]; then
-echo "빌드 스크립트 환경 설정[1]이 완료되었습니다."
-else
-echo "    ___       ___       ___       ___       ___     "
-echo "   /\  \     /\__\     /\  \     /\__\     /\  \    "
-echo "  /  \  \   / / _/_   _\ \  \   / /  /    /  \  \   "
-echo " /  \ \__\ / /_/\__\ /\/  \__\ / /__/    / /\ \__\  "
-echo " \ \  /  / \ \/ /  / \  /\/__/ \ \  \    \ \/ /  /  "
-echo "  \  /  /   \  /  /   \ \__\    \ \__\    \  /  /   "
-echo "   \/__/     \/__/     \/__/     \/__/     \/__/    "
-echo "                   Android 6.0 빌드 스크립트 환경 설정  "
-echo ""
-echo "빌드 스크립트의 환경 설정을 시작하겠습니다."
-echo "빌드 하시려는 기기를 선택해주세요."
-echo "① GALAXY S3 LTE SKT ② GALAXY S3 LTE KT ③ GALAXY S3 LTE LG"
-echo "④ GALAXY S3 International   ⑤ GALAXY S3 LTE International"
-read device
-case $device in
-	1)
-       echo "GALAXY S3 LTE SKT 모델로 설정되었습니다." && device=c1skt
-       touch .tmp/device/c1skt
-		;;
-	2)
-       echo "GALAXY S3 LTE KT 모델로 설정되었습니다." && device=c1ktt
-       touch .tmp/device/c1ktt
-		;;
-	3)
-       echo "GALAXY S3 LTE LG 모델로 설정되었습니다." && device=c1lgt
-       touch .tmp/device/c1lgt
-		;;
-	4)
-       echo "GALAXY S3 International 모델로 설정되었습니다." && device=i9300
-       touch .tmp/device/i9300
-		;;
-	5)
-       echo "GALAXY S3 LTE International 모델로 설정되었습니다." && device=i9305
-       touch .tmp/device/i9305
-		;;
-esac
-touch .tmp/setting1
-fi
-if [ -a .tmp/setting2 ]; then
-echo "빌드 스크립트 환경 설정[2]이 완료되었습니다."
-else
-echo "빌드 하시려는 롬을 선택해주세요."
-echo "① CyanogenMod          ② CyanogenOS"
-echo "③ ResurrectionRemix    ④ Temasek"
-echo "⑤ AICP                 ⑥ CroidAndroid"
-echo "⑦ NamelessROM          ⑧ XOSP"
-echo "⑨ Haxynox              ⓞ OmniROM"
-echo "11| Blisspop"
-#echo "5 | FlareROM / UNAVALIABLE"
-read main && touch .tmp/$main
-touch .tmp/setting2
-fi
-if [ -a .tmp/setting3 ]; then
-echo "빌드 스크립트 환경 설정[3]이 완료되었습니다."
-else
-echo "빌드를 자동으로 진행할까요?"
-echo "① 네          ② 아니오"
-read auto && touch .tmp/auto/$auto
-touch .tmp/setting3
-fi
-
-# Clean up
-clear
-
-if [ -a .tmp/1 ]; then
-	repo init -u git://github.com/CyanogenMod/android.git -b cm-13.0 && main=1
-elif [ -a .tmp/2 ]; then
-	repo init -u git://github.com/CyanogenMod/android.git -b stable/cm-13.0-ZNH2K && main=2
-elif [ -a .tmp/3 ]; then
-	repo init -u git://github.com/ResurrectionRemix/platform_manifest.git -b marshmallow && main=3
-elif [ -a .tmp/4 ]; then
-	repo init -u git://github.com/temasek/android.git -b cm-13.0 && main=4
-elif [ -a .tmp/5 ]; then
-	repo init -u git://github.com/AICP/platform_manifest.git -b 1.0-MM && main=5
-elif [ -a .tmp/6 ]; then
-	repo init -u git://github.com/croidandroid/android -b 6.0.0 && main=6
-elif [ -a .tmp/7 ]; then
-	repo init -u git://github.com/NamelessRom/android.git -b n-3.0 && main=7
-elif [ -a .tmp/8 ]; then
-	repo init -u git://github.com/XOSP-Project/platform_manifest.git -b xosp-mm && main=8
-elif [ -a .tmp/9 ]; then
-	repo init -u git://github.com/Haxynox/platform_manifest.git -b Mmm && main=9
-elif [ -a .tmp/0 ]; then
-	repo init -u git://github.com/omnirom/android.git -b android-6.0 && main=0
-fi
-
-# Clean up
-sleep 1
-clear
-
-# ccache
-# THIS SCRIPT IS WILL EDIT ACCOUNT TERMINAL SETTINGS
-echo "USE_CCACHE=1" >> ~/.bashrc
-if [ "$OS_TYPE" = "Darwin" ]; then
-  prebuilts/misc/darwin-x86/ccache/ccache -M 50G
-else
-  prebuilts/misc/linux-x86/ccache/ccache -M 50G
-fi
-
-# Device source download
-sleep 1
-clear
-
-rm -rf .repo/local_manifests
-if [ -a .tmp/device/c1skt ]; then
-mkdir .repo
-case $main in
-	1|2|3|4)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml
-       mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
-		;;
-	5)
-       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/aicp_c1lte.xml
-       mkdir .repo/local_manifests && mv aicp_c1lte.xml .repo/local_manifests/local_manifest.xml
-		;;
-	6)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml
-       mkdir .repo/local_manifests && mv crdroid_c1lte.xml .repo/local_manifests/local_manifest.xml
-		;;
-	7)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/namelessrom_c1lte.xml
-       mkdir .repo/local_manifests && mv namelessrom_c1lte.xml .repo/local_manifests/local_manifest.xml
-		;;
-	8)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml
-       mkdir .repo/local_manifests && mv xosp_c1lte.xml .repo/local_manifests/local_manifest.xml
-		;;
-	9)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/haxynox_c1lte.xml
-       mkdir .repo/local_manifests && mv haxynox_c1lte.xml .repo/local_manifests/local_manifest.xml
-		;;
-	0)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/omnirom_c1lte.xml
-       mkdir .repo/local_manifests && mv omnirom_c1lte.xml .repo/local_manifests/local_manifest.xml
-		;;
-	11)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml
-       mkdir .repo/local_manifests && mv xosp_c1lte.xml .repo/local_manifests/local_manifest.xml
-		;;		
-esac
-elif [ -a .tmp/device/c1ktt ]; then
-mkdir .repo
-case $main in
-	1|2|3|4)
-       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml
-       mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
-		;;
-	5)
-       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/aicp_c1lte.xml
-       mkdir .repo/local_manifests && mv aicp_c1lte.xml .repo/local_manifests/local_manifest.xml
-		;;
-	6)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml
-       mkdir .repo/local_manifests && mv crdroid_c1lte.xml .repo/local_manifests/local_manifest.xml
-		;;
-	7)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/namelessrom_c1lte.xml
-       mkdir .repo/local_manifests && mv namelessrom_c1lte.xml .repo/local_manifests/local_manifest.xml
-		;;
-	8)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml
-       mkdir .repo/local_manifests && mv xosp_c1lte.xml .repo/local_manifests/local_manifest.xml
-		;;
-	9)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/haxynox_c1lte.xml
-       mkdir .repo/local_manifests && mv haxynox_c1lte.xml .repo/local_manifests/local_manifest.xml
-		;;
-	0)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/omnirom_c1lte.xml
-       mkdir .repo/local_manifests && mv omnirom_c1lte.xml .repo/local_manifests/local_manifest.xml
-		;;
-	11)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml
-       mkdir .repo/local_manifests && mv xosp_c1lte.xml .repo/local_manifests/local_manifest.xml
-		;;
-esac
-elif [ -a .tmp/device/c1lgt ]; then
-mkdir .repo
-case $main in
-	1|2|3|4)
-       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml
-       mkdir .repo/local_manifests && mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
-		;;
-	5)
-       wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/aicp_c1lte.xml
-       mkdir .repo/local_manifests && mv aicp_c1lte.xml .repo/local_manifests/local_manifest.xml
-		;;
-	6)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml
-       mkdir .repo/local_manifests && mv crdroid_c1lte.xml .repo/local_manifests/local_manifest.xml
-		;;
-	7)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/namelessrom_c1lte.xml
-       mkdir .repo/local_manifests && mv namelessrom_c1lte.xml .repo/local_manifests/local_manifest.xml
-		;;
-	8)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml
-       mkdir .repo/local_manifests && mv xosp_c1lte.xml .repo/local_manifests/local_manifest.xml
-		;;
-	9)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/haxynox_c1lte.xml
-       mkdir .repo/local_manifests && mv haxynox_c1lte.xml .repo/local_manifests/local_manifest.xml
-		;;
-	0)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/omnirom_c1lte.xml
-       mkdir .repo/local_manifests && mv omnirom_c1lte.xml .repo/local_manifests/local_manifest.xml
-		;;
-	11)
-		wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml
-       mkdir .repo/local_manifests && mv xosp_c1lte.xml .repo/local_manifests/local_manifest.xml
-		;;
-esac
-elif [ -a .tmp/device/i9300 ]; then
-	breakfast i9300
-    git clone https://github.com/TheMuppets/proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
-elif [ -a .tmp/device/i9305 ]; then
-	breakfast i9305
-    git clone https://github.com/TheMuppets/proprietary_vendor_samsung.git -b cm-13.0 vendor/samsung
-fi
-
-# Multiple source download
-download_thread="sed -n '1p' .tmp/download_thread"
-if [ -a .tmp/download_thread ]; then
-    repo sync --force-sync -j$download_thread
-else
-    echo "동시에 다운로드 할 수를 입력하세요."
-    echo "소스 다운로드를 건너뛰시려면 N을 입력해주세요."
-    read download_thread
-    mkdir .tmp && touch .tmp/download_thread
-    number_test
-    echo "$download_thread" > .tmp/download_thread
-    repo sync --force-sync -j$download_thread
-fi
-
-number_test()
-{
-    vad='^[0-9]+$'
-    if ! [[ $download_thread =~ $vad ]] ; then
-    echo "숫자가 아닌 다른 문자가 입력되었습니다."
-    exit
-fi
-}
+# Ccache
+USE_CCACHE=1
+prebuilts/misc/darwin-x86/ccache/ccache -M 50G
+prebuilts/misc/linux-x86/ccache/ccache -M 50G
 
 # Build
-if [ -a .tmp/auto/1 ]; then
-    echo "지금 빌드하는 것을 원합니까? (y[자동선택])"
-    buildnow=y
-else
-    echo "지금 빌드하는 것을 원합니까? (y/n)"
-    read buildnow
-fi
+case $rom in
+	cyanogenmod)
+	repo init -u git://github.com/CyanogenMod/android.git -b cm-13.0 #롬 소스
+	wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml #디바이스 소스
+	mkdir .repo/local_manifests 
+	mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
+	repo sync --force-sync -j$reposync #소스 다운로드
+	$buildcm && mka bacon #빌드
+    ;;
 
-case $buildnow in
-	y)
-		case $main in
-			1|2|3|4|5|6|7|8|0)
-				clear
-                . build/envsetup.sh
-                brunch "$device"
-				;;
-			9)
-				clear
-                . build/envsetup.sh
-                lunch aosp_"$device"-userdebug
-                make -j8 otapackage
-				;;
-		esac
-		;;
-	n)
-		echo "취소됨."
-		;;
-	*)
-		echo "취소됨."
-		;;
+	cyanogenmod_stable)
+	repo init -u git://github.com/CyanogenMod/android.git -b stable/cm-13.0-ZNH2K #롬 소스
+	wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml #디바이스 소스
+	mkdir .repo/local_manifests 
+	mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
+	repo sync --force-sync -j$reposync #소스 다운로드
+	$buildcm && mka bacon #빌드
+    ;;
+
+	resurrectionremix)
+	repo init -u git://github.com/ResurrectionRemix/platform_manifest.git -b marshmallow #롬 소스
+	wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml #디바이스 소스
+	mkdir .repo/local_manifests 
+	mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
+	repo sync --force-sync -j$reposync #소스 다운로드
+	$buildcm && mka bacon #빌드
+    ;;
+
+	temasek)
+	repo init -u git://github.com/temasek/android.git -b cm-13.0 #롬 소스
+	wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml #디바이스 소스
+	mkdir .repo/local_manifests 
+	mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
+	repo sync --force-sync -j$reposync #소스 다운로드
+	$buildcm && mka bacon #빌드
+    ;;
+
+	aicp)
+	repo init -u git://github.com/AICP/platform_manifest.git -b 1.0-MM #롬 소스
+	wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/aicp_c1lte.xml #디바이스 소스
+	mkdir .repo/local_manifests 
+	mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
+	repo sync --force-sync -j$reposync #소스 다운로드
+	$buildcm && mka bacon #빌드
+    ;;
+
+	crdroid)
+	repo init -u git://github.com/croidandroid/android -b 6.0.0 #롬 소스
+	wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml #디바이스 소스
+	mkdir .repo/local_manifests 
+	mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
+	repo sync --force-sync -j$reposync #소스 다운로드
+	$buildcm && mka bacon #빌드
+    ;;
+
+	namelessrom)
+	repo init -u git://github.com/NamelessRom/android.git -b n-3.0 #롬 소스
+	wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/namelessrom_c1lte.xml #디바이스 소스
+	mkdir .repo/local_manifests 
+	mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
+	repo sync --force-sync -j$reposync #소스 다운로드
+	$buildcm && mka bacon #빌드
+    ;;
+
+	xosp)
+	repo init -u git://github.com/XOSP-Project/platform_manifest.git -b xosp-mm #롬 소스
+	wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml #디바이스 소스
+	mkdir .repo/local_manifests 
+	mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
+	repo sync --force-sync -j$reposync #소스 다운로드
+	$buildcm && mka bacon #빌드
+    ;;
+
+	haxynox)
+	repo init -u git://github.com/Haxynox/platform_manifest.git -b Mmm #롬 소스
+	wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/haxynox_c1lte.xml #디바이스 소스
+	mkdir .repo/local_manifests 
+	mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
+	repo sync --force-sync -j$reposync #소스 다운로드
+	$buildcm && mka bacon #빌드
+    ;;
+
+	omnirom)
+	repo init -u git://github.com/omnirom/android.git -b android-6.0 #롬 소스
+	wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/omnirom_c1lte.xml #디바이스 소스
+	mkdir .repo/local_manifests 
+	mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
+	repo sync --force-sync -j$reposync #소스 다운로드
+	$buildcm && mka bacon #빌드
+    ;;
+
+	blisspop)
+	repo init -u git://github.com/CyanogenMod/android.git -b stable/cm-13.0-ZNH2K #롬 소스
+	wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml #디바이스 소스
+	mkdir .repo/local_manifests 
+	mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
+	repo sync --force-sync -j$reposync #소스 다운로드
+	$buildcm && mka bacon #빌드
+    ;;
+
+	flarerom)
+	repo init -u git://github.com/CyanogenMod/android.git -b stable/cm-13.0-ZNH2K #롬 소스
+	wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml #디바이스 소스
+	mkdir .repo/local_manifests 
+	mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
+	repo sync --force-sync -j$reposync #소스 다운로드
+	$buildcm && mka bacon #빌드
+    ;;
 esac
 
 # Changelog

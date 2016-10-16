@@ -1,0 +1,8 @@
+device(c1skt,c1ktt,c1lgt)
+
+rom(cyanogenmod,cyanogenmod_stable,resurrectionremix,temasek,aicp,crdroid,namelessrom,xosp,haxynox,omnirom,blisspop,flarerom)
+
+buildtype(userdebug,user,eng)
+
+reposync(1~100)
+
