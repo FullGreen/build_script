@@ -17,13 +17,14 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # Config
-version="143" # script version
+version="144" # script version
 export device=`sed -n '2p' settings`
 export rom=`sed -n '4p' settings`
 export buildtype=`sed -n '6p' settings`
 export reposync=`sed -n '8p' settings`
 buildcm="lunch cm_"$device"-"$buildtype
 buildaosp="lunch aosp_"$device"-"$buildtype
+rm -r .repo/local_manifests/local_manifest.xml
 
 # Check update
 wget -q --spider http://google.com
@@ -48,7 +49,7 @@ clear
 echo "===================================================="
 echo "기기: $device" 
 echo "롬: $rom" 
-echo "자동: $auto" 
+echo "빌드 종류: $buildtype" 
 echo "REPO SYNC: $reposync" 
 echo "===================================================="
 read -t 5
@@ -67,7 +68,7 @@ case $rom in
 	mkdir .repo/local_manifests 
 	mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 	repo sync --force-sync -j$reposync #소스 다운로드
-	$buildcm && mka bacon #빌드
+	. build/envsetup.sh && $buildcm && mka bacon #빌드
     ;;
 
 	cyanogenmod_stable)
@@ -76,7 +77,7 @@ case $rom in
 	mkdir .repo/local_manifests 
 	mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 	repo sync --force-sync -j$reposync #소스 다운로드
-	$buildcm && mka bacon #빌드
+	. build/envsetup.sh && $buildcm && mka bacon #빌드
     ;;
 
 	resurrectionremix)
@@ -85,7 +86,7 @@ case $rom in
 	mkdir .repo/local_manifests 
 	mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 	repo sync --force-sync -j$reposync #소스 다운로드
-	$buildcm && mka bacon #빌드
+	. build/envsetup.sh && $buildcm && mka bacon #빌드
     ;;
 
 	temasek)
@@ -94,7 +95,7 @@ case $rom in
 	mkdir .repo/local_manifests 
 	mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 	repo sync --force-sync -j$reposync #소스 다운로드
-	$buildcm && mka bacon #빌드
+	. build/envsetup.sh && $buildcm && mka bacon #빌드
     ;;
 
 	aicp)
@@ -103,7 +104,7 @@ case $rom in
 	mkdir .repo/local_manifests 
 	mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 	repo sync --force-sync -j$reposync #소스 다운로드
-	$buildcm && mka bacon #빌드
+	. build/envsetup.sh && $buildcm && mka bacon #빌드
     ;;
 
 	crdroid)
@@ -112,7 +113,7 @@ case $rom in
 	mkdir .repo/local_manifests 
 	mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 	repo sync --force-sync -j$reposync #소스 다운로드
-	$buildcm && mka bacon #빌드
+	. build/envsetup.sh && $buildcm && mka bacon #빌드
     ;;
 
 	namelessrom)
@@ -121,7 +122,7 @@ case $rom in
 	mkdir .repo/local_manifests 
 	mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 	repo sync --force-sync -j$reposync #소스 다운로드
-	$buildcm && mka bacon #빌드
+	. build/envsetup.sh && $buildcm && mka bacon #빌드
     ;;
 
 	xosp)
@@ -130,7 +131,7 @@ case $rom in
 	mkdir .repo/local_manifests 
 	mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 	repo sync --force-sync -j$reposync #소스 다운로드
-	$buildcm && mka bacon #빌드
+	. build/envsetup.sh && $buildcm && mka bacon #빌드
     ;;
 
 	haxynox)
@@ -139,7 +140,7 @@ case $rom in
 	mkdir .repo/local_manifests 
 	mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 	repo sync --force-sync -j$reposync #소스 다운로드
-	$buildcm && mka bacon #빌드
+	. build/envsetup.sh && $buildcm && mka bacon #빌드
     ;;
 
 	omnirom)
@@ -148,7 +149,7 @@ case $rom in
 	mkdir .repo/local_manifests 
 	mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 	repo sync --force-sync -j$reposync #소스 다운로드
-	$buildcm && mka bacon #빌드
+	. build/envsetup.sh && $buildcm && mka bacon #빌드
     ;;
 
 	blisspop)
@@ -157,7 +158,7 @@ case $rom in
 	mkdir .repo/local_manifests 
 	mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 	repo sync --force-sync -j$reposync #소스 다운로드
-	$buildcm && mka bacon #빌드
+	. build/envsetup.sh && $buildcm && mka bacon #빌드
     ;;
 
 	flarerom)
@@ -166,7 +167,7 @@ case $rom in
 	mkdir .repo/local_manifests 
 	mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
 	repo sync --force-sync -j$reposync #소스 다운로드
-	$buildcm && mka bacon #빌드
+	. build/envsetup.sh && $buildcm && mka bacon #빌드
     ;;
 esac
 
