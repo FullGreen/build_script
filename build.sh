@@ -1,5 +1,5 @@
 #!/bin/bash
-#    SHV-E210S(C1SKT) Android 6.0 BUILD Script
+#    SHV-E210S(C1SKT) Android BUILD Script
 #
 #    Copyright (C) 2016 Fullgreen
 #
@@ -17,11 +17,12 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # Config
-version="144" # script version
-export device=`sed -n '2p' settings`
-export rom=`sed -n '4p' settings`
-export buildtype=`sed -n '6p' settings`
-export reposync=`sed -n '8p' settings`
+version="145" # script version
+export android=`sed -n '2p' settings`
+export device=`sed -n '4p' settings`
+export rom=`sed -n '6p' settings`
+export buildtype=`sed -n '8p' settings`
+export reposync=`sed -n '10p' settings`
 buildcm="lunch cm_"$device"-"$buildtype
 buildaosp="lunch aosp_"$device"-"$buildtype
 rm -r .repo/local_manifests/local_manifest.xml
@@ -47,6 +48,7 @@ rm version
 # Information
 clear
 echo "===================================================="
+echo "안드로이드 버전: $android"
 echo "기기: $device" 
 echo "롬: $rom" 
 echo "빌드 종류: $buildtype" 
@@ -61,6 +63,7 @@ prebuilts/misc/darwin-x86/ccache/ccache -M 50G
 prebuilts/misc/linux-x86/ccache/ccache -M 50G
 
 # Build
+if [ $android = 6.0 ]; then
 case $rom in
 	cyanogenmod)
 	repo init -u git://github.com/CyanogenMod/android.git -b cm-13.0 #롬 소스
@@ -99,7 +102,7 @@ case $rom in
     ;;
 
 	aicp)
-	repo init -u git://github.com/AICP/platform_manifest.git -b 1.0-MM #롬 소스
+	repo init -u git://github.com/AICP/platform_manifest.git -b mm6.0 #롬 소스
 	wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/aicp_c1lte.xml #디바이스 소스
 	mkdir .repo/local_manifests 
 	mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
@@ -153,7 +156,7 @@ case $rom in
     ;;
 
 	blisspop)
-	repo init -u git://github.com/CyanogenMod/android.git -b stable/cm-13.0-ZNH2K #롬 소스
+	repo init -u https://github.com/BlissRoms/platform_manifest.git -b mm6.0 #롬 소스
 	wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml #디바이스 소스
 	mkdir .repo/local_manifests 
 	mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
@@ -162,7 +165,7 @@ case $rom in
     ;;
 
 	flarerom)
-	repo init -u git://github.com/CyanogenMod/android.git -b stable/cm-13.0-ZNH2K #롬 소스
+	repo init -u git://github.com/FlareROM/android.git -b 1.0-MM #롬 소스
 	wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml #디바이스 소스
 	mkdir .repo/local_manifests 
 	mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
@@ -170,6 +173,105 @@ case $rom in
 	. build/envsetup.sh && $buildcm && mka bacon #빌드
     ;;
 esac
+fi
+
+if [ $android = 7.0 ]; then
+case $rom in
+    cyanogenmod)
+    repo init -u git://github.com/CyanogenMod/android.git -b cm-14.0 #롬 소스
+    wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-7.0/cyanogenmod_c1lte.xml #디바이스 소스
+    mkdir .repo/local_manifests
+    mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
+    repo sync --force-sync -j$reposync #소스 다운로드
+    . build/envsetup.sh && $buildcm && mka bacon #빌드
+    ;;
+
+    aicp)
+    repo init -u git://github.com/AICP/platform_manifest.git -b n7.0 #롬 소스
+    wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-7.0/aicp_c1lte.xml #디바이스 소스
+    mkdir .repo/local_manifests
+    mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
+    repo sync --force-sync -j$reposync #소스 다운로드
+    . build/envsetup.sh && $buildcm && mka bacon #빌드
+    ;;
+
+    crdroid)
+    repo init -u git://github.com/croidandroid/android -b 7.0 #롬 소스
+    wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-7.0/cyanogenmod_c1lte.xml #디바이스 소스
+    mkdir .repo/local_manifests
+    mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
+    repo sync --force-sync -j$reposync #소스 다운로드
+    . build/envsetup.sh && $buildcm && mka bacon #빌드
+    ;;
+
+    omnirom)
+    repo init -u git://github.com/omnirom/android.git -b android-7.0 #롬 소스
+    wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-7.0/omnirom_c1lte.xml #디바이스 소스
+    mkdir .repo/local_manifests
+    mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
+    repo sync --force-sync -j$reposync #소스 다운로드
+    . build/envsetup.sh && $buildcm && mka bacon #빌드
+    ;;
+
+    blisspop)
+    repo init -u https://github.com/BlissRoms/platform_manifest.git -b n7.0 #롬 소스
+    wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-7.0/cyanogenmod_c1lte.xml #디바이스 소스
+    mkdir .repo/local_manifests
+    mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
+    repo sync --force-sync -j$reposync #소스 다운로드
+    . build/envsetup.sh && $buildcm && mka bacon #빌드
+    ;;
+esac
+fi
+
+if [ $android = 7.1 ]; then
+case $rom in
+    cyanogenmod)
+    repo init -u git://github.com/CyanogenMod/android.git -b cm-14.1 #롬 소스
+    wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-7.1/cyanogenmod_c1lte.xml #디바이스 소스
+    mkdir .repo/local_manifests
+    mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
+    repo sync --force-sync -j$reposync #소스 다운로드
+    . build/envsetup.sh && $buildcm && mka bacon #빌드
+    ;;
+
+    aicp)
+    repo init -u git://github.com/AICP/platform_manifest.git -b n7.1 #롬 소스
+    wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-7.1/aicp_c1lte.xml #디바이스 소스
+    mkdir .repo/local_manifests
+    mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
+    repo sync --force-sync -j$reposync #소스 다운로드
+    . build/envsetup.sh && $buildcm && mka bacon #빌드
+    ;;
+
+    crdroid)
+    repo init -u git://github.com/croidandroid/android -b 7.1 #롬 소스
+    wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-7.1/cyanogenmod_c1lte.xml #디바이스 소스
+    mkdir .repo/local_manifests
+    mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
+    repo sync --force-sync -j$reposync #소스 다운로드
+    . build/envsetup.sh && $buildcm && mka bacon #빌드
+    ;;
+
+    xosp)
+    repo init -u git://github.com/XOSP-Project/platform_manifest.git -b xosp-n #롬 소스
+    wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-7.1/cyanogenmod_c1lte.xml #디바이스 소스
+    mkdir .repo/local_manifests
+    mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
+    repo sync --force-sync -j$reposync #소스 다운로드
+    . build/envsetup.sh && $buildcm && mka bacon #빌드
+    ;;
+
+    omnirom)
+    repo init -u git://github.com/omnirom/android.git -b android-7.1 #롬 소스
+    wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-7.1/omnirom_c1lte.xml #디바이스 소스
+    mkdir .repo/local_manifests
+    mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
+    repo sync --force-sync -j$reposync #소스 다운로드
+    . build/envsetup.sh && $buildcm && mka bacon #빌드
+    ;;
+esac
+fi
 
 # Changelog
 export Changelog=Changelog.txt

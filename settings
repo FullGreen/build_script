@@ -1,3 +1,5 @@
+android version(6.0,7.0,7.1)
+
 device(c1skt,c1ktt,c1lgt)
 
 rom(cyanogenmod,cyanogenmod_stable,resurrectionremix,temasek,aicp,crdroid,namelessrom,xosp,haxynox,omnirom,blisspop,flarerom)
