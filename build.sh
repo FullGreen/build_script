@@ -237,7 +237,7 @@ case $rom in
 
     aicp)
     repo init -u git://github.com/AICP/platform_manifest.git -b n7.1 #롬 소스
-    wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-7.1/aicp_c1lte.xml #디바이스 소스
+    wget https://raw.githubusercontent.com/FullGreen/local_manifests/Android-7.1/cyanogenmod_c1lte.xml #디바이스 소스
     mkdir .repo/local_manifests
     mv cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml
     repo sync --force-sync -j$reposync #소스 다운로드
