@@ -26,7 +26,7 @@ export reposync=`sed -n '10p' settings`
 export autorepo=`sed -n '12p' settings`
 export autobuild=`sed -n '14p' settings`
 export setting=`sed -n '16p' settings`
-export gccoverhead1="rm fix.sh && wget https://raw.githubusercontent.com/FullGreen/android_n_fix_script/master/fix.sh"
+export gccoverhead1="wget https://raw.githubusercontent.com/FullGreen/android_n_fix_script/master/fix.sh"
 export gccoverhead2="chmod 775 fix.sh"
 export gccoverhead3="./fix.sh"
 lunchaicp="lunch aicp_"$device"-"$buildtype
@@ -35,6 +35,9 @@ lunchaosp="lunch aosp_"$device"-"$buildtype
 buildaicp="$lunchaicp && mka bacon"
 buildcm="$lunchcm && mka bacon"
 buildaosp="$lunchaosp && make -j8 otapackage"
+
+# Delete
+rm fix.sh
 
 # Check update
 clear
