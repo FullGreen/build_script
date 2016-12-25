@@ -29,11 +29,9 @@ export setting=`sed -n '16p' settings`
 export gccoverhead1="wget https://raw.githubusercontent.com/FullGreen/android_n_fix_script/master/fix.sh"
 export gccoverhead2="chmod 775 fix.sh"
 export gccoverhead3="./fix.sh"
-lunchaicp="lunch aicp_"$device"-"$buildtype
-lunchcm="lunch cm_"$device"-"$buildtype
+buildaicp="brunch "$device
+buildcm="brunch "$device
 lunchaosp="lunch aosp_"$device"-"$buildtype
-buildaicp="$lunchaicp && mka bacon"
-buildcm="$lunchcm && mka bacon"
 buildaosp="$lunchaosp && make -j8 otapackage"
 
 # Delete
@@ -100,9 +98,9 @@ fi
 clear
 
 # Ccache
-USE_CCACHE=1
-prebuilts/misc/darwin-x86/ccache/ccache -M 50G
-prebuilts/misc/linux-x86/ccache/ccache -M 50G
+#USE_CCACHE=1
+#prebuilts/misc/darwin-x86/ccache/ccache -M 50G
+#prebuilts/misc/linux-x86/ccache/ccache -M 50G
 
 # Build
 if [ $android = 6.0 ]; then
@@ -262,7 +260,7 @@ case $rom in
     wget -q https://raw.githubusercontent.com/FullGreen/local_manifests/Android-7.1/cyanogenmod_c1lte.xml -O .repo/local_manifests/local_manifest.xml #디바이스 소스
     repo sync --force-sync -j$reposync #소스 다운로드
     $gccoverhead1 && $gccoverhead2 && $gccoverhead3
-    . build/envsetup.sh && $buildcm && mka bacon #빌드
+    . build/envsetup.sh && $buildcm #빌드
     ;;
 
     aicp)
@@ -271,7 +269,7 @@ case $rom in
     wget -q https://raw.githubusercontent.com/FullGreen/local_manifests/Android-7.1/cyanogenmod_c1lte.xml -O .repo/local_manifests/local_manifest.xml #디바이스 소스
     repo sync --force-sync -j$reposync #소스 다운로드
     $gccoverhead1 && $gccoverhead2 && $gccoverhead3
-    . build/envsetup.sh && $buildaicp && mka bacon #빌드
+    . build/envsetup.sh && $buildaicp #빌드
     ;;
 
     crdroid)
@@ -280,7 +278,7 @@ case $rom in
     wget -q https://raw.githubusercontent.com/FullGreen/local_manifests/Android-7.1/cyanogenmod_c1lte.xml -O .repo/local_manifests/local_manifest.xml #디바이스 소스
     repo sync --force-sync -j$reposync #소스 다운로드
     $gccoverhead1 && $gccoverhead2 && $gccoverhead3
-    . build/envsetup.sh && $buildcm && mka bacon #빌드
+    . build/envsetup.sh && $buildcm #빌드
     ;;
 
     xosp)
@@ -289,7 +287,7 @@ case $rom in
     wget -q https://raw.githubusercontent.com/FullGreen/local_manifests/Android-7.1/cyanogenmod_c1lte.xml -O .repo/local_manifests/local_manifest.xml #디바이스 소스
     repo sync --force-sync -j$reposync #소스 다운로드
     $gccoverhead1 && $gccoverhead2 && $gccoverhead3
-    . build/envsetup.sh && $buildcm && mka bacon #빌드
+    . build/envsetup.sh && $buildcm #빌드
     ;;
 
     omnirom)
@@ -298,7 +296,7 @@ case $rom in
     wget -q https://raw.githubusercontent.com/FullGreen/local_manifests/Android-7.1/omnirom_c1lte.xml -O .repo/local_manifests/local_manifest.xml #디바이스 소스
     repo sync --force-sync -j$reposync #소스 다운로드
     $gccoverhead1 && $gccoverhead2 && $gccoverhead3
-    . build/envsetup.sh && $buildcm && mka bacon #빌드
+    . build/envsetup.sh && $buildcm #빌드
     ;;
 esac
 fi
