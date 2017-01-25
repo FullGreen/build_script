@@ -17,7 +17,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # Config
-version="146" # script version
+version="147" # script version
 export android=`sed -n '2p' settings`
 export device=`sed -n '4p' settings`
 export rom=`sed -n '6p' settings`
@@ -87,6 +87,8 @@ echo "소스만 다운받으시겠습니까?: $autorepo"
 echo "빌드만 하시겠습니까?: $autobuild" 
 echo "스크립트 실행시 환경설정 창을 띄울까요?: $setting" 
 echo "===================================================="
+echo "*빈칸으로 표시된다면 settings 파일을 수정해주세요"
+echo "===================================================="
 
 read -t 5
 
@@ -105,6 +107,13 @@ clear
 # Build
 if [ $android = 6.0 ]; then
 case $rom in
+	lineageos)
+	repo init -u git://github.com/LineageOS/android.git -b cm-13.0 #롬 소스
+    mkdir .repo/local_manifests
+    wget -q https://raw.githubusercontent.com/FullGreen/local_manifests/Android-6.0/cyanogenmod_c1lte.xml -O .repo/local_manifests/local_manifest.xml #디바이스 소스
+	repo sync --force-sync -j$reposync #소스 다운로드
+	. build/envsetup.sh && $buildcm && mka bacon #빌드
+    ;;
 	cyanogenmod)
 	repo init -u git://github.com/CyanogenMod/android.git -b cm-13.0 #롬 소스
     mkdir .repo/local_manifests
@@ -205,6 +214,14 @@ fi
 
 if [ $android = 7.0 ]; then
 case $rom in
+    lineageos)
+    repo init -u git://github.com/LineageOS/android.git -b cm-14.0 #롬 소스
+    mkdir .repo/local_manifests
+    wget -q https://raw.githubusercontent.com/FullGreen/local_manifests/Android-7.0/cyanogenmod_c1lte.xml -O .repo/local_manifests/local_manifest.xml #디바이스 소스
+    repo sync --force-sync -j$reposync #소스 다운로드
+    $gccoverhead1 && $gccoverhead2 && $gccoverhead3
+    . build/envsetup.sh && $buildcm && mka bacon #빌드
+    ;;
     cyanogenmod)
     repo init -u git://github.com/CyanogenMod/android.git -b cm-14.0 #롬 소스
     mkdir .repo/local_manifests
@@ -254,6 +271,14 @@ fi
 
 if [ $android = 7.1 ]; then
 case $rom in
+    lineageos)
+    repo init -u git://github.com/LineageOS/android.git -b cm-14.1 #롬 소스
+    mkdir .repo/local_manifests
+    wget -q https://raw.githubusercontent.com/FullGreen/local_manifests/Android-7.1/cyanogenmod_c1lte.xml -O .repo/local_manifests/local_manifest.xml #디바이스 소스
+    repo sync --force-sync -j$reposync #소스 다운로드
+    $gccoverhead1 && $gccoverhead2 && $gccoverhead3
+    . build/envsetup.sh && $buildcm #빌드
+    ;;
     cyanogenmod)
     repo init -u git://github.com/CyanogenMod/android.git -b cm-14.1 #롬 소스
     mkdir .repo/local_manifests
