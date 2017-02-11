@@ -1,16 +1,16 @@
-안드로이드 버전을 선택해주세요.(ex. 6.0,7.0,7.1)
-
-기기 코드명을 선택해주세요.(ex. c1skt,c1ktt,c1lgt)
-
-롬을 선택해주세요.(ex. lineageos,cyanogenmod,cyanogenmod_stable,resurrectionremix,temasek,aicp,crdroid,namelessrom,xosp,haxynox,omnirom,blisspop,flarerom)
-
-buildtype(ex. userdebug,user,eng)
+Android version(ex. 6.0,7.0,7.1)
+7.1
+Device(ex. c1skt,c1ktt,c1lgt)
+c1skt
+Rom(ex. lineageos,cyanogenmod,cyanogenmod_stable,resurrectionremix,temasek,aicp,crdroid,namelessrom,xosp,haxynox,omnirom,blisspop,flarerom)
+lineageos
+Build type(ex. userdebug,user,eng)
 userdebug
 reposync(ex. 64)
 64
-소스만 다운받으시겠습니까?(ex. y,n)
+Do you want to download source only?(ex. y,n)
 n
-빌드만 하시겠습니까?(ex. y,n)
+Do you want to build only?(ex. y,n)
 n
-스크립트 실행시 환경설정 창을 띄울까요?(ex. y,n)
+Do you want to open settings file when running this script?(ex. y,n)
 n
