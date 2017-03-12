@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+    <remote name="bitbucket" fetch="https://bitbucket.org/" />
+    <remote name="github" fetch="https://github.com/" />
+
+	<!-- Device -->
+	<project name="FullGreen/android_device_samsung_c1skt" remote="github" path="device/samsung/c1skt" revision="cm-14.1" />
+	<project name="FullGreen/android_device_samsung_smdk4412-common" remote="github" path="device/samsung/smdk4412-common" revision="cm-14.1" />
+	
+	<!-- Kernel -->	
+	<project name="FullGreen/fullgreenkernel_smdk4412" remote="github" path="kernel/samsung/smdk4412" revision="cm-14.1" />
+	
+	<!-- Vendor -->	
+	<project name="FullGreen/android_vendor_samsung_i9300" remote="github" path="vendor/samsung/i9300" revision="Android-7.1" />
+	<project name="FullGreen/android_vendor_samsung_c1skt" remote="github" path="vendor/samsung/c1skt" revision="Android-7.1" />
+	<project name="FullGreen/android_vendor_samsung_smdk4412-common" remote="github" path="vendor/samsung/smdk4412-common" revision="Android-7.1" />
+	
+	<!-- Hardware -->
+	<project name="CyanogenMod/android_hardware_samsung" remote="github" path="hardware/samsung" revision="cm-14.1" />
+	
+	<!-- Apps -->
+	<project name="FullGreen/android_packages_apps_helper" remote="github" path="packages/apps/helper" revision="master" />
+	<project name="CyanogenMod/android_packages_apps_SamsungServiceMode" remote="github" path="packages/apps/SamsungServiceMode" revision="cm-14.1" />
+	
+	<!-- External -->	
+	<project name="CyanogenMod/android_external_stlport" remote="github" path="external/stlport" revision="cm-14.1" />
+	
+	<!-- System -->
+	<remove-project name="android_system_sepolicy" />
+	<project name="FullgreenDEVomnirom/android_system_sepolicy" remote="github" path="system/sepolicy" revision="android-7.1" />
+	
+	<!-- Frameworks -->
+	<remove-project name="android_frameworks_native" />
+	<project name="FullgreenDEVomnirom/android_frameworks_native" remote="github" path="frameworks/native" revision="android-7.1" />
+</manifest>

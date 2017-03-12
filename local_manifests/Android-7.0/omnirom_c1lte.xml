@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+	<project name="FullgreenDEVomnirom/omnirom_device_samsung_c1skt" path="device/samsung/c1skt" revision="cm-13.0" />
+	<project name="FullgreenDEVomnirom/omnirom_device_samsung_c1skt-common" path="device/samsung/c1skt-common" revision="cm-13.0" />
+	<project name="FullGreen/fullgreenkernel_smdk4412" path="kernel/samsung/smdk4412" revision="Android-6.0" />
+	<project name="FullgreenDEVomnirom/proprietary_vendor_samsung" path="vendor/samsung" revision="cm-13.0" />
+	<project name="CyanogenMod/android_packages_apps_SamsungServiceMode" path="packages/apps/SamsungServiceMode" revision="cm-13.0" />
+	<project name="CyanogenMod/android_external_stlport" path="external/stlport" revision="cm-13.0" />
+	<project name="FullgreenDEVomnirom/android_hardware_samsung" path="hardware/samsung" revision="cm-13.0" />
+	<project name="FullGreen/android_packages_apps_helper" path="packages/apps/helper" revision="master" />
+</manifest>
+

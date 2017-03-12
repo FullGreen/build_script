@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+    <remote name="bitbucket" fetch="https://bitbucket.org/" />
+
+	<project name="FullGreen/android_device_samsung_c1skt" path="device/samsung/c1skt" revision="cm-13.0" />
+	<project name="FullGreen/fullgreenkernel_smdk4412" path="kernel/samsung/smdk4412" revision="cm-13.0" />
+	<project name="FullGreen/android_vendor_samsung" path="vendor/samsung" revision="Android-6.0" />
+	<project name="LineageOS/android_packages_apps_SamsungServiceMode" path="packages/apps/SamsungServiceMode" revision="cm-13.0" />
+	<project name="LineageOS/android_external_stlport" path="external/stlport" revision="cm-13.0" />
+	<project name="FullGreen/android_hardware_samsung" path="hardware/samsung" revision="cm-13.0" />
+	<project name="FullGreen/android_packages_apps_helper" path="packages/apps/helper" revision="master" />
+	
+	<!-- Frameworks -->
+	<remove-project name="LineageOS/android_frameworks_base" />
+        <project name="FullgreenMOD/android_frameworks_base" path="frameworks/base" revision="cm-13.0" />
+
+	<!-- <remove-project name="platform/prebuilts/gcc/linux-x86/arm/arm-eabi-4.8" />
+	<project name="UBERTC/arm-eabi-6.0" path="prebuilts/gcc/linux-x86/arm/arm-eabi-4.8" remote="bitbucket" revision="master" /> -->
+
+	<!-- <remove-project name="platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9" revision="master" />
+	<project name="UBERTC/arm-linux-androideabi-4.9" path="prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9" remote="bitbucket" revision="master" /> -->
+</manifest>
+

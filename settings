@@ -14,3 +14,9 @@ Do you want to build only?(ex. y,n)
 n
 Do you want to open settings file when running this script?(ex. y,n)
 n
+Do you want to setting up the build environment
+n
+Git nickname
+nickname
+Git email
+abcdefg@email.com
