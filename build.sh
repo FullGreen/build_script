@@ -29,7 +29,7 @@ export setting=`sed -n '16p' settings`
 export build_environment_install=`sed -n '18p' settings`
 export nickname=`sed -n '20p' settings`
 export email=`sed -n '22p' settings`
-export gccoverhead1="wget https://raw.githubusercontent.com/FullGreen/android_n_fix_script/master/fix.sh"
+export gccoverhead1="wget https://raw.githubusercontent.com/FullGreen/build_script/c1lte/fix_script/fix.sh"
 export gccoverhead2="chmod 775 fix.sh"
 export gccoverhead3="./fix.sh"
 buildaicp="brunch "$device
@@ -54,16 +54,16 @@ echo "===================================================="
 
 read -t 5
 
-wget -q https://raw.githubusercontent.com/FullGreen/build_script/master/version -O version
+wget -q https://raw.githubusercontent.com/FullGreen/build_script/c1lte/version -O version
 server_version=`cat version`
 if [ $version -lt $server_version ]; then
-	wget -q https://raw.githubusercontent.com/FullGreen/build_script/master/build.sh -O build.sh
+	wget -q https://raw.githubusercontent.com/FullGreen/build_script/c1lte/build.sh -O build.sh
 	echo "스크립트가 업데이트 되었습니다. 다시 실행 해 주세요."
 	exit
 fi
 
 rm version
-rm build_script && rm local_manifests && rm build_environment_Install
+rm build_script && rm local_manifests && rm build_environment_Install && rm fix_script
 git clone https://github.com/FullGreen/build_script.git
 rm build_script/build.sh && rm build_script/README.md && rm build_script/settings && rm build_script/version
 mv build_script/local_manifests local_manifests

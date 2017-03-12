@@ -1,20 +1,20 @@
 #!/bin/bash
-
+#    SHV-E210S(C1SKT) Android BUILD Script
 #
-# Copyright 2013 - 2014, The MoKee OpenSource Project
+#    Copyright (C) 2017 Fullgreen
 #
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    any later version.
 #
-# http://www.apache.org/licenses/LICENSE-2.0
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
 #
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #######################################################################
 #color                                                                #
@@ -93,21 +93,21 @@ git config --global user.email $2
 else
 
 tput setaf 1
-echo "(1/7)openjdk8 설치"
+echo "(1/5)Install openjdk8"
 sudo apt-get update
 sudo apt-get install openjdk-8-jdk
 sudo update-alternatives --config java
 sudo update-alternatives --config javac
 
 tput setaf 2
-echo "(2/7)빌드에 필요한 패키지 설치"
+echo "(2/5)Install package"
 sudo apt-get install git-core gnupg flex bison gperf build-essential \
   zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 \
   lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev ccache \
   libgl1-mesa-dev libxml2-utils xsltproc unzip maven schedtool
 
 tput setaf 3
-echo "(3/7)Repo 설치"
+echo "(3/5)Install repo"
 mkdir ~/bin
 PATH=~/bin:$PATH
 curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
@@ -116,39 +116,29 @@ git config --global user.name $1
 git config --global user.email $2
 
 tput setaf 4
-echo "(4/7)ADB 설치"
+echo "(4/5)Install ADB"
 echo
-wget http://www.broodplank.net/51-android.rules
+wget https://raw.githubusercontent.com/FullGreen/build_script/c1lte/build_environment_Install/51-android.rules
 sudo mv -f 51-android.rules /etc/udev/rules.d/51-android.rules
 sudo chmod 644 /etc/udev/rules.d/51-android.rules
 
 tput setaf 5
-echo "(5/7)리눅스 64비트 시스템용 안드로이드 SDK를 설치합니다"
-        wget http://dl.google.com/android/adt/adt-bundle-linux-x86_64-20140702.zip
-echo "다운로드에 성공하였습니다!"
-echo "파일을 확장합니다"
-	mkdir ~/adt-bundle
-        mv adt-bundle-linux-x86_64-20140702.zip ~/adt-bundle/adt_x64.zip
-        cd ~/adt-bundle
-        unzip adt_x64.zip
-        mv -f adt-bundle-linux-x86_64-20140702/* .
-tput setaf 6
-echo "(6/7)구성"
-        echo -e '\n# Android tools\nexport PATH=${PATH}:~/adt-bundle/sdk/tools\nexport PATH=${PATH}:~/adt-bundle/sdk/platform-tools\nexport PATH=${PATH}:~/bin' >> ~/.bashrc
-        echo -e '\nPATH="$HOME/adt-bundle/sdk/tools:$HOME/adt-bundle/sdk/platform-tools:$PATH"' >> ~/.profile
-
-tput setaf 7
-echo "(7/7)임시파일 정리"
-echo
+echo "(5/5)Install android sdk"
+wget http://dl.google.com/android/adt/adt-bundle-linux-x86_64-20140702.zip
+mkdir ~/adt-bundle
+mv adt-bundle-linux-x86_64-20140702.zip ~/adt-bundle/adt_x64.zip
+cd ~/adt-bundle
+unzip adt_x64.zip
+mv -f adt-bundle-linux-x86_64-20140702/* .
+echo -e '\n# Android tools\nexport PATH=${PATH}:~/adt-bundle/sdk/tools\nexport PATH=${PATH}:~/adt-bundle/sdk/platform-tools\nexport PATH=${PATH}:~/bin' >> ~/.bashrc
+echo -e '\nPATH="$HOME/adt-bundle/sdk/tools:$HOME/adt-bundle/sdk/platform-tools:$PATH"' >> ~/.profile
 rm -Rf ~/adt-bundle/adt-bundle-linux-x86_64-20140702
 rm -f ~/adt-bundle/adt_x64.zip
 
 echo
-echo "설치 완료!"
+echo "Installation successful!"
 echo
-echo "이 스크립트를 사용해주셔서 감사합니다!"
-echo
-read -p "엔터키를 누르면 종료됩니다..."
+read -p "Press enter..."
 exit
 
 fi
