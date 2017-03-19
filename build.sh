@@ -68,7 +68,6 @@ git clone https://github.com/FullGreen/build_script.git
 rm build_script/build.sh && rm build_script/README.md && rm build_script/settings && rm build_script/version
 mv build_script/local_manifests local_manifests
 mv build_script/build_environment_Install build_environment_Install
-mkdir .repo/local_manifests
 
 if [ $autorepo = y ]; then
 echo "소스만 다운로드 받겠습니다"
@@ -124,12 +123,15 @@ case $rom in
     lineageos)
 	if [ $android = 6.0 ]; then
 	    repo init -u git://github.com/LineageOS/android.git -b cm-13.0 #롬 소스
+	    mkdir .repo/local_manifests
 	    cp local_manifests/Android-6.0/cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml #디바이스 소스
 	elif [ $android = 7.0 ]; then
 	    repo init -u git://github.com/LineageOS/android.git -b cm-14.0 #롬 소스
+	    mkdir .repo/local_manifests
 	    cp local_manifests/Android-7.0/cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml #디바이스 소스
 	elif [ $android = 7.1 ]; then
 	    repo init -u git://github.com/LineageOS/android.git -b cm-14.1 #롬 소스
+	    mkdir .repo/local_manifests
 	    cp local_manifests/Android-7.1/cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml #디바이스 소스
 	fi
 	repo sync --force-sync -j$reposync #소스 다운로드
@@ -139,12 +141,15 @@ case $rom in
 	cyanogenmod)
 	if [ $android = 6.0 ]; then
 	    repo init -u git://github.com/CyanogenMod/android.git -b cm-13.0 #롬 소스
+	    mkdir .repo/local_manifests
 	    cp local_manifests/Android-6.0/cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml #디바이스 소스
 	elif [ $android = 7.0 ]; then
 	    repo init -u git://github.com/CyanogenMod/android.git -b cm-14.0 #롬 소스
+	    mkdir .repo/local_manifests
 	    cp local_manifests/Android-7.0/cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml #디바이스 소스
 	elif [ $android = 7.1 ]; then
 	    repo init -u git://github.com/CyanogenMod/android.git -b cm-14.1 #롬 소스
+	    mkdir .repo/local_manifests
 	    cp local_manifests/Android-7.1/cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml #디바이스 소스
 	fi
 	repo sync --force-sync -j$reposync #소스 다운로드
@@ -163,9 +168,11 @@ case $rom in
 	resurrectionremix)
 	if [ $android = 6.0 ]; then
 	    repo init -u git://github.com/ResurrectionRemix/platform_manifest.git -b marshmallow #롬 소스
+	    mkdir .repo/local_manifests
 	    cp local_manifests/Android-6.0/cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml #디바이스 소스
 	elif [ $android = 7.1 ]; then
 	    repo init -u git://github.com/ResurrectionRemix/platform_manifest.git -b nougat #롬 소스
+	    mkdir .repo/local_manifests
 	    cp local_manifests/Android-7.1/cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml #디바이스 소스
 	fi
 	repo sync --force-sync -j$reposync #소스 다운로드
@@ -175,8 +182,9 @@ case $rom in
 
 	temasek)
 	if [ $android = 6.0 ]; then
-		repo init -u git://github.com/temasek/android.git -b cm-13.0 #롬 소스
-        cp local_manifests/Android-6.0/cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml #디바이스 소스
+	    repo init -u git://github.com/temasek/android.git -b cm-13.0 #롬 소스
+	    mkdir .repo/local_manifests
+            cp local_manifests/Android-6.0/cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml #디바이스 소스
 	fi
 	repo sync --force-sync -j$reposync #소스 다운로드
     $gccoverhead1 && $gccoverhead2 && $gccoverhead3
@@ -186,12 +194,15 @@ case $rom in
 	aicp)
 	if [ $android = 6.0 ]; then
 	    repo init -u git://github.com/AICP/platform_manifest.git -b mm6.0 #롬 소스
+	    mkdir .repo/local_manifests
 	    cp local_manifests/Android-6.0/cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml #디바이스 소스
 	elif [ $android = 7.0 ]; then
 	    repo init -u git://github.com/AICP/platform_manifest.git -b n7.0 #롬 소스
+	    mkdir .repo/local_manifests
 	    cp local_manifests/Android-7.0/cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml #디바이스 소스
 	elif [ $android = 7.1 ]; then
 	    repo init -u git://github.com/AICP/platform_manifest.git -b n7.1 #롬 소스
+	    mkdir .repo/local_manifests
 	    cp local_manifests/Android-7.1/cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml #디바이스 소스
 	fi
 	repo sync --force-sync -j$reposync #소스 다운로드
@@ -202,12 +213,15 @@ case $rom in
 	crdroid)
 	if [ $android = 6.0 ]; then
 	    repo init -u https://github.com/crdroidandroid/android -b 6.0.0 #롬 소스
+	    mkdir .repo/local_manifests
 	    cp local_manifests/Android-6.0/cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml #디바이스 소스
 	elif [ $android = 7.0 ]; then
 	    repo init -u https://github.com/crdroidandroid/android -b 7.0 #롬 소스
+	    mkdir .repo/local_manifests
 	    cp local_manifests/Android-7.0/cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml #디바이스 소스
 	elif [ $android = 7.1 ]; then
 	    repo init -u https://github.com/crdroidandroid/android -b 7.1 #롬 소스
+	    mkdir .repo/local_manifests
 	    cp local_manifests/Android-7.1/cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml #디바이스 소스
 	fi
 	repo sync --force-sync -j$reposync #소스 다운로드
@@ -216,9 +230,10 @@ case $rom in
     ;;
 
 	namelessrom)
-    if [ $android = 6.0 ]; then
+        if [ $android = 6.0 ]; then
 	    repo init -u git://github.com/NamelessRom/android.git -b n-3.0 #롬 소스
-		cp local_manifests/Android-6.0/cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml #디바이스 소스
+	    mkdir .repo/local_manifests
+	    cp local_manifests/Android-6.0/cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml #디바이스 소스
 	fi
 	repo sync --force-sync -j$reposync #소스 다운로드
     $gccoverhead1 && $gccoverhead2 && $gccoverhead3
@@ -228,9 +243,11 @@ case $rom in
 	xosp)
 	if [ $android = 6.0 ]; then
 	    repo init -u git://github.com/XOSP-Project/platform_manifest.git -b xosp-mm #롬 소스
+	    mkdir .repo/local_manifests
 	    cp local_manifests/Android-6.0/cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml #디바이스 소스
 	elif [ $android = 7.1 ]; then
 	    repo init -u git://github.com/XOSP-Project/platform_manifest.git -b xosp-n #롬 소스
+	    mkdir .repo/local_manifests
 	    cp local_manifests/Android-7.1/cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml #디바이스 소스
 	fi
 	repo sync --force-sync -j$reposync #소스 다운로드
@@ -249,12 +266,15 @@ case $rom in
 	omnirom)
 	if [ $android = 6.0 ]; then
 	    repo init -u git://github.com/omnirom/android.git -b android-6.0 #롬 소스
+	    mkdir .repo/local_manifests
 	    cp local_manifests/Android-6.0/omnirom_c1lte.xml .repo/local_manifests/local_manifest.xml #디바이스 소스
 	elif [ $android = 7.0 ]; then
 	    repo init -u git://github.com/omnirom/android.git -b android-7.0 #롬 소스
+	    mkdir .repo/local_manifests
 	    cp local_manifests/Android-7.0/omnirom_c1lte.xml .repo/local_manifests/local_manifest.xml #디바이스 소스
 	elif [ $android = 7.1 ]; then
 	    repo init -u git://github.com/omnirom/android.git -b android-7.1 #롬 소스
+	    mkdir .repo/local_manifests
 	    cp local_manifests/Android-7.1/omnirom_c1lte.xml .repo/local_manifests/local_manifest.xml #디바이스 소스
 	fi
 	repo sync --force-sync -j$reposync #소스 다운로드
@@ -265,12 +285,15 @@ case $rom in
 	blisspop)
 	if [ $android = 6.0 ]; then
 	    repo init -u https://github.com/BlissRoms/platform_manifest.git -b mm6.0 #롬 소스
+	    mkdir .repo/local_manifests
 	    cp local_manifests/Android-6.0/cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml #디바이스 소스
 	elif [ $android = 7.0 ]; then
 	    repo init -u https://github.com/BlissRoms/platform_manifest.git -b n7.0 #롬 소스
+	    mkdir .repo/local_manifests
 	    cp local_manifests/Android-7.0/cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml #디바이스 소스
 	elif [ $android = 7.1 ]; then
 	    repo init -u https://github.com/BlissRoms/platform_manifest.git -b n7.1 #롬 소스
+	    mkdir .repo/local_manifests
 	    cp local_manifests/Android-7.1/cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml #디바이스 소스
 	fi
 	repo sync --force-sync -j$reposync #소스 다운로드
@@ -289,9 +312,11 @@ case $rom in
 	mokee)
 	if [ $android = 6.0 ]; then
 	    repo init -u https://github.com/MoKee/android.git -b mkm #롬 소스
+	    mkdir .repo/local_manifests
 	    cp local_manifests/Android-6.0/cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml #디바이스 소스
 	elif [ $android = 7.1 ]; then
 	    repo init -u https://github.com/MoKee/android.git -b mkn-mr1 #롬 소스
+	    mkdir .repo/local_manifests
 	    cp local_manifests/Android-7.1/cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml #디바이스 소스
 	fi
 	repo sync --force-sync -j$reposync #소스 다운로드
