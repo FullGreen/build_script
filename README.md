@@ -10,7 +10,7 @@
     
 3.
 
-    rm build_script
+    rm -rf build_script
 
 4.
 
