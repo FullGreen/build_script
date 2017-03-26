@@ -20,7 +20,7 @@
 	
 	<!-- Hardware -->
 	<project name="FullGreen/android_hardware_samsung" path="hardware/samsung" revision="Android-7.1" />
-	<project name="FullGreen/android_hardware_samsung_slsi_exynos4" path="hardware/samsung/slsi/exynos4" revision="Android-7.1" />
+	<project name="FullGreen/android_hardware_samsung_exynos4_hal" path="hardware/samsung/exynos4/hal" revision="Android-7.1" />
 	
 	<!-- Apps -->
 	<project name="FullGreen/android_packages_apps_helper" path="packages/apps/helper" revision="master" />
