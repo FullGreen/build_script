@@ -28,7 +28,6 @@
 	
 	<!-- External -->	
 	<project name="LineageOS/android_external_stlport" path="external/stlport" revision="cm-14.1" />
-	<project name="omnirom/android_external_busybox" path="external/busybox" revision="android-7.1" />
 	
 	<!-- Frameworks -->	
 	<remove-project name="LineageOS/android_frameworks_opt_net_wifi" />
