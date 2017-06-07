@@ -8,8 +8,8 @@
 	<project name="FullGreen/android_device_samsung_smdk4412-common" path="device/samsung/smdk4412-common" revision="cm-14.1" />
 	
 	<!-- Kernel -->	
-	<!-- <project name="FullGreen/fullgreenkernel_smdk4412" path="kernel/samsung/smdk4412" revision="cm-14.1" /> -->
-	<project name="FullGreen/fullgreenkernel_c1skt" path="kernel/samsung/c1skt" revision="Android-7.1" />
+	<project name="FullGreen/fullgreenkernel_smdk4412" path="kernel/samsung/smdk4412" revision="cm-14.1" />
+	<!-- <project name="FullGreen/fullgreenkernel_c1skt" path="kernel/samsung/c1skt" revision="Android-7.1" /> -->
 	<!-- <project name="FullGreen/fullgreenkernel_c1lgt" path="kernel/samsung/c1lgt" revision="Android-7.1" /> -->
 	
 	<!-- Vendor -->	
@@ -20,7 +20,7 @@
 	
 	<!-- Hardware -->
 	<project name="FullGreen/android_hardware_samsung" path="hardware/samsung" revision="Android-7.1" />
-	<project name="FullGreen/android_hardware_samsung_exynos4_hal" path="hardware/samsung/exynos4/hal" revision="Android-7.1" />
+	<!-- <project name="FullGreen/android_hardware_samsung_exynos4_hal" path="hardware/samsung/exynos4/hal" revision="Android-7.1" /> -->
 	
 	<!-- Apps -->
 	<project name="FullGreen/android_packages_apps_helper" path="packages/apps/helper" revision="master" />
