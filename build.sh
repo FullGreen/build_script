@@ -100,7 +100,7 @@ if [ $? -eq 0 ]; then
 else 
 	echo "Network state: can't find network"
 fi
-export server_version=`sed -n '24p' buildscript/settings`
+export server_version=`sed -n '24p' build_script/settings`
 if [ $version -lt $server_version ]; then
 	wget -q https://raw.githubusercontent.com/FullGreen/build_script/c1lte/build.sh -O build.sh
 	echo "script updated. please restart script."
