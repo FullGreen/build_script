@@ -29,6 +29,7 @@ export setting=`sed -n '16p' settings`
 export build_environment_install=`sed -n '18p' settings`
 export nickname=`sed -n '20p' settings`
 export email=`sed -n '22p' settings`
+export server_version=`sed -n '24p' settings`
 export gccoverhead1="wget https://raw.githubusercontent.com/FullGreen/build_script/c1lte/fix_script/fix.sh"
 export gccoverhead2="chmod 775 fix.sh"
 export gccoverhead3="./fix.sh"
@@ -91,8 +92,6 @@ fi
 echo "Show settings file: $setting" 
 echo "===================================================="
 wget -q --spider http://google.com
-wget -q https://raw.githubusercontent.com/FullGreen/build_script/c1lte/version -O version
-server_version=`cat version`
 if [ $? -eq 0 ]; then 
 	echo "Network state: good"
 else 
