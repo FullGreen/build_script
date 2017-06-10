@@ -46,8 +46,6 @@ rm -rf fix_script
 git clone https://github.com/FullGreen/build_script.git
 rm -f build_script/build.sh
 rm -f build_script/README.md
-rm -f build_script/settings
-rm -rf build_script
 mv build_script/local_manifests local_manifests
 mv build_script/build_environment_Install build_environment_Install
 mv build_script/fix_script fix_script
@@ -102,8 +100,7 @@ if [ $? -eq 0 ]; then
 else 
 	echo "Network state: can't find network"
 fi
-wget -q https://raw.githubusercontent.com/FullGreen/build_script/c1lte/settings -O settings
-export server_version=`sed -n '24p' settings`
+export server_version=`sed -n '24p' buildscript/settings`
 if [ $version -lt $server_version ]; then
 	wget -q https://raw.githubusercontent.com/FullGreen/build_script/c1lte/build.sh -O build.sh
 	echo "script updated. please restart script."
