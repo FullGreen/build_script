@@ -103,7 +103,9 @@ fi
 export server_version=`sed -n '24p' build_script/settings`
 if [ $version -lt $server_version ]; then
 	wget -q https://raw.githubusercontent.com/FullGreen/build_script/c1lte/build.sh -O build.sh
+	wget -q https://raw.githubusercontent.com/FullGreen/build_script/c1lte/settings -O settings
 	echo "script updated. please restart script."
+	echo "settings file will reset."
 	exit
 else
 	echo "Version: Latest version"
