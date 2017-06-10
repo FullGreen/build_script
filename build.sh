@@ -17,7 +17,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # Config
-version="150" # script version
+version="151" # script version
 export android=`sed -n '2p' settings`
 export device=`sed -n '4p' settings`
 export rom=`sed -n '6p' settings`
