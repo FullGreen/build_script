@@ -29,23 +29,28 @@ export setting=`sed -n '16p' settings`
 export build_environment_install=`sed -n '18p' settings`
 export nickname=`sed -n '20p' settings`
 export email=`sed -n '22p' settings`
-export server_version=`sed -n '24p' settings`
-export gccoverhead1="wget https://raw.githubusercontent.com/FullGreen/build_script/c1lte/fix_script/fix.sh"
-export gccoverhead2="chmod 775 fix.sh"
-export gccoverhead3="./fix.sh"
+export gccoverhead1="chmod 775 fix_script/fix.sh"
+export gccoverhead2="./fix_script/fix.sh"
 buildaicp="brunch "$device
 buildcm="brunch "$device
 lunchaosp="lunch aosp_"$device"-"$buildtype
 buildaosp="$lunchaosp && make -j8 otapackage"
 
 # Delete
-rm fix.sh
-rm version
-rm build_script && rm local_manifests && rm build_environment_Install && rm fix_script
+rm -f fix.sh
+rm -rf build_script
+rm -rf local_manifests
+rm -rf build_environment_Install
+rm -rf fix_script
+# Update
 git clone https://github.com/FullGreen/build_script.git
-rm build_script/build.sh && rm build_script/README.md && rm build_script/settings && rm build_script/version
+rm -f build_script/build.sh
+rm -f build_script/README.md
+rm -f build_script/settings
+rm -rf build_script
 mv build_script/local_manifests local_manifests
 mv build_script/build_environment_Install build_environment_Install
+mv build_script/fix_script fix_script
 
 if [ $build_environment_install = y ]; then
 chmod 775 build_environment_Install/auto_install.sh
@@ -97,6 +102,8 @@ if [ $? -eq 0 ]; then
 else 
 	echo "Network state: can't find network"
 fi
+wget -q https://raw.githubusercontent.com/FullGreen/build_script/c1lte/settings -O settings
+export server_version=`sed -n '24p' settings`
 if [ $version -lt $server_version ]; then
 	wget -q https://raw.githubusercontent.com/FullGreen/build_script/c1lte/build.sh -O build.sh
 	echo "script updated. please restart script."
@@ -137,7 +144,7 @@ case $rom in
 	    cp local_manifests/Android-7.1/cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml #디바이스 소스
 	fi
 	repo sync --force-sync -j$reposync #소스 다운로드
-    $gccoverhead1 && $gccoverhead2 && $gccoverhead3
+    $gccoverhead1 && $gccoverhead2
     . build/envsetup.sh && $buildcm #빌드
     ;;
 	cyanogenmod)
@@ -155,7 +162,7 @@ case $rom in
 	    cp local_manifests/Android-7.1/cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml #디바이스 소스
 	fi
 	repo sync --force-sync -j$reposync #소스 다운로드
-    $gccoverhead1 && $gccoverhead2 && $gccoverhead3
+    $gccoverhead1 && $gccoverhead2
     . build/envsetup.sh && $buildcm #빌드
     ;;
 
@@ -178,7 +185,7 @@ case $rom in
 	    cp local_manifests/Android-7.1/cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml #디바이스 소스
 	fi
 	repo sync --force-sync -j$reposync #소스 다운로드
-    $gccoverhead1 && $gccoverhead2 && $gccoverhead3
+    $gccoverhead1 && $gccoverhead2
     . build/envsetup.sh && $buildcm #빌드
     ;;
 
@@ -189,7 +196,7 @@ case $rom in
             cp local_manifests/Android-6.0/cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml #디바이스 소스
 	fi
 	repo sync --force-sync -j$reposync #소스 다운로드
-    $gccoverhead1 && $gccoverhead2 && $gccoverhead3
+    $gccoverhead1 && $gccoverhead2
     . build/envsetup.sh && $buildcm #빌드
     ;;
 
@@ -208,7 +215,7 @@ case $rom in
 	    cp local_manifests/Android-7.1/cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml #디바이스 소스
 	fi
 	repo sync --force-sync -j$reposync #소스 다운로드
-    $gccoverhead1 && $gccoverhead2 && $gccoverhead3
+    $gccoverhead1 && $gccoverhead2
     . build/envsetup.sh && $buildcm #빌드
     ;;
 
@@ -227,7 +234,7 @@ case $rom in
 	    cp local_manifests/Android-7.1/cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml #디바이스 소스
 	fi
 	repo sync --force-sync -j$reposync #소스 다운로드
-    $gccoverhead1 && $gccoverhead2 && $gccoverhead3
+    $gccoverhead1 && $gccoverhead2
     . build/envsetup.sh && $buildcm #빌드
     ;;
 
@@ -238,7 +245,7 @@ case $rom in
 	    cp local_manifests/Android-6.0/cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml #디바이스 소스
 	fi
 	repo sync --force-sync -j$reposync #소스 다운로드
-    $gccoverhead1 && $gccoverhead2 && $gccoverhead3
+    $gccoverhead1 && $gccoverhead2
     . build/envsetup.sh && $buildcm #빌드
     ;;
 
@@ -253,7 +260,7 @@ case $rom in
 	    cp local_manifests/Android-7.1/cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml #디바이스 소스
 	fi
 	repo sync --force-sync -j$reposync #소스 다운로드
-    $gccoverhead1 && $gccoverhead2 && $gccoverhead3
+    $gccoverhead1 && $gccoverhead2
     . build/envsetup.sh && $buildcm #빌드
     ;;
 
@@ -280,7 +287,7 @@ case $rom in
 	    cp local_manifests/Android-7.1/omnirom_c1lte.xml .repo/local_manifests/local_manifest.xml #디바이스 소스
 	fi
 	repo sync --force-sync -j$reposync #소스 다운로드
-    $gccoverhead1 && $gccoverhead2 && $gccoverhead3
+    $gccoverhead1 && $gccoverhead2
     . build/envsetup.sh && $buildcm #빌드
     ;;
 
@@ -299,7 +306,7 @@ case $rom in
 	    cp local_manifests/Android-7.1/cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml #디바이스 소스
 	fi
 	repo sync --force-sync -j$reposync #소스 다운로드
-    $gccoverhead1 && $gccoverhead2 && $gccoverhead3
+    $gccoverhead1 && $gccoverhead2
     . build/envsetup.sh && $buildcm #빌드
     ;;
 
@@ -322,7 +329,7 @@ case $rom in
 	    cp local_manifests/Android-7.1/cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml #디바이스 소스
 	fi
 	repo sync --force-sync -j$reposync #소스 다운로드
-    $gccoverhead1 && $gccoverhead2 && $gccoverhead3
+    $gccoverhead1 && $gccoverhead2
     . build/envsetup.sh && $buildcm #빌드
     ;;
 esac
