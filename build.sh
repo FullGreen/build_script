@@ -51,6 +51,22 @@ chmod 775 build_environment_Install/auto_install.sh
 ./build_environment_Install/auto_install.sh $nickname $email
 fi
 
+if [ $android=6.0.1 ]; then
+android=6.0
+fi
+
+if [ $android=7.0.1 ]; then
+android=7.0
+fi
+
+if [ $android=7.1.1 ]; then
+android=7.1
+fi
+
+if [ $android=7.1.2 ]; then
+android=7.1
+fi
+
 # Information
 clear
 echo "===================================================="
