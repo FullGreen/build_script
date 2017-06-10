@@ -39,49 +39,12 @@ buildaosp="$lunchaosp && make -j8 otapackage"
 
 # Delete
 rm fix.sh
-
-# Check update
-clear
-wget -q --spider http://google.com
-echo "===================================================="
-if [ $? -eq 0 ]; then 
-	echo "네트워크 연결이 확인되었습니다."
-else 
-	echo "연결된 네트워크를 찾을 수 없습니다."
-	echo "소스 다운로드가 불가능합니다."
-fi
-echo "===================================================="
-
-read -t 5
-
-wget -q https://raw.githubusercontent.com/FullGreen/build_script/c1lte/version -O version
-server_version=`cat version`
-if [ $version -lt $server_version ]; then
-	wget -q https://raw.githubusercontent.com/FullGreen/build_script/c1lte/build.sh -O build.sh
-	echo "스크립트가 업데이트 되었습니다. 다시 실행 해 주세요."
-	exit
-fi
-
 rm version
 rm build_script && rm local_manifests && rm build_environment_Install && rm fix_script
 git clone https://github.com/FullGreen/build_script.git
 rm build_script/build.sh && rm build_script/README.md && rm build_script/settings && rm build_script/version
 mv build_script/local_manifests local_manifests
 mv build_script/build_environment_Install build_environment_Install
-
-if [ $autorepo = y ]; then
-echo "소스만 다운로드 받겠습니다"
-echo "본 설정은 [settings] 에서 수정하실 수 있습니다."
-buildaicp=null
-buildcm=null
-buildaosp=null
-fi
-
-if [ $autobuild = y ]; then
-echo "빌드만 하겠습니다"
-echo "본 설정은 [settings] 에서 수정하실 수 있습니다."
-reposync=null
-fi
 
 if [ $build_environment_install = y ]; then
 chmod 775 build_environment_Install/auto_install.sh
@@ -98,19 +61,43 @@ echo "Device: $device"
 echo "Rom: $rom" 
 echo "Build type: $buildtype" 
 echo "Repo sync thread: $reposync" 
-echo "Repo sync only: $autorepo" 
-echo "Build only: $autobuild" 
+if [ $autorepo = y ]; then
+buildaicp=null
+buildcm=null
+buildaosp=null
+echo "Mode: source download mode" 
+fi
+
+if [ $autobuild = y ]; then
+reposync=null
+echo "Mode: build mode" 
+fi
 echo "Show settings file: $setting" 
 echo "===================================================="
+wget -q --spider http://google.com
+wget -q https://raw.githubusercontent.com/FullGreen/build_script/c1lte/version -O version
+server_version=`cat version`
+if [ $? -eq 0 ]; then 
+	echo "Network state: good"
+else 
+	echo "Network state: can't find network"
+fi
+if [ $version -lt $server_version ]; then
+	wget -q https://raw.githubusercontent.com/FullGreen/build_script/c1lte/build.sh -O build.sh
+	echo "script updated. please restart script."
+	exit
+else
+	echo "Version: Latest version"
+fi
+echo "===================================================="
 
-read -t 5
+read -t 7
 
+clear
 if [ $setting = y ]; then
 nano settings
 exit
 fi
-
-clear
 
 # Ccache
 #USE_CCACHE=1
