@@ -71,6 +71,28 @@ if [ $android=7.1.2 ]; then
 android=7.1
 fi
 
+if [ $android=8.0 ]; then
+android=8.0
+echo "8.0 버전은 지원하지 않습니다"
+exit
+fi
+
+if [ $android=8.0.0 ]; then
+android=8.0
+echo "8.0 버전은 지원하지 않습니다"
+exit
+fi
+
+if [ $android=8.0.1 ]; then
+android=8.0
+echo "8.0 버전은 지원하지 않습니다"
+exit
+fi
+
+if [ $android=8.1.0 ]; then
+android=8.1
+fi
+
 # Information
 clear
 echo "===================================================="
@@ -141,6 +163,10 @@ case $rom in
 	    repo init -u git://github.com/LineageOS/android.git -b cm-14.1 #롬 소스
 	    mkdir -p .repo/local_manifests
 	    cp local_manifests/Android-7.1/cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml #디바이스 소스
+	elif [ $android = 8.1 ]; then
+	    repo init -u git://github.com/LineageOS/android.git -b lineage-15.1 #롬 소스
+	    mkdir -p .repo/local_manifests
+	    cp local_manifests/Android-8.1/lineageos_c1lte.xml .repo/local_manifests/local_manifest.xml #디바이스 소스
 	fi
 	repo sync --force-sync -j$reposync #소스 다운로드
     $gccoverhead1 && $gccoverhead2
@@ -182,6 +208,10 @@ case $rom in
 	    repo init -u git://github.com/ResurrectionRemix/platform_manifest.git -b nougat #롬 소스
 	    mkdir -p .repo/local_manifests
 	    cp local_manifests/Android-7.1/cyanogenmod_c1lte.xml .repo/local_manifests/local_manifest.xml #디바이스 소스
+	elif [ $android = 8.1 ]; then
+	    repo init -u https://github.com/ResurrectionRemix/platform_manifest.git -b oreo #롬 소스
+	    mkdir -p .repo/local_manifests
+	    cp local_manifests/Android-8.1/lineageos_c1lte.xml .repo/local_manifests/local_manifest.xml #디바이스 소스
 	fi
 	repo sync --force-sync -j$reposync #소스 다운로드
     $gccoverhead1 && $gccoverhead2
