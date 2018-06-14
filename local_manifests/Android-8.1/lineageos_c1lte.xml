@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+    <remote name="bitbucket" fetch="https://bitbucket.org/" />
+
+	<!-- Device -->
+	<project name="FullGreen/android_device_samsung_c1skt" path="device/samsung/c1skt" revision="Android-8.1" />
+	<project name="FullGreen/android_device_samsung_c1lgt" path="device/samsung/c1lgt" revision="Android-8.1" />
+	<project name="FullGreen/android_device_samsung_smdk4412-common" path="device/samsung/smdk4412-common" revision="Android-8.1" />
+	
+	<!-- Kernel -->	
+	<project name="FullGreen/fullgreenkernel_smdk4412" path="kernel/samsung/smdk4412" revision="Android-8.1" />
+	<!-- <project name="FullGreen/fullgreenkernel_c1skt" path="kernel/samsung/c1skt" revision="Android-8.1" /> -->
+	<!-- <project name="FullGreen/fullgreenkernel_c1lgt" path="kernel/samsung/c1lgt" revision="Android-8.1" /> -->
+	
+	<!-- Vendor -->	
+	<project name="FullGreen/android_vendor_samsung_i9300" path="vendor/samsung/i9300" revision="Android-8.1" />
+	<project name="FullGreen/android_vendor_samsung_c1skt" path="vendor/samsung/c1skt" revision="Android-8.1" />
+	<project name="FullGreen/android_vendor_samsung_c1lgt" path="vendor/samsung/c1lgt" revision="Android-8.1" />
+	<project name="FullGreen/android_vendor_samsung_smdk4412-common" path="vendor/samsung/smdk4412-common" revision="Android-8.1" />
+	
+	<!-- Hardware -->
+	<project name="FullGreen/android_hardware_samsung" path="hardware/samsung" revision="Android-8.1" />
+	<project name="FullGreen/android_hardware_samsung_exynos4_hal" path="hardware/samsung/exynos4/hal" revision="Android-8.1" />
+	
+	<!-- Apps -->
+	<project name="FullGreen/android_packages_apps_helper" path="packages/apps/helper" revision="master" />
+	<project name="LineageOS/android_packages_apps_SamsungServiceMode" path="packages/apps/SamsungServiceMode" revision="lineage-15.1" />
+	
+	<!-- External -->	
+	<project name="LineageOS/android_external_stlport" path="external/stlport" revision="lineage-15.1" />
+	
+	<!-- Frameworks -->	
+	<!-- <remove-project name="LineageOS/android_frameworks_opt_net_wifi" />
+	<project name="FullGreen/android_frameworks_opt_net_wifi" path="frameworks/opt/net/wifi" revision="lineage-15.1" /> -->
+</manifest>
+

@@ -1,5 +1,5 @@
-Android version(ex. 6.0,7.0,7.1)
-7.1
+Android version(ex. 6.0,7.1,8.1)
+8.1
 Device(ex. c1skt,c1ktt,c1lgt)
 c1skt
 Rom(ex. lineageos,cyanogenmod,cyanogenmod_stable,resurrectionremix,temasek,aicp,crdroid,namelessrom,xosp,haxynox,omnirom,blisspop,flarerom)
@@ -8,17 +8,9 @@ Build type(ex. userdebug,user,eng)
 userdebug
 reposync(ex. 64)
 64
-Do you want to download source only?(ex. y,n)
-n
-Do you want to build only?(ex. y,n)
-n
-Do you want to open settings file when running this script?(ex. y,n)
-n
-Do you want to setting up the build environment
-n
 Git nickname
 nickname
 Git email
 abcdefg@email.com
-Version
-151
+Cache(yes,no)
+yes
