@@ -16,6 +16,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+clear
 # Config
 version="160" # script version
 export android=`sed -n '2p' settings`
@@ -346,7 +347,6 @@ changelog() {
 }
 
 # Information
-clear
 echo "===================================================="
 echo "Settings"
 echo "===================================================="
@@ -375,8 +375,10 @@ android_build
 ;;
 "3")
 android_build
+;;
 "4")
 changelog
+;;
 "5")
 build_environment_install
 ;;
