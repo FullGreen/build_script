@@ -18,7 +18,7 @@
 
 clear
 # Config
-version="160" # script version
+version="161" # script version
 export android=`sed -n '2p' settings`
 export device=`sed -n '4p' settings`
 export rom=`sed -n '6p' settings`

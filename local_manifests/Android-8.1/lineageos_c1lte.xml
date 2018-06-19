@@ -24,7 +24,6 @@
 	
 	<!-- Apps -->
 	<project name="FullGreen/android_packages_apps_helper" path="packages/apps/helper" revision="master" />
-	<project name="LineageOS/android_packages_apps_SamsungServiceMode" path="packages/apps/SamsungServiceMode" revision="lineage-15.1" />
 	
 	<!-- External -->	
 	<project name="LineageOS/android_external_stlport" path="external/stlport" revision="lineage-15.1" />
